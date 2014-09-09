@@ -48,7 +48,7 @@
 		*
 		* @param $query_text Contiene el query a ejecutar.
 		*/
-		public function query($quey_text)
+		public function query($query_text)
 		{	
 			return mysqli_query($this -> connection, $query_text);
 		}
@@ -58,7 +58,7 @@
 		*
 		* @param $connection Objeto que contiene la conexión.
 		*/
-		public function fetchArray($connection)
+		public function fetchArray($result)
 		{
 			return mysqli_fetch_array($result);
 		}
@@ -79,7 +79,7 @@
 		*/
 		public function escape($var)
 		{
-			return mysqli_real_escape_string($this -> resource, $var);
+			return mysqli_real_escape_string($this -> connection, $var);
 		}
 	}
 

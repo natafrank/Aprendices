@@ -25,7 +25,7 @@
 		* @param $provider Proveedor de base de datos.
 		*
 		*/
-		private function _construct($provider)
+		private function __construct($provider)
 		{
 			if(!class_exists($provider))
 			{
@@ -33,7 +33,7 @@
 			}
 
 			$this -> provider = new $provider;
-			$this -> provider -> connect("host", "user", "password", "dbname");
+			$this -> provider -> connect("", "", "", "");
 
 			if(!$this -> provider -> isConnected())
 			{
@@ -125,12 +125,12 @@
 			$query = $this -> prepare($query_text, $params);
 			$result = $this -> provider -> query($query);
 
-			if($this -> provider -> getErrorNo())
+			if($this -> provider -> getErrorNumber())
 			{
 				/*Controlar errores*/
 			}
 
-			return result;
+			return $result;
 		}
 
 		/**
