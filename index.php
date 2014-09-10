@@ -1,10 +1,13 @@
 <?php
 
 switch($_GET["ctl"]){
-	case "nombre_controlador":
-		require_once("Controlador/archivo_controlador.php");
-		$ctl = new clase_archivo_controlador();
+
+	case "vehicle":
+	{
+		require_once("Controlador/VehicleCtl.php");
+		$ctl = new vehicleCtl();
 		break;
+	}
 	//default:
 }
 
