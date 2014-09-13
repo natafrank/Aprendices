@@ -7,7 +7,7 @@
 		public $modelo;         
 		public $color;
 
-		public function alta($vin, $marca, $modelo, $color)
+		public function insert($vin, $marca, $modelo, $color)
 		{
 			$this -> vin    = $vin;
 			$this -> marca  = $marca;

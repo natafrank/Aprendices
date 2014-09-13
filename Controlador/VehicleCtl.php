@@ -4,21 +4,21 @@
 
 	class VehicleCtl extends StandardCtl
 	{
-		private $modelo;
+		private $model;
 
-		public function ejecutar()
+		public function run()
 		{
 			require_once("Modelo/VehicleMdl.php");
-			$this -> modelo = new VehicleMdl();
+			$this -> model = new VehicleMdl();
 
 			switch($_GET['act'])
 			{
-				case "alta":
+				case "insert":
 				{
 					if(empty($_POST))
 					{
 						//Se carga la vista del formulario
-						require_once("Vista/VehiculoAlta.html");
+						require_once("Vista/InsertVehicle.html");
 					}
 					else
 					{
@@ -30,20 +30,20 @@
 						$color           = $_POST['color'];
 
 						//Limpiamos las variables
-						$vin     = $this -> limpiaTexto($vin);
-						$marca   = $this -> limpiaTexto($marca);
-						$modelo  = $this -> limpiaTexto($modelo);
-						$color   = $this -> limpiaTexto($color);
+						$vin     = $this -> cleanText($vin);
+						$marca   = $this -> cleanText($marca);
+						$modelo  = $this -> cleanText($modelo);
+						$color   = $this -> cleanText($color);
 
-						$resultado = $this -> modelo -> alta($vin, $marca, $modelo, $color);
+						$result = $this -> model -> insert($vin, $marca, $modelo, $color);
 
-						if($resultado)
+						if($result)
 						{
-							require_once("Vista/vehiculoAgregado.php");
+							require_once("Vista/InsertVehicle.php");
 						}
 						else
 						{
-							require_once("Vista/vehiculoError.php");
+							require_once("Vista/InsertVehicleError.php");
 						}
 					}
 				}

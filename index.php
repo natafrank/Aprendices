@@ -8,9 +8,15 @@ switch($_GET["ctl"]){
 		$ctl = new vehicleCtl();
 		break;
 	}
+	case "user":
+	{
+		require_once("Controlador/UserCtl.php");
+		$ctl = new UserCtl();
+		break;
+	}
 	//default:
 }
 
-$ctl->ejecutar();
+$ctl->run();
 
 ?>

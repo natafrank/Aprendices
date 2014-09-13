@@ -4,28 +4,28 @@
 		//Metodos de limpieza que seran heredados por los demas controladores
 		//Se agrgaran mas metodos segun se requiera
 		
-		function limpiaTexto($texto){
-			$resultado = '';
-			if(is_string($texto)){
-				$resultado = $texto;
+		function cleanText($text){
+			$result = '';
+			if(is_string($text)){
+				$result = $text;
 			}
-			return $resultado;
+			return $result;
 		}
 		
-		function limpiaNumeroInt($numero){
-			$resultado = 0;
-			if(is_int($numero)){
-				$resultado = $numero;
+		function cleanInt($number){
+			$result = 0;
+			if(is_int($number)){
+				$result = $number;
 			}
-			return $resultado;
+			return $result;
 		}
 		
-		function limpiaNumeroFloat($numero){
-			$resultado = 0.0;
-			if(is_float($numero)){
-				$resultado = $numero;
+		function cleanFloat($number){
+			$result = 0.0;
+			if(is_float($number)){
+				$result = $number;
 			}
-			return $resultado;
+			return $result;
 		}	
 		
 	}
