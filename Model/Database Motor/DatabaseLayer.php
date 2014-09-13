@@ -33,7 +33,7 @@
 			}
 
 			$this -> provider = new $provider;
-			$this -> provider -> connect("localhost", "root", "magic10", "test");
+			$this -> provider -> connect("", "", "", "");
 
 			if(!$this -> provider -> isConnected())
 			{
