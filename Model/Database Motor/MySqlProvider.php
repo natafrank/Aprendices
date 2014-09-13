@@ -1,13 +1,14 @@
-<!--AbstractDataBase.php-->
+<!--MySqlProvider.php-->
+<!--Implementación del motor de bases de datos MySql-->
 
 <?php
 
-	abstract class AbstractDataBase
-	{
-		//Objeto de que guarda la conexión
-		protected $conection;
+	require("AbstractDatabase.php");
 
+	class MySqlProvider extends AbstractDatabase
+	{
 		/**
+		* @override
 		* Función encargada de establecer la conexión con la base de datos.
 		* 
 		* @param $host     Host de la base de datos.
@@ -16,47 +17,70 @@
 		* @param $dbname   Nombre de la base de datos.
 		*
 		*/
-		public abstract function connect($host, $user, $password, $dbname);
+		public function connect($host, $user, $password, $dbname)
+		{
+			$this -> connection = new mysqli($host, $user, $password, $dbname);
+			return $this -> connection;
+		}
+
 
 		/**
 		* Función que devuelve el número de error en caso de existir un error al realizar
 		* una consulta.
 		*
 		*/
-		public abstract function getErrorNumber();
+		public function getErrorNumber()
+		{
+			return mysqli_errno($this -> connection);
+		}
 
 		/**
 		* Función que devuelve una cadena con las características del último error.
 		*
 		*/
-		public abstract function getError();
+		public function getError()
+		{
+			return mysqli_error($this -> resource);
+		}
 
 		/**
 		* Función que se encarga de ejecutar un query.
 		*
 		* @param $query_text Contiene el query a ejecutar.
 		*/
-		public abstract function query($quey_text);
+		public function query($query_text)
+		{	
+			return mysqli_query($this -> connection, $query_text);
+		}
 
 		/**
 		* Función que convierte en array la fila actual y mueve el cursor.
 		*
 		* @param $connection Objeto que contiene la conexión.
 		*/
-		public abstract function fetchArray($connection);
+		public function fetchArray($result)
+		{
+			return mysqli_fetch_array($result);
+		}
 
 		/**
 		* Función que comprueba si está establecida una conexión.
 		*
 		*/
-		public abstract function isConnected();
+		public function isConnected()
+		{
+			return !is_null($this -> connection);
+		}
 
 		/**
 		* Función que escapa los caracteres de una cadena para prevenir una inyección.
 		*
 		* @param $var Contiene la cadena a escapar.
 		*/
-		public abstract function escape($var);
+		public function escape($var)
+		{
+			return mysqli_real_escape_string($this -> connection, $var);
+		}
 	}
 
 ?>

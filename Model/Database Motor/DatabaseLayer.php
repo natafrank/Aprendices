@@ -1,4 +1,4 @@
-<!--DataBaseLayer.php-->
+<!--DatabaseLayer.php-->
 <!--Capa principal de más alto nivel.-->
 
 <?php
@@ -7,7 +7,7 @@
 	#de bases de datos.
 	include("MySqlProvider.php");
 
-	class DataBaseLayer
+	class DatabaseLayer
 	{
 		//Almacena internamenta al proveedor de base de datos.
 		private $provider;
@@ -33,7 +33,7 @@
 			}
 
 			$this -> provider = new $provider;
-			$this -> provider -> connect("", "", "", "");
+			$this -> provider -> connect("localhost", "root", "magic10", "test");
 
 			if(!$this -> provider -> isConnected())
 			{
