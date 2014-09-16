@@ -1,5 +1,9 @@
 <?php
-	echo "Usuario Capturado > Nombre: ",$this->model->name," Login: ",$this->model->login," Pass: ",$this->model->pass," Tipo: ",$this->model->type;
+	echo "/*** Usuario ***/ >", 
+	" <br/>Nombre: ",$this->model->name,
+	" <br/>Login: " ,$this->model->login,
+	" <br/>Pass: "  ,$this->model->pass,
+	" <br/>Tipo: "  ,$this->model->type;
 ?>
 
 
