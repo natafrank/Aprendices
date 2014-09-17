@@ -1,1 +1,1 @@
-Error al intentar dar de alta el vehiculo.
+Error al intentar dar de alta el vehículo.

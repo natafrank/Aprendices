@@ -38,6 +38,12 @@ switch($_GET["ctl"]){
 		$ctl = new VehiclePartCtl();
 		break;
 	}
+	case "vehiclebrand":
+	{
+		require_once("Controller/VehicleBrandCtl.php");
+		$ctl = new VehicleBrandCtl();
+		break;
+	}
 	default:
 		echo "Controlador indefinido"; 
 }

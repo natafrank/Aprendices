@@ -1,9 +1,9 @@
 /***Vehículo****/
 
  <?php 
- 	echo "<br/>Vin: ", $this -> model -> vin, "<br/>";
- 	echo "Brand: ",    $this -> model -> brand, "<br/>";
- 	echo "Model: ",    $this -> model -> vehicle_model, "<br/>";
- 	echo "Color: ",    $this -> model -> color;
+ 	echo "<br/>Location     : ",    $this -> model -> id_location;
+ 	echo "<br/>Vehicle Model: ",    $this -> model -> id_vehicle_model;
+ 	echo "<br/>VIN          : ",    $this -> model -> vin;
+ 	echo "<br/>Color        : ",    $this -> model -> color;
 
  ?>
