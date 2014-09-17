@@ -1,7 +1,7 @@
 <?php
 	class UserMdl
 	{
-		public $id;
+		public $id_user;
 		public $name;
 		public $login;
 		public $pass;
@@ -17,9 +17,9 @@
 			return TRUE;		
 		} /* fin alta*/
 
-		public function delete($id)
+		public function delete($id_user)
 		{
-			$this -> id = $id;
+			$this -> id_user = $id_user;
 
 			/*Eliminamos el usuario de la base de datos y retornamos TRUE*/
 			return TRUE;
@@ -28,9 +28,9 @@
 			//return FALSE;
 		}
 
-		public function show($id)
+		public function select($id_user)
 		{
-			$this -> id = $id;
+			$this -> id_user = $id_user;
 
 			//Se accede a la base de datos por medio del id
 			//y en base a esta consulta se asignan los demás atributos.

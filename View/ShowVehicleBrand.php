@@ -2,6 +2,6 @@
 
 <?php
 
-	echo '<br/>Marca: ', $this -> model -> brand;
+	echo '<br/>Marca: ', $this -> model -> vehicle_brand;
 
 ?>

@@ -53,9 +53,9 @@
 					else
 					{
 						/*Para hacer las eliminaciones utilizaremos el id del usuario*/
-						$id = $this -> cleanInt($_POST['id']);
+						$id_user = $this -> cleanInt($_POST['id_user']);
 
-						$result = $this -> model -> delete($id);
+						$result = $this -> model -> delete($id_user);
 
 						if($result)
 						{
@@ -69,7 +69,7 @@
 
 					break;
 				}
-				case "show" :
+				case "select" :
 				{
 					if(empty($_POST))
 					{
@@ -78,9 +78,9 @@
 					else
 					{
 						/*Se mostrará al usuario en base a su id.*/
-						$id = $this -> cleanInt($_POST['id']);
+						$id_user = $this -> cleanInt($_POST['id_user']);
 
-						$result = $this -> model -> show($id);
+						$result = $this -> model -> select($id_user);
 
 						if($result)
 						{
@@ -103,12 +103,12 @@
 					else
 					{
 						//La modificación se realizará en base el id del usuario
-						$id = $this -> cleanInt($_POST['id']);
+						$id_user = $this -> cleanInt($_POST['id_user']);
 
 						//En base al id se accederá a la base de datos y se tomarán
 						//todos los atributos del usuario.
-						//Esto lo hace la función show(), por lo que la llamamos
-						$result = $this -> model -> show($id);
+						//Esto lo hace la función select(), por lo que la llamamos
+						$result = $this -> model -> select($id_user);
 
 						//Si se accede de manera éxitosa mostramos un formulario
 						//con los datos del usuario.

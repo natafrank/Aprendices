@@ -44,6 +44,18 @@ switch($_GET["ctl"]){
 		$ctl = new VehicleBrandCtl();
 		break;
 	}
+	case "vehiclemodel" :
+	{
+		require_once("Controller/VehicleModelCtl.php");
+		$ctl = new VehicleModelCtl();
+		break;
+	}
+	case "usertype":
+	{
+		require_once("Controller/UserTypeCtl.php");
+		$ctl = new UserTypeCtl();
+		break;
+	}
 	default:
 		echo "Controlador indefinido"; 
 }

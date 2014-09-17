@@ -19,17 +19,17 @@
 					if(empty($_POST))
 					{
 						//Se carga la vista del formulario
-						require_once("View/InsertVehicle.html");
+						require_once("View/InsertVehicle.php");
 					}
 					else
 					{
 						//Obtenemos las variables por la alta y las limpiamos.
-						$vin            = $this -> cleanText($_POST['vin']);
-						$brand          = $this -> cleanText($_POST['brand']);
-						$vehicle_model  = $this -> cleanText($_POST['vehicle_model']);
-						$color          = $this -> cleanText($_POST['color']);
+						$vin               = $this -> cleanText($_POST['vin']);
+						$id_vehicle_model  = $this -> cleanText($_POST['id_vehicle_model']);
+						$id_location       = $this -> cleanText($_POST['id_location']);
+						$color             = $this -> cleanText($_POST['color']);
 
-						$result = $this -> model -> insert($vin, $brand, $vehicle_model, $color);
+						$result = $this -> model -> insert($vin, $id_vehicle_model, $id_location, $color);
 
 						if($result)
 						{
@@ -52,9 +52,9 @@
 					else
 					{
 						/*Para hacer las eliminaciones utilizaremos el id del vehículo.*/
-						$id = $this -> cleanInt($_POST['id']);
+						$id_vehicle = $this -> cleanInt($_POST['id_vehicle']);
 
-						$result = $this -> model -> delete($id);
+						$result = $this -> model -> delete($id_vehicle);
 
 						if($result)
 						{
@@ -69,7 +69,7 @@
 					break;
 				}
 
-				case "show" :
+				case "select" :
 				{
 					if(empty($_POST))
 					{
@@ -78,9 +78,9 @@
 					else
 					{
 						/*Se mostrará el vehículo en base a su id.*/
-						$id = $this -> cleanInt($_POST['id']);
+						$id_vehicle = $this -> cleanInt($_POST['id_vehicle']);
 
-						$result = $this -> model -> show($id);
+						$result = $this -> model -> select($id_vehicle);
 
 						if($result)
 						{
@@ -104,12 +104,12 @@
 					else
 					{
 						//La modificación se realizará en base el id del vehículo
-						$id = $this -> cleanInt($_POST['id']);
+						$id_vehicle = $this -> cleanInt($_POST['id_vehicle']);
 
 						//En base al id se accederá a la base de datos y se tomarán
 						//todos los atributos del vehículo.
-						//Esto lo hace la función show(), por lo que la llamamos
-						$result = $this -> model -> show($id);
+						//Esto lo hace la función select(), por lo que la llamamos
+						$result = $this -> model -> select($id_vehicle);
 
 						//Si se accede de manera éxitosa mostramos un formulario
 						//con los datos del vehículo.

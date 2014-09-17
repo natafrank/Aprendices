@@ -2,26 +2,25 @@
 
 	class VehicleMdl
 	{
-		public $id;
+		public $id_vehicle;
+		public $vin;                 
 		public $id_location;
 		public $id_vehicle_model;         
-		public $vin;                 
 		public $color;
 
-		public function insert($vin, $id_location, $id_vehicle_model, $vin, $color)
+		public function insert($vin, $id_vehicle_model, $id_location, $color)
 		{
 			$this -> vin              = $vin;
-			$this -> id_location      = $id_location;
 			$this -> id_vehicle_model = $id_vehicle_model;
-			$this -> vin              = $vin;
+			$this -> id_location      = $id_location;
 			$this -> color            = $color;
 
 			return TRUE;
 		} 
 
-		public function delete($id)
+		public function delete($id_vehicle)
 		{
-			$this -> id = $id;
+			$this -> id_vehicle = $id_vehicle;
 
 			/*Eliminamos el vehículo de la base de datos y retornamos TRUE*/
 			return TRUE;
@@ -30,9 +29,9 @@
 			//return FALSE;
 		}
 
-		public function show($id)
+		public function select($id_vehicle)
 		{
-			$this -> id = $id;
+			$this -> id_vehicle = $id_vehicle;
 
 			//Se accede a la base de datos por medio del id
 			//y en base a esta consulta se asignan los demás atributos.
