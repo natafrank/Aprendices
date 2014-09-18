@@ -13,7 +13,7 @@ class LocationMdl{
 		
 		return TRUE;
 	}
-	public function select(){
+	public function select($idLocation){
 		return TRUE;
 	}
 	public function delete($idLocation){

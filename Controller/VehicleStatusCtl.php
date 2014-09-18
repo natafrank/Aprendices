@@ -28,7 +28,8 @@ class VehicleStatusCtl extends StandardCtl{
 						require_once("View/InserVehicleStatus.php");
 					}
 					else{
-						require_once("View/ErrorInsert.php");
+						$error = "Error al insertar el nuevo registro";
+						require_once("View/Error.php");
 					}
 				}
 				break;
@@ -48,13 +49,14 @@ class VehicleStatusCtl extends StandardCtl{
 						require_once("View/UpdateVehicleStatus.php");
 					}
 					else{
-						require_once("View/ErrorUpdate.php");
+						$error = "Error al actualizar el registro";
+						require_once("View/Error.php");
 					}
 				}
 				break;
 			case 'select':
 				if(empty($_POST)){
-					require_once("View/DeleteVehicleStatus.php");
+					require_once("View/SelectVehicleStatus.php");
 				}
 				else{
 					$idVehicleStatus = $this->cleanText($_POST['idVehicleStatus']);
@@ -65,7 +67,8 @@ class VehicleStatusCtl extends StandardCtl{
 						require_once("View/SelectVehicleStatus.php");
 					}
 					else{
-						require_once("View/ErrorSelect.php");
+						$error = "Error al mostrar el registro";
+						require_once("View/Error.php");
 					}
 				}
 				break;
@@ -75,19 +78,16 @@ class VehicleStatusCtl extends StandardCtl{
 				}
 				else{
 					$idVehicleStatus = $this->cleanText($_POST['idVehicleStatus']);
-					//validar que exista el registro en la base de datos
-					//if(){
-						$result = $this->model->delete($idVehicleStatus);
-						if($result){
-							require_once("View/DeleteVehicleStatus.php");
-						}
-						else{
-							require_once("View/ErrorDelete.php");
-						}
-					//}
-					//else{
-					//	require_once("View/ErrorDelete");
-					//}
+
+					$result = $this->model->delete($idVehicleStatus);
+
+					if($result){
+						require_once("View/DeleteVehicleStatus.php");
+					}
+					else{
+						$error = "Error al eliminar el registro";
+						require_once("View/Error.php");
+					}
 				}
 				break;
 		}

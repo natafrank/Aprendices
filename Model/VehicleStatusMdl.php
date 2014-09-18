@@ -1,7 +1,5 @@
 <?php
 
-include("Controller/StandardCtl.php");
-
 class VehicleStatusMdl{
 
 	public $idVehicleStatus;
@@ -17,7 +15,7 @@ class VehicleStatusMdl{
 		
 		return TRUE;
 	}
-	public function select(){
+	public function select($idVehicleStatus){
 		return TRUE;
 	}
 	public function delete($idVehicleStatus){

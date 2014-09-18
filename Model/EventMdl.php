@@ -10,7 +10,7 @@ class EventRegistryMdl{
 		$this->Event = $Event;
 		return TRUE;
 	}
-	public function select(){
+	public function select($idEvent){
 		return TRUE;
 	}
 	public function delete($idEvent){

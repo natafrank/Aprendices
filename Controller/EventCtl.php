@@ -17,8 +17,8 @@ class EventCtl extends StandardCtl{
 					require_once("View/InsertEvent.php");
 				}
 				else{
-					$idEvent = $this->cleanFloat($_POST['idEvent']);
-					$Event = $this->cleanFloat($_POST['Event']);
+					$idEvent = $this->cleanText($_POST['idEvent']);
+					$Event = $this->cleanText($_POST['Event']);
 
 					$resul = $this->model->insert($idEvent,$Event);
 
@@ -26,7 +26,8 @@ class EventCtl extends StandardCtl{
 						require_once("View/InserEvent.php");
 					}
 					else{
-						require_once("View/ErrorInsert.php");
+						$error = "Error al insertar el nuevo registro";
+						require_once("View/Error.php");
 					}
 				}
 				break;
@@ -44,13 +45,14 @@ class EventCtl extends StandardCtl{
 						require_once("View/UpdateEvent.php");
 					}
 					else{
-						require_once("View/ErrorUpdate.php");
+						$error = "Error al actualizar el registro";
+						require_once("View/Error.php");
 					}
 				}
 				break;
 			case 'select':
 				if(empty($_POST)){
-					require_once("View/DeleteEvent.php");
+					require_once("View/SelectEvent.php");
 				}
 				else{
 					$idEvent = $this->cleanText($_POST['idEvent']);
@@ -61,7 +63,8 @@ class EventCtl extends StandardCtl{
 						require_once("View/SelectEvent.php");
 					}
 					else{
-						require_once("View/ErrorSelect.php");
+						$error = "Error al mostrar el registro";
+						require_once("View/Error.php");
 					}
 				}
 				break;
@@ -71,19 +74,16 @@ class EventCtl extends StandardCtl{
 				}
 				else{
 					$idEvent = $this->cleanText($_POST['idEvent']);
-					//validar que exista el registro en la base de datos
-					//if(){
-						$result = $this->model->delete($idEvent);
-						if($result){
-							require_once("View/DeleteEvent.php");
-						}
-						else{
-							require_once("View/ErrorDelete.php");
-						}
-					//}
-					//else{
-					//	require_once("View/ErrorDelete");
-					//}
+
+					$result = $this->model->delete($idEvent);
+
+					if($result){
+						require_once("View/DeleteEvent.php");
+					}
+					else{
+						$error = "Error al eliminar el registro";
+						require_once("View/Error.php");
+					}
 				}
 				break;
 		}

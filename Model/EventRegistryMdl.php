@@ -19,7 +19,7 @@ class EventRegistryMdl{
 		
 		return TRUE;
 	}
-	public function select(){
+	public function select($idEventRegistry){
 		return TRUE;
 	}
 	public function delete($idEventRegistry){

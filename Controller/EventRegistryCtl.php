@@ -19,10 +19,10 @@ class EventRegistryCtl extends StandardCtl{
 				else{
 					$idEventRegistry = $this->cleanText($_POST['idEventRegistry']);
 					$idVehicle = $this->cleanText($_POST['idVehicle']);
-					$idUser = $this->cleanFloat($_POST['idUser']);
-					$idEvent = $this->cleanFloat($_POST['idEvent']);
-					$Date= $this->cleanFloat($_POST['Date']);
-					$Motiv = $this->cleanFloat($_POST['Motiv']);
+					$idUser = $this->cleanText($_POST['idUser']);
+					$idEvent = $this->cleanText($_POST['idEvent']);
+					$Date= $this->cleanText($_POST['Date']);
+					$Motiv = $this->cleanText($_POST['Motiv']);
 
 					$resul = $this->model->insert($idEventRegistry,$idVehicle,$idUser,$idEvent,$Date,$Motiv);
 
@@ -30,7 +30,8 @@ class EventRegistryCtl extends StandardCtl{
 						require_once("View/InserEventRegistry.php");
 					}
 					else{
-						require_once("View/ErrorInsert.php");
+						$error = "Error al insertar el nuevo registro";
+						require_once("View/Error.php");
 					}
 				}
 				break;
@@ -41,10 +42,10 @@ class EventRegistryCtl extends StandardCtl{
 				else{
 					$idEventRegistry = $this->cleanText($_POST['idEventRegistry']);
 					$idVehicle = $this->cleanText($_POST['idVehicle']);
-					$idUser = $this->cleanFloat($_POST['idUser']);
-					$idEvent = $this->cleanFloat($_POST['idEvent']);
-					$Date= $this->cleanFloat($_POST['Date']);
-					$Motiv = $this->cleanFloat($_POST['Motiv']);
+					$idUser = $this->cleanText($_POST['idUser']);
+					$idEvent = $this->cleanText($_POST['idEvent']);
+					$Date= $this->cleanText($_POST['Date']);
+					$Motiv = $this->cleanText($_POST['Motiv']);
 
 					$resul = $this->model->insert($idEventRegistry,$idVehicle,$idUser,$idEvent,$Date,$Motiv);
 
@@ -52,13 +53,14 @@ class EventRegistryCtl extends StandardCtl{
 						require_once("View/UpdateEventRegistry.php");
 					}
 					else{
-						require_once("View/ErrorUpdate.php");
+						$error = "Error al actualizar el registro";
+						require_once("View/Error.php");
 					}
 				}
 				break;
 			case 'select':
 				if(empty($_POST)){
-					require_once("View/DeleteEventRegistry.php");
+					require_once("View/SelectEventRegistry.php");
 				}
 				else{
 					$idEventRegistry = $this->cleanText($_POST['idEventRegistry']);
@@ -69,7 +71,8 @@ class EventRegistryCtl extends StandardCtl{
 						require_once("View/SelectEventRegistry.php");
 					}
 					else{
-						require_once("View/ErrorSelect.php");
+						$error = "Error al mostrar el registro";
+						require_once("View/Error.php");
 					}
 				}
 				break;
@@ -79,19 +82,16 @@ class EventRegistryCtl extends StandardCtl{
 				}
 				else{
 					$idEventRegistry = $this->cleanText($_POST['idEventRegistry']);
-					//validar que exista el registro en la base de datos
-					//if(){
-						$result = $this->model->delete($idEventRegistry);
-						if($result){
-							require_once("View/DeleteEventRegistry.php");
-						}
-						else{
-							require_once("View/ErrorDelete.php");
-						}
-					//}
-					//else{
-					//	require_once("View/ErrorDelete");
-					//}
+
+					$result = $this->model->delete($idEventRegistry);
+
+					if($result){
+						require_once("View/DeleteEventRegistry.php");
+					}
+					else{
+						$error = "Error al eliminar el registro";
+						require_once("View/Error.php");
+					}
 				}
 				break;
 		}

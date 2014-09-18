@@ -19,7 +19,7 @@ class LocationCtl extends StandardCtl{
 				else{
 					$idLocation = $this->cleanText($_POST['idLocation']);
 					$location = $this->cleanText($_POST['location']);
-					$idMasterLocation = $this->cleanFloat($_POST['idMasterLocation']);
+					$idMasterLocation = $this->cleanText($_POST['idMasterLocation']);
 
 					$resul = $this->model->insert($idLocation,$location,$idMasterLocation);
 
@@ -27,7 +27,8 @@ class LocationCtl extends StandardCtl{
 						require_once("View/InserLocation.php");
 					}
 					else{
-						require_once("View/ErrorInsert.php");
+						$error = "Error al insertar el nuevo registro";
+						require_once("View/Error.php");
 					}
 				}
 				break;
@@ -38,7 +39,7 @@ class LocationCtl extends StandardCtl{
 				else{
 					$idLocation = $this->cleanText($_POST['idLocation']);
 					$location = $this->cleanText($_POST['location']);
-					$idMasterLocation = $this->cleanFloat($_POST['idMasterLocation']);
+					$idMasterLocation = $this->cleanText($_POST['idMasterLocation']);
 
 					$resul = $this->model->insert($idLocation,$location,$idMasterLocation);
 
@@ -46,13 +47,14 @@ class LocationCtl extends StandardCtl{
 						require_once("View/UpdateLocation.php");
 					}
 					else{
-						require_once("View/ErrorUpdate.php");
+						$error = "Error al actualizar el registro";
+						require_once("View/Error.php");
 					}
 				}
 				break;
 			case 'select':
 				if(empty($_POST)){
-					require_once("View/DeleteLocation.php");
+					require_once("View/SelectLocation.php");
 				}
 				else{
 					$idLocation = $this->cleanText($_POST['idLocation']);
@@ -63,7 +65,8 @@ class LocationCtl extends StandardCtl{
 						require_once("View/SelectLocation.php");
 					}
 					else{
-						require_once("View/ErrorSelect.php");
+						$error = "Error al mostrar el registro";
+						require_once("View/Error.php");
 					}
 				}
 				break;
@@ -73,19 +76,16 @@ class LocationCtl extends StandardCtl{
 				}
 				else{
 					$idLocation = $this->cleanText($_POST['idLocation']);
-					//validar que exista el registro en la base de datos
-					//if(){
-						$result = $this->model->delete($idLocation);
-						if($result){
-							require_once("View/DeleteLocation.php");
-						}
-						else{
-							require_once("View/ErrorDelete.php");
-						}
-					//}
-					//else{
-					//	require_once("View/ErrorDelete");
-					//}
+
+					$result = $this->model->delete($idLocation);
+
+					if($result){
+						require_once("View/DeleteLocation.php");
+					}
+					else{
+						$error = "Error al eliminar el registro";
+						require_once("View/Error.php");
+					}
 				}
 				break;
 		}
