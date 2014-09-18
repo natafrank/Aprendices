@@ -56,6 +56,30 @@ switch($_GET["ctl"]){
 		$ctl = new UserTypeCtl();
 		break;
 	}
+	case "event":
+	{
+		require_once("Controller/EventCtl");
+		$ctl = new EventCtl();
+		break;
+	}
+	case "eventregistry":
+	{
+		require_once("Controller/EventRegistryCtl");
+		$ctl = new EventRegistryCtl();
+		break;
+	}
+	case "location":
+	{
+		require_once("Controller/LocationCtl");
+		$ctl = new LocationCtl();
+		break;
+	}
+	case "vehiclestatus":
+	{
+		require_once("Controller/VehicleStatusCtl");
+		$ctl = new VehicleStatusCtl();
+		break;
+	}
 	default:
 		echo "Controlador indefinido"; 
 }
