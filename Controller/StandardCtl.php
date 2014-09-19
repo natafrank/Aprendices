@@ -41,6 +41,86 @@
 				return FALSE;
 			}
 		}
+		
+		function cleanName($name){
+			$regex = "/[a-zA-Z][a-zA-Z\s]*/"; //Sólo letras y espacios
+			
+			$result = FALSE;
+			if (preg_match($regex, $name)) {
+				$result = $name;	
+			}
+
+			return $result;
+		}
+		
+		function cleanTel($tel){
+			$regex = "/\d{6,12}/";  //Sólo cadenas de dígitos de longitud entre 6 y 12
+			
+			$result = FALSE;
+			if (preg_match($regex, $tel)) {
+				$result = $tel;	
+			}
+
+			return $result;
+		}
+		
+		function cleanBit($bit){
+			$regex = "/(0|1)/"; //Sólo 0 ó 1
+			
+			$result = FALSE;
+			if (preg_match($regex, $bit)) {
+				$result = $bit;	
+			}
+
+			return $result;
+		}
+		
+		function cleanDateTime($datetime){
+			//Formato Valido = YYYY-MM-DD HH:MM:SS
+		
+			$datetime_parts = explode(" ",$datetime);
+			
+			$date_parts = explode("-",$datetime_parts[0]);
+			
+			$result = FALSE;
+			
+			//El explode debe regresar solo tres elementos en el arreglo
+			if(count($date_parts) != 3){
+				return $result;
+			}
+			
+			//Validacion de la fecha
+			if (!checkdate ($date_parts[1],$date_parts[2],$date_parts[0]))  //Parametros: Mes, Dia, Año
+			{ 
+				return result; 
+			}
+			
+			$time_parts = explode(":",$datetime_parts[1]);
+			
+			//El explode debe regresar solo tres elementos en el arreglo
+			if(count($time_parts) != 3){
+				return $result;
+			}
+			
+			$regex = "/(((0|1)(\d))|(2[0-3]))/";  //Validacion para las horas (00-23)
+			if (!preg_match($regex, $time_parts[0])) {
+				return $result;	
+			}
+			
+			$regex = "/([0-5](\d))/";  //Validacion para los minutos (00-59)
+			if (!preg_match($regex, $time_parts[1])) {
+				return $result;	
+			}
+			
+			$regex = "/([0-5](\d))/";  //Validacion para los segundos (00-59)
+			if (!preg_match($regex, $time_parts[2])) {
+				return $result;	
+			}
+			
+			$result = $datetime;
+
+			return $result;
+		}
 	}
 
 ?>
