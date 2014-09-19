@@ -28,6 +28,19 @@
 			return $result;
 		}	
 		
+		function cleantEmail($email)
+		{
+			$regex = "/^[a-zA-Z].*@\w+\..+/";
+
+			if(preg_match($regex, $email))
+			{
+				return $email;
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
 	}
 
 ?>
