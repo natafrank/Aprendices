@@ -25,8 +25,8 @@
 					{
 						//Obtenemos las variables por la alta y las limpiamos.
 						$vin               = $this -> cleanText($_POST['vin']);
-						$id_vehicle_model  = $this -> cleanText($_POST['id_vehicle_model']);
-						$id_location       = $this -> cleanText($_POST['id_location']);
+						$id_vehicle_model  = $this -> cleanInt($_POST['id_vehicle_model']);
+						$id_location       = $this -> cleanInt($_POST['id_location']);
 						$color             = $this -> cleanText($_POST['color']);
 
 						$result = $this -> model -> insert($vin, $id_vehicle_model, $id_location, $color);

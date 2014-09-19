@@ -43,7 +43,39 @@
 				return FALSE;
 			}
 		}
+
+		//El login tiene que empezar con letra, tiene mínimo 6 y máximo de 20 caracteres
+		//y puede usar la cantidad de números que quiera.
+		function cleanLogin($login)
+		{
+			$regex = "/^[a-zA-z][a-zA-Z\d]{5,19}/";
+
+			if(preg_match($regex, $login))
+			{
+				return $login;
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
 		
+		//La contraseña tiene tamaño mínimo de 8 caracteres,
+		//debe contener un número y puede tener cualquier caracter.
+		function cleanPassword($password)
+		{
+			$regex = "/.*(?=.{8,})(?=.*\d).*/";
+
+			if(preg_match($regex, $password))
+			{
+				return $password;
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
+
 		function cleanName($name){
 			$regex = "/[a-zA-Z][a-zA-Z\s]*/"; //Sólo letras y espacios
 			

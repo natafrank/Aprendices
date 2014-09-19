@@ -25,9 +25,9 @@
 					}
 					else
 					{
-						$name   = $this -> cleanText($_POST['name']);
-						$login  = $this -> cleanText($_POST['login']);
-						$pass   = $this -> cleanText($_POST['pass']);
+						$name   = $this -> cleanName($_POST['name']);
+						$login  = $this -> cleanLogin($_POST['login']);
+						$pass   = $this -> cleanPassword($_POST['pass']);
 						$type   = $this -> cleanInt($_POST['type']); 
 
 						$result = $this -> model -> insert($name,$login,$pass,$type);
