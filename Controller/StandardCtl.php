@@ -5,16 +5,18 @@
 		//Se agrgaran mas metodos segun se requiera
 		
 		function cleanText($text){
-			$result = '';
 			if(is_string($text)){
-				$result = $text;
+				$result = addslashes(trim($text));
+				if(strlen($result)){
+					return $result;
+				}
 			}
-			return $result;
+			return FALSE;
 		}
 		
 		function cleanInt($number){
 			$result = 0;
-			if(is_numeric($number)){
+			if(is_int($number)){
 				$result = $number;
 			}
 			return $result;
