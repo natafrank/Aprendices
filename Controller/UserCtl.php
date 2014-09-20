@@ -30,15 +30,23 @@
 						$pass   = $this -> cleanPassword($_POST['pass']);
 						$type   = $this -> cleanInt($_POST['type']); 
 
-						$result = $this -> model -> insert($name,$login,$pass,$type);
-
-						if($result)
+						//Si alguno de los campos es inválido.
+						if(!$name || !$login || !$pass || !$type)
 						{
-							require_once("View/ShowUser.php");
+							require_once("View/InsertUserError.php");
 						}
 						else
 						{
-							require_once("View/InsertUserError.php");
+							$result = $this -> model -> insert($name,$login,$pass,$type);
+
+							if($result)
+							{
+								require_once("View/ShowUser.php");
+							}
+							else
+							{
+								require_once("View/InsertUserError.php");
+							}
 						}
 					}
 
