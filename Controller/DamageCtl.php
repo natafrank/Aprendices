@@ -18,7 +18,7 @@
 						require_once("View/InsertDamage.php");
 					}
 					else{
-						$idDamage = $this->cleanText($_POST['idDamage']);  // Para este dato se creara un Trigger en la BD
+						$idDamage = $this->cleanInt($_POST['idDamage']);  // Para este dato se creara un Trigger en la BD
 						$Damage   = $this->cleanText($_POST['Damage']);
 						
 						$result = $this->model->insert($idDamage,$Damage);
@@ -44,7 +44,7 @@
 							require_once("View/Error.php");	
 						}
 						else{
-							$idDamage = $this->cleanText($_POST['idDamage']);
+							$idDamage = $this->cleanInt($_POST['idDamage']);
 
 							//Validar que exista el registro
 							if(array_key_exists($idDamage,$this->rows)){
@@ -98,7 +98,7 @@
 							require_once("View/Error.php");	
 						}
 						else{
-							$idDamage = $this->cleanText($_POST['idDamage']);
+							$idDamage = $this->cleanInt($_POST['idDamage']);
 
 							//Validar que exista el registro
 							if(array_key_exists($idDamage,$this->rows)){
