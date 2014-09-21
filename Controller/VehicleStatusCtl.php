@@ -4,6 +4,9 @@ include("Controller/StandardCtl.php");
 
 class VehicleStatusCtl extends StandardCtl{
 	private $model;
+	private $rows = array( 1=>array('vehicleStatus'=>'Buenas Condiciones','Fuel'=>50.5,'Km'=>105.2),
+			       2=>array('vehicleStatus'=>'Malas Condiciones','Fuel'=>10.7,'Km'=>347.87),
+			       3=>array('vehicleStatus'=>'Buenas Condiciones','Fuel'=>33.8,'Km'=>431.44) );
 
 	function __construct(){
 		require_once("Model/VehicleStatusMdl.php");
@@ -17,7 +20,7 @@ class VehicleStatusCtl extends StandardCtl{
 					require_once("View/InsertVehicleStatus.php");
 				}
 				else{
-					$idVehicleStatus = $this->cleanText($_POST['idVehicleStatus']);
+					$idVehicleStatus = $this->cleanInt($_POST['idVehicleStatus']);
 					$vehicleStatus = $this->cleanText($_POST['vehicleStatus']);
 					$Fuel = $this->cleanFloat($_POST['Fuel']);
 					$Km = $this->cleanFloat($_POST['Km']);
@@ -25,7 +28,7 @@ class VehicleStatusCtl extends StandardCtl{
 					$resul = $this->model->insert($idVehicleStatus,$vehicleStatus,$Fuel,$Km);
 
 					if($result){
-						require_once("View/InserVehicleStatus.php");
+						require_once("View/ShowInserVehicleStatus.php");
 					}
 					else{
 						$error = "Error al insertar el nuevo registro";
@@ -38,7 +41,7 @@ class VehicleStatusCtl extends StandardCtl{
 					require_once("View/UpdateVehicleStatus.php");
 				}
 				else{
-					$idVehicleStatus = $this->cleanText($_POST['idVehicleStatus']);
+					$idVehicleStatus = $this->cleanInt($_POST['idVehicleStatus']);
 					$vehicleStatus = $this->cleanText($_POST['vehicleStatus']);
 					$Fuel = $this->cleanFloat($_POST['Fuel']);
 					$Km = $this->cleanFloat($_POST['Km']);
@@ -46,7 +49,7 @@ class VehicleStatusCtl extends StandardCtl{
 					$result = $this->model->update($idVehicleStatus,$vehicleStatus,$Fuel,$Km);
 
 					if($result){
-						require_once("View/UpdateVehicleStatus.php");
+						require_once("View/ShowUpdateVehicleStatus.php");
 					}
 					else{
 						$error = "Error al actualizar el registro";
@@ -59,16 +62,30 @@ class VehicleStatusCtl extends StandardCtl{
 					require_once("View/SelectVehicleStatus.php");
 				}
 				else{
-					$idVehicleStatus = $this->cleanText($_POST['idVehicleStatus']);
-
-					$result = $this->model->select($idVehicleStatus);
-
-					if($result){
-						require_once("View/SelectVehicleStatus.php");
+					if(!isset($_POST['idVehicleStatus'])){
+						$error = 'No se ha especificado el ID del registro que se va a mostrar';
+						require_once("View/Error.php");	
 					}
 					else{
-						$error = "Error al mostrar el registro";
-						require_once("View/Error.php");
+						if(($idVehicleStatus = $this->cleanInt($_POST['idVehicleStatus'])) == 0){
+							$error = 'No se ingreso un entero';
+							require_once("View/Error.php");
+						}
+						else{
+							//$result = $this->model->select($idEvent);
+		
+							if(array_key_exists($idVehicleStatus,$this->rows)){
+								var_dump($this->rows[$idVehicleStatus]);
+							}
+
+							//if($result){
+							//	require_once("View/SelectEvent.php");
+							//}
+							else{
+								$error = "No se encuentra el registro";
+								require_once("View/Error.php");
+							}
+						}
 					}
 				}
 				break;
@@ -77,16 +94,31 @@ class VehicleStatusCtl extends StandardCtl{
 					require_once("View/DeleteVehicleStatus.php");
 				}
 				else{
-					$idVehicleStatus = $this->cleanText($_POST['idVehicleStatus']);
-
-					$result = $this->model->delete($idVehicleStatus);
-
-					if($result){
-						require_once("View/DeleteVehicleStatus.php");
+					if(!isset($_POST['idVehicleStatus'])){
+						$error = 'No se ha especificado el ID del registro que se va a eliminar';
+						require_once("View/Error.php");	
 					}
 					else{
-						$error = "Error al eliminar el registro";
-						require_once("View/Error.php");
+						if(($idVehicleStatus = $this->cleanInt($_POST['idVehicleStatus'])) == 0){
+							$error = 'No se ingreso un entero';
+							require_once("View/Error.php");
+						}
+						else{
+							//$result = $this->model->delete($idEvent);
+		
+							if(array_key_exists($idVehicleStatus,$this->rows)){
+								unset($this->rows[$idVehicleStatus]);
+								require_once("View/ShowDeleteVehicleStatus.php");
+							}
+
+							//if($result){
+							//	require_once("View/SelectEvent.php");
+							//}
+							else{
+								$error = "No se encuentra el registro";
+								require_once("View/Error.php");
+							}
+						}
 					}
 				}
 				break;
