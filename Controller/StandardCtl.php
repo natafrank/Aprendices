@@ -30,7 +30,7 @@
 			return $result;
 		}	
 		
-		function cleantEmail($email)
+		function cleanEmail($email)
 		{
 			$regex = "/^[a-zA-Z].*@\w+\..+/";
 
