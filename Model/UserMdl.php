@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 	class UserMdl
 	{
 		public $id_user;
@@ -7,7 +7,7 @@
 		public $pass;
 		public $type;
 		public $email;
-		public tel;		
+		public $tel;		
 
 		public function insert($name,$login,$pass,$type,$email,$tel)
 		{
