@@ -1,3 +1,6 @@
 <?php
-	echo "Vista para eliminar un daño (aun no implementada)";
+	
+	echo 'El daño con el id: ', $this -> model -> idDamage,
+	' ha sido eliminado con éxito.';
+
 ?>

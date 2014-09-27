@@ -40,7 +40,7 @@
 		*/
 		public function getError()
 		{
-			return mysqli_error($this -> resource);
+			return mysqli_error($this -> connection);
 		}
 
 		/**
@@ -60,7 +60,7 @@
 		*/
 		public function fetchArray($result)
 		{
-			return mysqli_fetch_array($result);
+			return mysqli_fetch_assoc($result);
 		}
 
 		/**
@@ -79,7 +79,7 @@
 		*/
 		public function escape($var)
 		{
-			return mysqli_real_escape_string($this -> connection, $var);
+			return mysqli_escape_string($this -> connection, $var);
 		}
 	}
 

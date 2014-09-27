@@ -5,7 +5,7 @@
 	abstract class AbstractDatabase
 	{
 		//Objeto de que guarda la conexión
-		protected $conection;
+		protected $connection;
 
 		/**
 		* Función encargada de establecer la conexión con la base de datos.

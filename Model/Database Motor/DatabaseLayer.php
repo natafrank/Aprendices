@@ -32,8 +32,11 @@
 				throw new Exception("El proveedor especificado no ha sido implementado.");
 			}
 
+			//Importamos el archivo con los datos para la conexión.
+			require("connection.inc");
+
 			$this -> provider = new $provider;
-			$this -> provider -> connect("", "", "", "");
+			$this -> provider -> connect($host, $user, $pass, $db);
 
 			if(!$this -> provider -> isConnected())
 			{
@@ -124,7 +127,6 @@
 		{
 			$query = $this -> prepare($query_text, $params);
 			$result = $this -> provider -> query($query);
-
 			if($this -> provider -> getErrorNumber())
 			{
 				/*Controlar errores*/
@@ -172,17 +174,39 @@
 		{
 			$result = $this -> sendQuery($query_text, $params);
 
+			//Comprobamos si el query retornó algo distinto a TRUE o FALSE.
 			if(is_object($result))
 			{
 				$arr = array();
-
+	
 				while($row = $this -> provider -> fetchArray($result))
 				{
 					$arr[] = $row;
 				}
+		
 				return $arr;
 			}
+			//Si el query no es un objeto comprobamos si retornó TRUE.
+			else
+			{
+				if($result)
+					return TRUE;
+			}
+
+			//En caso de no ser un objeto y no retornar TRUE de la ejecución
+			//de un query exitosa, retornamos null.
 			return null;
+		}
+
+		/**
+		* Escapa una variable
+		*
+		* @param $variable Variable a escapar.
+		*
+		*/
+		public function escape($variable)
+		{
+			return $this -> provider -> escape($variable);
 		}
 	}
 
