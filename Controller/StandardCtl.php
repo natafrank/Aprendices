@@ -16,7 +16,7 @@
 		
 		function cleanInt($number){
 			$result = 0;
-			if(is_int($number)){
+			if(is_numeric($number)){
 				$result = $number;
 			}
 			return $result;
@@ -30,7 +30,7 @@
 			return $result;
 		}	
 		
-		function cleantEmail($email)
+		function cleanEmail($email)
 		{
 			$regex = "/^[a-zA-Z].*@\w+\..+/";
 

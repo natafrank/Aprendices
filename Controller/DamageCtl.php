@@ -19,10 +19,12 @@
 					{
 						require_once("View/InsertDamage.php");
 					}
+
 					else
 					{
 						//Limpiamos los datos.
 						$idDamage = $this->cleanText($_POST['idDamage']); // Para este dato se creara un Trigger en la BD
+
 						$Damage   = $this->cleanText($_POST['Damage']);
 						
 						//Recogemos el resultado de la inserción e imprimimos un mensaje
@@ -47,6 +49,7 @@
 					{
 						require_once("View/UpdateDamage.php");
 					}
+
 					else
 					{
 						//Comprobamos que el id esté seteado.
@@ -141,6 +144,7 @@
 					{
 						require_once("View/DeleteDamage.php");
 					}
+
 					else
 					{
 						//Comprobamos que el id esté seteado.

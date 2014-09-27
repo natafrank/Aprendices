@@ -20,10 +20,10 @@
 						require_once("View/InsertDamageDetail.php");
 					}
 					else{
-						$idDamageDetail = $this->cleanText($_POST['idDamageDetail']);  // Para este dato se creara un Trigger en la BD
-						$idChecklist = $this->cleanText($_POST['idChecklist']);   	// Validacion de llave foranea
-						$idVehiclePart = $this->cleanText($_POST['idVehiclePart']); // Validacion de llave foranea
-						$idDamage = $this->cleanText($_POST['idDamage']); 			// Validacion de llave foranea
+						$idDamageDetail = $this->cleanInt($_POST['idDamageDetail']);  // Para este dato se creara un Trigger en la BD
+						$idChecklist = $this->cleanInt($_POST['idChecklist']);   	// Validacion de llave foranea
+						$idVehiclePart = $this->cleanInt($_POST['idVehiclePart']); // Validacion de llave foranea
+						$idDamage = $this->cleanInt($_POST['idDamage']); 			// Validacion de llave foranea
 						
 						$result = $this->model->insert($idDamageDetail,$idChecklist,$idVehiclePart,$idDamage);
 
@@ -48,7 +48,7 @@
 							require_once("View/Error.php");	
 						}
 						else{
-							$idDamageDetail = $this->cleanText($_POST['idDamageDetail']);
+							$idDamageDetail = $this->cleanInt($_POST['idDamageDetail']);
 
 							//Validar que exista el registro
 							if(array_key_exists($idDamageDetail,$this->rows)){
@@ -56,15 +56,15 @@
 								//Validar que datos fueron ingresados para modificacion
 								$idChecklist = NULL;
 								if(isset($_POST['idChecklist'])){
-									$idChecklist  = $this->cleanText($_POST['idChecklist']);
+									$idChecklist  = $this->cleanInt($_POST['idChecklist']);
 								}
 								$idVehiclePart = NULL;
 								if(isset($_POST['idVehiclePart'])){
-									$idVehiclePart  = $this->cleanText($_POST['idVehiclePart']);
+									$idVehiclePart  = $this->cleanInt($_POST['idVehiclePart']);
 								}
 								$idDamage = NULL;
 								if(isset($_POST['idDamage'])){
-									$idDamage  = $this->cleanText($_POST['idDamage']);
+									$idDamage  = $this->cleanInt($_POST['idDamage']);
 								}
 
 								$result = $this->model->update($this->rows[$idDamageDetail],$idChecklist,$idVehiclePart,$idDamage);
@@ -110,7 +110,7 @@
 							require_once("View/Error.php");	
 						}
 						else{
-							$idDamageDetail = $this->cleanText($_POST['idDamageDetail']);
+							$idDamageDetail = $this->cleanInt($_POST['idDamageDetail']);
 
 							//Validar que exista el registro
 							if(array_key_exists($idDamageDetail,$this->rows)){

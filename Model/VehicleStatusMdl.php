@@ -3,7 +3,7 @@
 class VehicleStatusMdl{
 
 	public $idVehicleStatus;
-	public $vehicleStatus
+	public $vehicleStatus;
 	public $Fuel;
 	public $Km;
 	
@@ -22,7 +22,7 @@ class VehicleStatusMdl{
 		return TRUE;
 	}
 	
-	public function update($idVehicleStatus, $vehicleStatus, $Fuel, $Km);{
+	public function update($idVehicleStatus, $vehicleStatus, $Fuel, $Km){
 		$this->idVehicleStatus = $idVehicleStatus;
 		$this->vehicleStatus = $vehicleStatus;
 		$this->Fuel = $Fuel;

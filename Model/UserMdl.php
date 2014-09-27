@@ -1,18 +1,22 @@
-<?php
+﻿<?php
 	class UserMdl
 	{
 		public $id_user;
 		public $name;
 		public $login;
 		public $pass;
-		public $type;		
+		public $type;
+		public $email;
+		public $tel;		
 
-		public function insert($name,$login,$pass,$type)
+		public function insert($name,$login,$pass,$type,$email,$tel)
 		{
 			$this -> name  = $name;
 			$this -> login = $login;
 			$this -> pass  = $pass;
 			$this -> type  = $type;
+			$this -> email = $email;
+			$this -> tel   = $tel;
 	
 			return TRUE;		
 		} /* fin alta*/
@@ -38,6 +42,9 @@
 			$this -> login = "login_prueba";
 			$this -> pass  = "pass_prueba";
 			$this -> type  = "type_prueba";
+			$this -> email = "email_prueba";
+			$this -> tel   = "tel_prueba";
+			
 
 			//Si la consulta fue éxitosa retornamos TRUE
 			return TRUE;
@@ -54,6 +61,8 @@
 			$this -> login = "login_modificado";
 			$this -> pass  = "pass_modificado";
 			$this -> type  = "type_modificado";
+			$this -> email = "email_modificado";
+			$this -> tel   = "tel_modificado";
 		}
 	}
 ?>

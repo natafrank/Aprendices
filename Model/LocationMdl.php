@@ -3,7 +3,7 @@
 class LocationMdl{
 
 	public $idLocation;
-	public $location
+	public $location;
 	public $idMasterLocation;
 	
 	public function insert($idLocation, $location, $idMasterLocation){

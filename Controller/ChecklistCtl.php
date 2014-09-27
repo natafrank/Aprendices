@@ -4,8 +4,8 @@
 	class ChecklistCtl extends StandardCtl{
 		private $model;
 		private $rows = array( 1=>array('idVehicle'=>1,'idVehicleStatus'=>1,'Date'=>'20140911','InOut'=>0),
-							   2=>array('idVehicle'=>2,'idVehicleStatus'=>2,'Date'=>'20140912','InOut'=>0),
-							   3=>array('idVehicle'=>1,'idVehicleStatus'=>3,'Date'=>'20140914','InOut'=>1) );  
+							   2=>array('idVehicle'=>2,'idVehicleStatus'=>2,'Date'=>'2014-09-12','InOut'=>0),
+							   3=>array('idVehicle'=>1,'idVehicleStatus'=>3,'Date'=>'2014-09-14','InOut'=>1) );  
 							   //Estos datos serán obtenidos de la base de datos
 
 		public function run(){
@@ -20,11 +20,11 @@
 						require_once("View/InsertChecklist.php");
 					}
 					else{
-						$idChecklist 	 = $this->cleanText($_POST['idChecklist']);  // Para este dato se creara un Trigger en la BD
-						$idVehicle   	 = $this->cleanText($_POST['idVehicle']);    // Necesita Validacion de llave foranea
-						$idVehicleStatus = $this->cleanText($_POST['idVehicleStatus']); // Necesita Validacion de llave foranea
-						$Date        	 = $this->cleanText($_POST['Date']);
-						$InOut       	 = $this->cleanText($_POST['InOut']);
+						$idChecklist 	 = $this->cleanInt($_POST['idChecklist']);  // Para este dato se creara un Trigger en la BD
+						$idVehicle   	 = $this->cleanInt($_POST['idVehicle']);    // Necesita Validacion de llave foranea
+						$idVehicleStatus = $this->cleanInt($_POST['idVehicleStatus']); // Necesita Validacion de llave foranea
+						$Date        	 = $this->cleanDateTime($_POST['Date']);
+						$InOut       	 = $this->cleanBit($_POST['InOut']);
 						
 						$result = $this->model->insert($idChecklist,$idVehicle,$idVehicleStatus,$Date,$InOut);
 
@@ -49,7 +49,7 @@
 							require_once("View/Error.php");	
 						}
 						else{
-							$idChecklist = $this->cleanText($_POST['idChecklist']);
+							$idChecklist = $this->cleanInt($_POST['idChecklist']);
 
 							//Validar que exista el registro
 							if(array_key_exists($idChecklist,$this->rows)){
@@ -57,19 +57,19 @@
 								//Validar que datos fueron ingresados para modificacion
 								$idVehicle = NULL;
 								if(isset($_POST['idVehicle'])){
-									$idVehicle  = $this->cleanText($_POST['idVehicle']);
+									$idVehicle  = $this->cleanInt($_POST['idVehicle']);
 								}
 								$idVehicleStatus = NULL;
 								if(isset($_POST['idVehicleStatus'])){
-									$idVehicleStatus  = $this->cleanText($_POST['idVehicleStatus']);
+									$idVehicleStatus  = $this->cleanInt($_POST['idVehicleStatus']);
 								}
 								$Date = NULL;
 								if(isset($_POST['Date'])){
-									$Date  = $this->cleanText($_POST['Date']);
+									$Date  = $this->cleanDateTime($_POST['Date']);
 								}
 								$InOut = NULL;
 								if(isset($_POST['InOut'])){
-									$InOut  = $this->cleanText($_POST['InOut']);
+									$InOut  = $this->cleanBit($_POST['InOut']);
 								}
 
 								$result = $this->model->update($this->rows[$idChecklist],$idVehicle,$idVehicleStatus,$Date,$InOut);
@@ -115,7 +115,7 @@
 							require_once("View/Error.php");	
 						}
 						else{
-							$idChecklist = $this->cleanText($_POST['idChecklist']);
+							$idChecklist = $this->cleanInt($_POST['idChecklist']);
 
 							//Validar que exista el registro
 							if(array_key_exists($idChecklist,$this->rows)){

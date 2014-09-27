@@ -28,17 +28,27 @@
 						$name   = $this -> cleanName($_POST['name']);
 						$login  = $this -> cleanLogin($_POST['login']);
 						$pass   = $this -> cleanPassword($_POST['pass']);
-						$type   = $this -> cleanInt($_POST['type']); 
+						$type   = $this -> cleanInt($_POST['type']);
+						$email  = $this -> cleanEmail($_POST['email']);
+						$tel    = $this -> cleanTel($_POST['tel']);  
 
-						$result = $this -> model -> insert($name,$login,$pass,$type);
-
-						if($result)
+						//Si alguno de los campos es inválido.
+						if(!$name || !$login || !$pass || !$type || !$email || !$tel )
 						{
-							require_once("View/ShowUser.php");
+							require_once("View/InsertUserError.php");
 						}
 						else
 						{
-							require_once("View/InsertUserError.php");
+							$result = $this -> model -> insert($name,$login,$pass,$type,$email,$tel);
+
+							if($result)
+							{
+								require_once("View/ShowUser.php");
+							}
+							else
+							{
+								require_once("View/InsertUserError.php");
+							}
 						}
 					}
 
