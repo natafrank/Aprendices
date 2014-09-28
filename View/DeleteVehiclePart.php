@@ -1,3 +1,3 @@
 <?php
-	echo "Vista para eliminar una parte de vehiculo (aun no implementada)";
+	echo 'La parte de vehiculo con el id: ', $idVehiclePart, ' ha sido eliminada con éxito.';
 ?>

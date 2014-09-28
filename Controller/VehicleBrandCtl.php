@@ -6,135 +6,174 @@
 	{
 		private $model;
 
-		function run()
+		public function run()
 		{
+			
 			require_once("Model/VehicleBrandMdl.php");
-
-			$this -> model = new VehicleBrandMdl();
-
+			$this -> model = new VehicleBrandMdl();			
+			
 			switch($_GET['act'])
 			{
+					
 				case "insert" :
-				{
+				{					
+					//Comprobar si $_POST está vacio, si es así se mostrará el formulario para capturar los datos.
 					if(empty($_POST))
 					{
-						//Se carga la vista del formulario
 						require_once("View/InsertVehicleBrand.php");
 					}
 					else
 					{
-						//Obtenemos las variables y las limpiamos
-						$vehicle_brand = $this -> cleanText($_POST['vehicle_brand']);
+						//Limpiamos los datos.
+						$idVehicleBrand = $this->cleanText($_POST['idVehicleBrand']);  // Para este dato se creara un Trigger en la BD
+						$VehicleBrand   = $this->cleanText($_POST['VehicleBrand']);
 
-						$result = $this -> model -> insert($vehicle_brand);
-
-						if($result)
+						//Recogemos el resultado de la inserción e imprimimos un mensaje
+						//en base a este resultado.
+						if($result = $this -> model -> insert($idVehicleBrand, $VehicleBrand))
 						{
-							require_once("View/ShowVehicleBrand.php");
+							require_once("View/ShowInsertVehicleBrand.php");
 						}
 						else
 						{
-							require_once("View/InsertVehicleBrandError.php");
+							$error = "Error al insertar el nuevo registro"; 
+							require_once("View/Error.php");
 						}
 					}
-
 					break;
 				}
+				
+				case "update" : 
+				{	
+					//Comprobamos que $_POST no este vacio.
+					if(empty($_POST))
+					{
+						require_once("View/UpdateVehicleBrand.php");
+					}
+					else
+					{
+						//Comprobamos que el id este seteado
+						if(isset($_POST['idVehicleBrand']))
+						{
+							//Limpiamos el ID
+							$idVehicleBrand = $this -> cleanInt($_POST['idVehicleBrand']);
+							
+							//Primero mostramos el id que se quire modificar.
+							//Recogemos el resultado y si contiene información, la mostramos.
+							if(($result = $this -> model -> select($idVehicleBrand)) != null)
+							{
+								echo var_dump($result);
 
+								//La modificación se realizará en base al id.
+								//Por ahora se modificarán todos los atributos.  
+								$VehicleBrand   = $this->cleanText($_POST['VehicleBrand']);
+
+								//Se llama a la función de modificación.
+								//Se recoge el resultado y en base a este resultado
+								//se imprime un mensaje.
+								if($this -> model -> update($idVehicleBrand, $VehicleBrand))
+								{
+									require_once("View/ShowUpdateVehicleBrand.php");	
+								}
+								else
+								{
+									$error = "Error al modificar la marca de vehiculo.";
+									require_once("View/Error.php");
+								}
+							}
+						}
+						else
+						{
+							$error = 'No se especifico el ID del registro a modificar';
+							require_once("View/Error.php");	
+						}
+					}
+					break;
+				}
+					
+				case "select" :
+				{		
+					//Comprobamos que el $_POST no esté vacío.	
+					if(empty($_POST))
+					{
+						$error = "No se especificó el id.";
+						require_once("View/Error.php");
+					}
+					else
+					{
+						//Comprobamos que el id esté seteado.
+						if(isset($_POST['idVehicleBrand']))
+						{
+							//Limpiamos el id.
+							$idVehicleBrand = $this -> cleanText($_POST['idVehicleBrand']);
+
+							//Recogemos el resultado y si contiene información, la mostramos.
+							if(($result = $this -> model -> select($idVehicleBrand)) != null)
+							{
+								echo var_dump($result);
+							}
+							//Si el resultado no contiene información, mostramos el error.
+							else
+							{
+								$error = "Error al tratar de mostrar el registro.";
+								require_once("View/Error.php");
+							}
+						}
+						//Imprimimos el error si la variable no está seteada.
+						else
+						{
+							$error = "El id no esta seteado.";
+							require_once("View/Error.php");
+						}
+					}
+					break;
+				}
+					
 				case "delete" :
 				{
+					//Comprobamos que el $_POST no esté vacío.
 					if(empty($_POST))
 					{
-						require_once("View/DeleteVehicleBrandError.php");
+						require_once("View/DeleteVehicleBrand.php");
 					}
+
 					else
 					{
-						//Las eliminaciones se harán por medio del id.
-						$id_vehicle_brand = $this -> cleanInt($_POST['id_vehicle_brand']);
-
-						$result = $this -> model -> delete($id_vehicle_brand);
-
-						if($result)
+						//Comprobamos que el id esté seteado.
+						if(isset($_POST['idVehicleBrand']))
 						{
-							require_once("View/DeleteVehicleBrand.php");
+							//Limpiamos el id.
+							$idVehicleBrand = $this -> cleanText($_POST['idVehicleBrand']);
+
+							//Recogemos el resultado de la eliminación.
+							$result = $this -> model -> delete($idVehicleBrand);
+
+							//Si la eliminación fue exitosa, mostramos el mensaje.
+							if($result)
+							{
+								require_once("View/DeleteVehicleBrand.php");
+							}
+							//Si no pudimos eliminar, señalamos el error.
+							else
+							{
+								$error = "Error al elimiar la marca de vehiculo.";
+								require_once("View/Error.php");
+							}
 						}
+						//Si el id no está seteado, marcamos el error.
 						else
 						{
-							require_once("View/DeleteVehicleBrandError.php");
-
+							$error = 'No se ha especificado el ID del registro a eliminar';
+							require_once("View/Error.php");	
 						}
 					}
-
 					break;
 				}
+			
+			} /* fin switch */
 
-				case "select" :
-				{
-					if(empty($_POST))
-					{
-						require_once("View/ShowVehicleBrandError.php");
-					}
-					else
-					{
-						//Se accederá por medio del id.
-						$id_vehicle_brand = $this -> cleanInt($_POST['id_vehicle_brand']);
+		} /* fin run */
 
-						$result = $this -> model -> select($id_vehicle_brand);
-
-						if($result)
-						{
-							require_once("View/ShowVehicleBrand.php");
-						}
-						else
-						{
-							require_once("View/ShowVehicleBrandError.php");
-						}
-					}
-
-					break;
-				}
-
-				case "update" :
-				{
-					if(empty($_POST))
-					{
-						require_once("View/UpdateVehicleBrandError.php");
-					}
-					else
-					{
-						//La modificación se realizará en base el id.
-						$id_vehicle_brand = $this -> cleanInt($_POST['id_vehicle_brand']);
-
-						//En base al id se accederá a la base de datos y se tomarán
-						//todos los atributos.
-						//Esto lo hace la función select(), por lo que la llamamos.
-						$result = $this -> model -> select($id_vehicle_brand);
-					
-						//Si se accede de manera éxitosa mostramos un formulario
-						//con los datos.
-						if($result)
-						{
-							require_once("View/UpdateVehicleBrandForm.php");
-
-							//Una vez modificados los datos a través del form
-							//se llama a la función update la cuál actualizará los valores
-							//modificados en el form dentro de la base de datos.
-							$update_result = $this -> model -> update();
-
-							//Por último se muestran los datos modificados.
-							require_once("View/UpdateVehicleBrandShow.php");
-						}
-						//Si no pudimos acceder mostramos el error.
-						else
-						{
-							require_once("View/UpdateVehicleBrandError.php");
-						}
-					}
-
-					break;
-				}
-			}
-		}
 	}
 
 ?>

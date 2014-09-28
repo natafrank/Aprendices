@@ -1,6 +1,3 @@
 <?php
-
-	echo 'La marca de vehículo con el id: ' , $this -> model -> id_vehicle_brand, 
-	' ha sido eliminado con éxito.';
-
+	echo 'La marca de vehiculo con el id: ', $idVehicleBrand, ' ha sido eliminada con éxito.';
 ?>

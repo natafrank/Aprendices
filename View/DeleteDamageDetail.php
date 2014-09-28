@@ -1,3 +1,3 @@
 <?php
-	echo "Vista para eliminar un detalle de daño (aun no implementada)";
+	echo 'El detalle de daño con el id: ', $idDamageDetail, ' ha sido eliminado con éxito.';
 ?>

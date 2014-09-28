@@ -1,5 +1,5 @@
 <?php
-	echo "Parte de Vehiculo Capturada > ID: ",$this->model->idVehiclePart," VehiclePart: ",$this->model->VehiclePart;
+	echo "Parte de Vehiculo Capturada > ID: ",$idVehiclePart," VehiclePart: ",$VehiclePart;
 ?>
 
 

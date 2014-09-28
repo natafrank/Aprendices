@@ -1,6 +1,6 @@
 <?php
 	
-	echo 'El daño con el id: ', $this -> model -> idDamage,
+	echo 'El daño con el id: ', $idDamage,
 	' ha sido eliminado con éxito.';
 
 ?>

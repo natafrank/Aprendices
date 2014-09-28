@@ -2,8 +2,8 @@
 	class DamageMdl
 	{
 		
-		public $idDamage;
-		public $Damage;	
+		private $idDamage;
+		private $Damage;	
 
 		//CONEXIÓN A LA BASE DE DATOS
 		/*************************************************************/

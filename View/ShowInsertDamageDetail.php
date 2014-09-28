@@ -1,8 +1,8 @@
 <?php
-	echo "Detalle de Daño Capturado > ID: ",$this->model->idDamageDetail,
-		 " IdChecklist: ",$this->model->idChecklist,
-		 " IdVehiclePart: ",$this->model->idVehiclePart,
-		 " IdDamage: ",$this->model->idDamage;
+	echo "Detalle de Daño Capturado > ID: ",$idDamageDetail,
+		 " IdChecklist: ",$idChecklist,
+		 " IdVehiclePart: ",$idVehiclePart,
+		 " IdDamage: ",$idDamage;
 ?>
 
 

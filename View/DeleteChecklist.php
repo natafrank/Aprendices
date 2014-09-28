@@ -1,3 +1,3 @@
 <?php
-	echo "Vista para eliminar un checklist (aun no implementada)";
+	echo 'El checklist con el id: ', $idChecklist, ' ha sido eliminado con éxito.';
 ?>
