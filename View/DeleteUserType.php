@@ -1,6 +1,6 @@
 <?php
 
-	echo 'El tipo de usuario con el id: ' , $this -> model -> id_user_type, 
+	echo 'El tipo de usuario con el id: ' , $this -> model -> getIdUserType(), 
 	' ha sido eliminado con éxito.';
 
 ?>

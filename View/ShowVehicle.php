@@ -1,9 +1,10 @@
 /***Vehículo****/
 
  <?php 
- 	echo "<br/>Location     : ",    $this -> model -> id_location;
- 	echo "<br/>Vehicle Model: ",    $this -> model -> id_vehicle_model;
- 	echo "<br/>VIN          : ",    $this -> model -> vin;
- 	echo "<br/>Color        : ",    $this -> model -> color;
+ 	echo "<br/>ID           : ",	$this -> model -> getIdVehicle();
+ 	echo "<br/>Location     : ",    $this -> model -> getIdLocation();
+ 	echo "<br/>Vehicle Model: ",    $this -> model -> getIdVehicleModel();
+ 	echo "<br/>VIN          : ",    $this -> model -> getVin();
+ 	echo "<br/>Color        : ",    $this -> model -> getColor();
 
  ?>

@@ -2,51 +2,112 @@
 
 	class VehicleModelMdl
 	{
-		public $id_vehicle_model;
-		public $vehicle_model;
-		public $id_vehicle_brand;
+		private $id_vehicle_model;
+		private $vehicle_model;
+		private $id_vehicle_brand;
 
-		public function insert($vehicle_model, $id_vehicle_brand)
+		//CONEXIÓN A LA BASE DE DATOS
+		/*************************************************************/
+		public $db_driver;
+
+		function __construct()
 		{
-			$this -> vehicle_model    = $vehicle_model;
-			$this -> id_vehicle_brand = $id_vehicle_brand;
+			//Importamos la capa de la base de datos.
+			require("Model/Database Motor/DatabaseLayer.php");
 
-			return TRUE;
+			//Creamos la conexión.
+			$this -> db_driver = DatabaseLayer::getConnection("MySqlProvider");
+		}
+		/*************************************************************/
+
+		public function insert($id_vehicle_model, $vehicle_model, $id_vehicle_brand)
+		{
+			//Escapamos las variables
+			$this -> id_vehicle_model = $this -> db_driver -> escape($id_vehicle_model);
+			$this -> vehicle_model    = $this -> db_driver -> escape($vehicle_model);
+			$this -> id_vehicle_brand = $this -> db_driver -> escape($id_vehicle_brand);
+
+			//Query a ejecutar
+			$query = "INSERT INTO VehicleModel VALUES(".$this -> id_vehicle_model.", '"
+					  .$this -> vehicle_model."', ".$this -> id_vehicle_brand.");";
+			
+			//Ejecutamos el query y retornamos el resultado.
+		    //Retornará verdadero si se insertaron los datos correctamente.
+			//Retornará falso en caso de no poder insertar.
+			return $this -> db_driver -> execute($query);
 		} 
 
 		public function delete($id_vehicle_model)
 		{
-			$this -> id_vehicle_model = $id_vehicle_model;
+			//Escapamos el id
+			$this -> id_vehicle_model = $this -> db_driver -> escape($id_vehicle_model);
 
-			/*Eliminamos el modelo vehículo de la base de datos y retornamos TRUE*/
-			return TRUE;
+			//Query a ejecutar
+			$query = "DELETE FROM VehicleModel WHERE idVehicleModel=".$this -> id_vehicle_model.";";
 
-			/*Si hay un error al momento de realizar la eliminación retornamos FALSE*/
-			//return FALSE;
+			//Ejecutamos el query y retornamos el resultado.
+		    //Retornará verdadero si se eliminó el registro correctamente.
+			//Retornará falso en caso de no poder eliminar.
+			return $this -> db_driver -> execute($query);
 		}
 
 		public function select($id_vehicle_model)
 		{
-			$this -> id_vehicle_model = $id_vehicle_model;
+			//Escapamos la variable.
+			$this -> id_vehicle_model = $this -> db_driver -> escape($id_vehicle_model);
 
-			//Se accede a la base de datos por medio del id
-			//y en base a esta consulta se asignan los demás atributos.
-			$this -> vehicle_model    = "modelo_prueba";
-			$this -> id_vehicle_brand = "id_marca_prueba";
+			//Query a ejecutar.
+			//Para el primer ejemplo se ejecutará un SELECT * con el id deseado.
+			$query = "SELECT * FROM VehicleModel WHERE idVehicleModel=".$this -> id_vehicle_model.";";
 
-			//Si la consulta fue éxitosa retornamos TRUE
-			return TRUE;
+			//Ejecutamos el query y recogemos el resultado.
+			$result = $this -> db_driver -> execute($query);
 
-			//sino FALSE
-			//return FALSE;
+			//Si el resultado no es null, procesamos la información.
+			if($result != null)
+			{
+				//Si el resultado contiene información retornamos el resultado.
+				return $result;
+			}
+			else
+			{
+				//Si el resultado es null, retornamos FALSE.
+				return FALSE;
+			}	
 		}
 
-		public function update()
+		public function update($id_vehicle_model, $vehicle_model, $id_vehicle_brand)
 		{
-			//Se accede a la base de datos por medio del id
-			//y en base a esta consulta se podrán modificar los demás atributos.
-			$this -> vehicle_model    = "modelo_modificado";
-			$this -> id_vehicle_brand = "id_marca_modificado";
+			//Escapamos las variables
+			$this -> id_vehicle_model = $this -> db_driver -> escape($id_vehicle_model);
+			$this -> vehicle_model    = $this -> db_driver -> escape($vehicle_model);
+			$this -> id_vehicle_brand = $this -> db_driver -> escape($id_vehicle_brand);
+		
+			//Query a ejecutar
+			$query = "UPDATE VehicleModel SET Model='".$this -> vehicle_model
+					."', idVehicleBrand=".$this -> id_vehicle_brand
+					." WHERE idVehicleModel=".$this -> id_vehicle_model.";";
+
+			//Ejecutamos el query y retornamos el resultado.
+			//Retornará verdadero si se modificó el registro correctamente.
+			//Retornará falso en caso de no poder modificar.
+			return $this -> db_driver -> execute($query);
+		}
+
+		/******** GETTERS PARA ACCEDER A LA INFORMACIÓN PRIVADA DE LA CLASE **********/
+		public function getIdVehicleModel()
+		{
+			return $this -> id_vehicle_model;
+		}
+
+		public function getVehicleModel()
+		{
+			return $this -> vehicle_model;
+		}
+
+		public function getIdVehicleBrand()
+		{
+			return $this -> id_vehicle_brand;
 		}
 	}
 

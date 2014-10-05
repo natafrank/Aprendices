@@ -1,3 +1,3 @@
 <?php
-	echo "Daño Actualizado > ID: ",$idDamage," Damage: ", $Damage;
+	echo "Daño Actualizado > ID: ",$this -> model -> getIdDamage()," Damage: ", $this -> model -> getDamage();
 ?>

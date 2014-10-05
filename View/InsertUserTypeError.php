@@ -1,1 +1,0 @@
-Error al intentar dar de alta un tipo de usuario.

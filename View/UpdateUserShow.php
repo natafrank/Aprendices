@@ -1,11 +1,12 @@
 <?php
 
 	echo '/***** USUARIO MODIFICADO *****/',
-		 '<br/>       Name    : ', $this -> model -> name,
-		 '<br/>       Login   : ', $this -> model -> login,
-		 '<br/>       Password: ', $this -> model -> pass,
-		 '<br/>       Type    : ', $this -> model -> type,
-		 '<br/>       Email   : ', $this -> model -> email,
-		 '<br/>       Tel     : ', $this -> model -> tel;
+		" <br/>ID     : " ,$this-> model -> getIdUser(),
+		" <br/>Nombre : " ,$this-> model -> getName(),
+		" <br/>Login  : " ,$this-> model -> getLogin(),
+		" <br/>Pass   : " ,$this-> model -> getPass(),
+		" <br/>Tipo   : " ,$this-> model -> getIdUserType(),
+		" <br/>Email  : " ,$this-> model -> getEmail(),
+		" <br/>Tel    : " ,$this-> model -> getTel();
 
 ?>

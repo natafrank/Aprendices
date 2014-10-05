@@ -1,5 +1,5 @@
 <?php
-	echo "Daño Capturado > ID: ",$idDamage," Damage: ",$Damage;
+	echo "Daño Capturado > ID: ",$this -> model -> getIdDamage()," Damage: ",$this -> model -> getDamage();
 ?>
 
 

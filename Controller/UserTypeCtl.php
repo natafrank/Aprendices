@@ -8,6 +8,7 @@
 
 		function run()
 		{
+			//Importamos el modelo
 			require_once("Model/UserTypeMdl.php");
 
 			$this -> model = new UserTypeMdl();
@@ -17,25 +18,38 @@
 			{
 				case "insert":
 				{
+					//Comprobamos que no esté vacío el POST
 					if(empty($_POST))
 					{
-						//Se carga la vista del formulario
+						//Se carga la vista del formulario.
 						require_once("View/InsertUserType.php");
 					}
 					else
 					{
-						//Obtenemos las variables y las limpiamos
-						$user_type = $this -> cleanText($_POST['user_type']);
-
-						$result = $this -> model -> insert($user_type);
-
-						if($result)
+						//Comprobamos que las variables estén seteadas en el POST.
+						if(isset($_POST['id_user_type']) && isset($_POST['user_type']))
 						{
-							require_once("View/ShowUserType.php");
+							//Obtenemos las variables y las limpiamos.
+							$id_user_type = $this -> cleanText($_POST['id_user_type']);
+							$user_type    = $this -> cleanText($_POST['user_type']);
+
+							//Guardamos el resultado de ejecutar el query.
+							$result = $this -> model -> insert($id_user_type, $user_type);
+
+							if($result)
+							{
+								require_once("View/ShowUserType.php");
+							}
+							else
+							{
+								$error = "Error al insertar el tipo de usuario.";
+								require_once("View/Error.php");
+							}
 						}
 						else
 						{
-							require_once("View/InsertUserTypeError.php");
+							$error = "Error al insertar el tipo de usuario, faltan variables por setear.";
+							require_once("View/Error.php");
 						}
 					}
 
@@ -44,25 +58,37 @@
 
 				case "delete":
 				{
+					//Comprobamos que el POST no esté vacío.
 					if(empty($_POST))
 					{
-						require_once("View/DeleteUserTypeError.php");
+						$error = "Error al eliminar el tipo de usuario, el POST está vacío.";
+						require_once("View/Error.php");
 					}
 					else
 					{
-						//Las eliminaciones se harán por medio del id.
-						$id_user_type = $this -> cleanInt($_POST['id_user_type']);
-
-						$result = $this -> model -> delete($id_user_type);
-
-						if($result)
+						//Comprobamos que la variable esté seteada.
+						if(isset($_POST['id_user_type']))
 						{
-							require_once("View/DeleteUserType.php");
+							//Limpiamos la variable.
+							$id_user_type = $this -> cleanInt($_POST['id_user_type']);
+
+							//Ejecutamos el query y guardamos el resultado.
+							$result = $this -> model -> delete($id_user_type);
+							
+							if($result)
+							{
+								require_once("View/DeleteUserType.php");
+							}
+							else
+							{
+								$error = "Error al eliminar el tipo de usuario.";
+								require_once("View/Error.php");
+							}
 						}
 						else
 						{
-							require_once("View/DeleteUserTypeError.php");
-
+							$error = "Error al eliminar el tipo de usuario, falta setear el id.";
+							require_once("View/Error.php");
 						}
 					}
 
@@ -71,24 +97,37 @@
 
 				case "select":
 				{
+					//Comprobamos que el POST no esté vacío.
 					if(empty($_POST))
 					{
-						require_once("View/ShowUserTypeError.php");
+						$error = "Error al mostrar el tipo de usuario, el POST está vacío.";
+						require_once("View/Error.php");
 					}
 					else
 					{
-						//Se accederá por medio del id.
-						$id_user_type = $this -> cleanInt($_POST['id_user_type']);
-
-						$result = $this -> model -> select($id_user_type);
-
-						if($result)
+						//Comprobamos que la variable esté seteada.
+						if(isset($_POST['id_user_type']))
 						{
-							require_once("View/ShowUserType.php");
+							//Limpiamos el id.
+							$id_user_type = $this -> cleanInt($_POST['id_user_type']);
+
+							//Ejecutamos el query y guardamos el resultado.
+							$result = $this -> model -> select($id_user_type);
+
+							if($result != null)
+							{
+								var_dump($result);
+							}
+							else
+							{
+								$error = "Error al mostrar el tipo de usuario.";
+								require_once("View/Error.php");
+							}
 						}
 						else
 						{
-							require_once("View/ShowUserTypeError.php");
+							$error = "Error al mostrar el tipo de usuario, el id no está seteado.";
+							require_once("View/Error.php");
 						}
 					}
 
@@ -97,38 +136,63 @@
 
 				case "update":
 				{
+					//Comprobamos que el POST no esté vacío.
 					if(empty($_POST))
 					{
-						require_once("View/UpdateUserTypeError.php");
+						$error = "Error al tratar de modificar el registro, el POST está vacío.";
+						require_once("View/Error.php");
 					}
 					else
 					{
-						//La modificación se realizará en base el id.
-						$id_user_type = $this -> cleanInt($_POST['id_user_type']);
-
-						//En base al id se accederá a la base de datos y se tomarán
-						//todos los atributos.
-						//Esto lo hace la función select(), por lo que la llamamos.
-						$result = $this -> model -> select($id_user_type);
-					
-						//Si se accede de manera éxitosa mostramos un formulario
-						//con los datos.
-						if($result)
+						//Comprobamos que el id esté seteado.
+						if(isset($_POST['id_user_type']))
 						{
-							require_once("View/UpdateUserTypeForm.php");
+							//Limpiamos el id.
+							$id_user_type = $this -> cleanInt($_POST['id_user_type']);
 
-							//Una vez modificados los datos a través del form
-							//se llama a la función update la cuál actualizará los valores
-							//modificados en el form dentro de la base de datos.
-							$update_result = $this -> model -> update();
+							//Primero mostramos el id que se quire modificar.
+							//Recogemos el resultado y si contiene información, la mostramos.
+							if(($result = $this -> model -> select($id_user_type)) != null)
+							{
+								var_dump($result);
 
-							//Por último se muestran los datos modificados.
-							require_once("View/UpdateUserTypeShow.php");
+								//Comprobamos que las variables estén seteadas
+								if(isset($_POST['user_type']))
+								{
+									//La modificación se realizará en base al id.
+									//Por ahora se modificarán todos los atributos.
+									$user_type = $this -> cleanText($_POST['user_type']);
+
+									//Se llama a la función de modificación.
+									//Se recoge el resultado y en base a este resultado
+									//se imprime un mensaje.
+									if($this -> model -> update($id_user_type, $user_type))
+									{
+										require_once("View/UpdateUserTypeShow.php");
+									}
+									else
+									{
+										$error = "Error al tratar de modificar el registro.";
+										require_once("View/Error.php");
+									}
+								}
+								else
+								{
+									$error = "Error al tratar de modificar el registro, el tipo de usuario no está seteado.";
+									require_once("View/Error.php");
+								}
+							}
+							//Si el resultado no contiene información, mostramos el error.
+							else
+							{
+								$error = "Error al tratar de mostrar el registro.";
+								require_once("View/Error.php");
+							}
 						}
-						//Si no pudimos acceder mostramos el error.
 						else
 						{
-							require_once("View/UpdateUserTypeError.php");
+							$error = "Error al tratar de modificar el registro, el id no está seteado.";
+							require_once("View/Error.php");
 						}
 					}
 

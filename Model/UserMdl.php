@@ -1,68 +1,152 @@
 ﻿<?php
 	class UserMdl
 	{
-		public $id_user;
-		public $name;
-		public $login;
-		public $pass;
-		public $type;
-		public $email;
-		public $tel;		
+		private $id_user;
+		private $name;
+		private $login;
+		private $pass;
+		private $email;
+		private $tel;		
+		private $id_user_type;
 
-		public function insert($name,$login,$pass,$type,$email,$tel)
+		//CONEXIÓN A LA BASE DE DATOS
+		/*************************************************************/
+		public $db_driver;
+
+		function __construct()
 		{
-			$this -> name  = $name;
-			$this -> login = $login;
-			$this -> pass  = $pass;
-			$this -> type  = $type;
-			$this -> email = $email;
-			$this -> tel   = $tel;
-	
-			return TRUE;		
-		} /* fin alta*/
+			//Importamos la capa de la base de datos.
+			require("Model/Database Motor/DatabaseLayer.php");
+
+			//Creamos la conexión.
+			$this -> db_driver = DatabaseLayer::getConnection("MySqlProvider");
+		}
+		/*************************************************************/
+
+		public function insert($id_user, $name, $login, $pass, $email, $tel, $id_user_type)
+		{
+			//Escapamos las variables.
+			$this -> id_user      = $this -> db_driver -> escape($id_user);
+			$this -> name         = $this -> db_driver -> escape($name);
+			$this -> login        = $this -> db_driver -> escape($login);
+			$this -> pass         = $this -> db_driver -> escape($pass);
+			$this -> email        = $this -> db_driver -> escape($email);
+			$this -> tel          = $this -> db_driver -> escape($tel);
+			$this -> id_user_type = $this -> db_driver -> escape($id_user_type);
+
+			//Query a ejecutar.
+			$query = "INSERT INTO User VALUES(".$this -> id_user.
+				", '".$this -> name.
+				"', '".$this -> login.
+				"', '".$this -> pass.
+				"', '".$this -> email.
+				"', '".$this -> tel.
+				"', ".$this -> id_user_type.");";
+
+			//Ejecutamos el query y retornamos el resultado.
+		    //Retornará verdadero si se insertaron los datos correctamente.
+			//Retornará falso en caso de no poder insertar.
+			return $this -> db_driver -> execute($query);
+		}
 
 		public function delete($id_user)
 		{
-			$this -> id_user = $id_user;
+			//Escapamos el id.
+			$this -> id_user = $this -> db_driver -> escape($id_user);
 
-			/*Eliminamos el usuario de la base de datos y retornamos TRUE*/
-			return TRUE;
+			//Query a ejecutar.
+			$query = "DELETE FROM User WHERE idUser=".$this -> id_user.";";
 
-			/*Si hay un error al momento de realizar la eliminación retornamos FALSE*/
-			//return FALSE;
+			//Ejecutamos el query y retornamos el resultado.
+		    //Retornará verdadero si se eliminó el registro correctamente.
+			//Retornará falso en caso de no poder eliminar.
+			return $this -> db_driver -> execute($query);
 		}
 
 		public function select($id_user)
 		{
-			$this -> id_user = $id_user;
+			//Escapamos el id.
+			$this -> id_user = $this -> db_driver -> escape($id_user);
 
-			//Se accede a la base de datos por medio del id
-			//y en base a esta consulta se asignan los demás atributos.
-			$this -> name  = "name_prueba";
-			$this -> login = "login_prueba";
-			$this -> pass  = "pass_prueba";
-			$this -> type  = "type_prueba";
-			$this -> email = "email_prueba";
-			$this -> tel   = "tel_prueba";
-			
+			//Query a ejecutar
+			//Para el primer ejemplo se ejecutará un SELECT * con el id deseado.
+			$query = "SELECT * FROM User WHERE idUser=".$this -> id_user.";";
 
-			//Si la consulta fue éxitosa retornamos TRUE
-			return TRUE;
+			//Ejecutamos el query y recogemos el resultado.
+			$result = $this -> db_driver -> execute($query);
 
-			//sino FALSE
-			//return FALSE;
+			//Si el resultado no es null, procesamos la información.
+			if($result != null)
+			{
+				//Si el resultado contiene información retornamos el resultado.
+				return $result;
+			}
+			else
+			{
+				//Si el resultado es null, retornamos FALSE.
+				return FALSE;
+			}	
 		}
 
-		public function update()
+		public function update($id_user, $name, $login, $pass, $email, $tel, $id_user_type)
 		{
-			//Se accede a la base de datos por medio del id
-			//y en base a esta consulta se podrán modificar los demás atributos.
-			$this -> name  = "name_modificado";
-			$this -> login = "login_modificado";
-			$this -> pass  = "pass_modificado";
-			$this -> type  = "type_modificado";
-			$this -> email = "email_modificado";
-			$this -> tel   = "tel_modificado";
+			//Escapamos las variables.
+			$this -> id_user      = $this -> db_driver -> escape($id_user);
+			$this -> name         = $this -> db_driver -> escape($name);
+			$this -> login        = $this -> db_driver -> escape($login);
+			$this -> pass         = $this -> db_driver -> escape($pass);
+			$this -> email        = $this -> db_driver -> escape($email);
+			$this -> tel          = $this -> db_driver -> escape($tel);
+			$this -> id_user_type = $this -> db_driver -> escape($id_user_type);
+
+			//Query a ejecutar.
+			$query = "UPDATE User SET User='".$this -> name.
+				"', Login='".$this -> login.
+				"', Password='".$this -> pass.
+				"', Email='".$this -> email.
+				"', Tel='".$this -> tel.
+				"', idUserType=".$this -> id_user_type.";";
+
+			//Ejecutamos el query y retornamos el resultado.
+			//Retornará verdadero si se modificó el registro correctamente.
+			//Retornará falso en caso de no poder modificar.
+			return $this -> db_driver -> execute($query);
+		}
+
+		/******** GETTERS PARA ACCEDER A LA INFORMACIÓN PRIVADA DE LA CLASE **********/
+		public function getIdUser()
+		{
+			return $this -> id_user;
+		}
+
+		public function getName()
+		{
+			return $this -> name;
+		}
+
+		public function getLogin()
+		{
+			return $this -> login;
+		}
+
+		public function getPass()
+		{
+			return $this -> pass;
+		}
+
+		public function getEmail()
+		{
+			return $this -> email;
+		}
+
+		public function getTel()
+		{
+			return $this -> tel;
+		}
+
+		public function getIdUserType()
+		{
+			return $this -> id_user_type;
 		}
 	}
 ?>

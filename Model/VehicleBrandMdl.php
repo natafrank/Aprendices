@@ -24,8 +24,8 @@
 			$this -> VehicleBrand    = $this -> db_driver -> escape($VehicleBrand);
 
 			//Query a ejecutar.
-			$query = "INSERT INTO VehicleBrand VALUES('".$this -> idVehileBrand."', "
-												 	   .$this -> VehicleBrand.");";
+			$query = "INSERT INTO VehicleBrand VALUES(".$this -> idVehicleBrand.", '"
+												 	   .$this -> VehicleBrand."');";
 	
 			//Ejecutamos el query.
 			if($this -> db_driver -> execute($query))
@@ -69,7 +69,7 @@
 
 			//Query que realizará la modificación.
 			$query = "UPDATE VehicleBrand SET VehicleBrand='".$this -> VehicleBrand."', " 
-					  " WHERE idVehicleBrand=".$this -> idVehicleBrand.";";
+					  ." WHERE idVehicleBrand=".$this -> idVehicleBrand.";";
 
 		  	//Ejecutamos el query.
 		  	$result = $this -> db_driver -> execute($query);

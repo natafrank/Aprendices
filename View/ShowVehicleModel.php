@@ -1,7 +1,8 @@
 /***Modelo de Vehículo****/
 
  <?php 
- 	echo "<br/>Modelo     : ",    $this -> model -> vehicle_model;
- 	echo "<br/>Id de marca: ",    $this -> model -> id_vehicle_brand;
+ 	echo "<br/>ID         : ", 	  $this -> model -> getIdVehicleModel();
+ 	echo "<br/>Modelo     : ",    $this -> model -> getVehicleModel();
+ 	echo "<br/>Id de marca: ",    $this -> model -> getIdVehicleBrand();
 
  ?>

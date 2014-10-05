@@ -2,8 +2,8 @@
 	class DamageMdl
 	{
 		
-		private $idDamage;
-		private $Damage;	
+		private $id_damage;
+		private $damage;	
 
 		//CONEXIÓN A LA BASE DE DATOS
 		/*************************************************************/
@@ -20,15 +20,15 @@
 		/*************************************************************/
 
 
-		public function insert($idDamage,$Damage)
+		public function insert($id_damage,$damage)
 		{
 			//Escapamos las variables.
-			$this -> idDamage = $this -> db_driver -> escape($idDamage);
-			$this -> Damage   = $this -> db_driver -> escape($Damage);
+			$this -> id_damage = $this -> db_driver -> escape($id_damage);
+			$this -> damage   = $this -> db_driver -> escape($damage);
 
 			//Query a ejecutar.
-			$query = "INSERT INTO Damage VALUES(".$this -> idDamage
-					 .", '".$this -> Damage."');";
+			$query = "INSERT INTO Damage VALUES(".$this -> id_damage
+					 .", '".$this -> damage."');";
 	
 			//Ejecutamos el query.
 			if($this -> db_driver -> execute($query))
@@ -43,13 +43,13 @@
 			}
 		} /* fin alta*/
 		
-		public function delete($idDamage)
+		public function delete($id_damage)
 		{
 			//Escapamos el id con el que vamos a realizar la eliminación.
-			$this -> idDamage = $this -> db_driver -> escape($idDamage);
+			$this -> id_damage = $this -> db_driver -> escape($id_damage);
 
 			//Query a ejecutar
-			$query = "DELETE FROM Damage WHERE idDamage=".$this -> idDamage.";";
+			$query = "DELETE FROM Damage WHERE idDamage=".$this -> id_damage.";";
 
 			//Ejecutamos el query
 			if($this -> db_driver -> execute($query))
@@ -64,15 +64,15 @@
 			}	
 		}
 		
-		public function update($idDamage, $Damage)
+		public function update($id_damage, $damage)
 		{
 			//Escapamos las variables.
-			$this -> idDamage = $this -> db_driver -> escape($idDamage);
-			$this -> Damage   = $this -> db_driver -> escape($Damage);
+			$this -> id_damage = $this -> db_driver -> escape($id_damage);
+			$this -> damage   = $this -> db_driver -> escape($damage);
 
 			//Query que realizará la modificación.
-			$query = "UPDATE Damage SET Damage='".$Damage."' 
-					  WHERE idDamage=".$idDamage.";";
+			$query = "UPDATE Damage SET Damage='".$damage."' 
+					  WHERE idDamage=".$id_damage.";";
 
 		  	//Ejecutamos el query.
 		  	$result = $this -> db_driver -> execute($query);
@@ -80,13 +80,13 @@
 		  	return $result;
 		}
 		
-		public function select($idDamage)
+		public function select($id_damage)
 		{
 			//Escapamos la variable.
-			$this -> idDamage = $this -> db_driver -> escape($idDamage);
+			$this -> id_damage = $this -> db_driver -> escape($id_damage);
 
 			//Para el primer ejemplo se ejecutará un SELECT * con el id deseado.
-			$query = "SELECT * FROM Damage WHERE idDamage=".$this -> idDamage.";";
+			$query = "SELECT * FROM Damage WHERE idDamage=".$this -> id_damage.";";
 
 			//Ejecutamos el query y recogemos el resultado.
 			$result = $this -> db_driver -> execute($query);
@@ -104,5 +104,15 @@
 			}	
 		}
 
+		/******** GETTERS PARA ACCEDER A LA INFORMACIÓN PRIVADA DE LA CLASE **********/
+		public function getIdDamage()
+		{
+			return $this -> id_damage;
+		}
+
+		public function getDamage()
+		{
+			return $this -> damage;
+		}
 	}
 ?>

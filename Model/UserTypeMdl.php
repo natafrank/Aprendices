@@ -2,47 +2,103 @@
 
 	class UserTypeMdl
 	{
-		public $id_user_type;
-		public $user_type;
+		private $id_user_type;
+		private $user_type;
 
-		public function insert($user_type)
+		//CONEXIÓN A LA BASE DE DATOS
+		/*************************************************************/
+		public $db_driver;
+
+		function __construct()
 		{
-			$this -> user_type = $user_type;
+			//Importamos la capa de la base de datos.
+			require("Model/Database Motor/DatabaseLayer.php");
 
-			return TRUE;
+			//Creamos la conexión.
+			$this -> db_driver = DatabaseLayer::getConnection("MySqlProvider");
+		}
+		/*************************************************************/
+
+		public function insert($id_user_type, $user_type)
+		{
+			//Escampamos las variables
+			$this -> id_user_type = $this -> db_driver -> escape($id_user_type);
+			$this -> user_type    = $this -> db_driver -> escape($user_type);
+
+			//Query a ejecutar
+			$query = "INSERT INTO UserType VALUES(".$this -> id_user_type.
+					", '".$this -> user_type."');";
+
+			//Ejecutamos el query y retornamos el resultado.
+		    //Retornará verdadero si se insertaron los datos correctamente.
+			//Retornará falso en caso de no poder insertar.
+			return $this -> db_driver -> execute($query);
 		}
 
 		public function delete($id_user_type)
 		{
-			$this -> id_user_type = $id_user_type;
+			//Escapamos la variable
+			$this -> id_user_type = $this -> db_driver -> escape($id_user_type);
 
-			/*Eliminamos la marca de vehículo de la base de datos y retornamos TRUE*/
-			return TRUE;
+			//Query a ejecutar
+			$query = "DELETE FROM UserType WHERE idUserType=".$this -> id_user_type.";";
 
-			/*Si hay un error al momento de realizar la eliminación retornamos FALSE*/
-			//return FALSE;
+			//Ejecutamos el query y retornamos el resultado.
+		    //Retornará verdadero si se eliminó el registro correctamente.
+			//Retornará falso en caso de no poder eliminar.
+			return $this -> db_driver -> execute($query);
 		}
 
 		public function select($id_user_type)
 		{
-			$this -> id_user_type = $id_user_type;
+			//Escapamos la variable
+			$this -> id_user_type = $this -> db_driver -> escape($id_user_type);
 
-			//Se accede a la base de datos por medio del id_user_type
-			//y en base a esta consulta se asignan los demás atributos.
-			$this -> user_type = "tipo_usuario_prueba";
+			//Query a ejecutar
+			//Para el primer ejemplo se ejecutará un SELECT * con el id deseado.
+			$query = "SELECT * FROM UserType WHERE idUserType=".$this -> id_user_type.";";
 
-			//Si la consulta fue éxitosa retornamos TRUE
-			return TRUE;
+			//Ejecutamos el query y recogemos el resultado.
+			$result = $this -> db_driver -> execute($query);
 
-			//sino FALSE
-			//return FALSE;
+			//Si el resultado no es null, procesamos la información.
+			if($result != null)
+			{
+				//Si el resultado contiene información retornamos el resultado.
+				return $result;
+			}
+			else
+			{
+				//Si el resultado es null, retornamos FALSE.
+				return FALSE;
+			}	
 		}
 
-		public function update()
+		public function update($id_user_type, $user_type)
 		{
-			//Se accede a la base de datos por medio del id_user_type
-			//y en base a esta consulta se podrán modificar los demás atributos.
-			$this -> user_type = "tipo_usuario_modificado";
+			//Escapamos las variables
+			$this -> id_user_type = $this -> db_driver -> escape($id_user_type);
+			$this -> user_type    = $this -> db_driver -> escape($user_type);
+
+			//Query a ejecutar
+			$query = "UPDATE UserType SET UserType='".$this -> user_type."'
+					 WHERE idUserType=".$this -> id_user_type.";";
+
+		 	//Ejecutamos el query y retornamos el resultado.
+			//Retornará verdadero si se modificó el registro correctamente.
+			//Retornará falso en caso de no poder modificar.
+			return $this -> db_driver -> execute($query);
+		}
+
+		/******** GETTERS PARA ACCEDER A LA INFORMACIÓN PRIVADA DE LA CLASE **********/
+		public function getIdUserType()
+		{
+			return $this -> id_user_type;
+		}
+
+		public function getUserType()
+		{
+			return $this -> user_type;
 		}
 	}
 

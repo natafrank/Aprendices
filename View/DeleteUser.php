@@ -1,6 +1,6 @@
 <?php
 
-	echo 'El usuario con el id: ' , $this -> model -> id_user, 
+	echo 'El usuario con el id: ' , $this -> model -> getIdUser(), 
 	' ha sido eliminado con éxito.';
 
 ?>

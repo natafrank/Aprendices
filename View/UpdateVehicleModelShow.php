@@ -1,7 +1,8 @@
 <?php
 
 	echo '/***** MODELO DE VEHÍCULO MODIFICADO *****/',
-		 '<br/>       Model      : ', $this -> model -> vehicle_model,
-		 '<br/>       Brand         : ', $this -> model -> id_vehicle_brand, '<br/><br/><br/>';
+		 '<br/>       ID            : ', $this -> model -> getIdVehicleModel(),
+		 '<br/>       Model         : ', $this -> model -> getVehicleModel(),
+		 '<br/>       Brand         : ', $this -> model -> getIdVehicleBrand(), '<br/><br/><br/>';
 
 ?>

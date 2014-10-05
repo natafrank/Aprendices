@@ -2,6 +2,7 @@
 
 <?php
 
-	echo '<br/>Tipo de usuario: ', $this -> model -> user_type;
+	echo '<br/>ID tipo de usuario: ', $this -> model -> getIdUserType();
+	echo '<br/>Tipo de usuario   : '   , $this -> model -> getUserType();
 
 ?>

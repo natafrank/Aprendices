@@ -2,62 +2,133 @@
 
 	class VehicleMdl
 	{
-		public $id_vehicle;
-		public $vin;                 
-		public $id_location;
-		public $id_vehicle_model;         
-		public $color;
+		private $id_vehicle;
+		private $vin;                 
+		private $id_vehicle_model;         
+		private $id_location;
+		private $color;
 
-		public function insert($vin, $id_vehicle_model, $id_location, $color)
+		//CONEXIÓN A LA BASE DE DATOS
+		/*************************************************************/
+		public $db_driver;
+
+		function __construct()
 		{
-			$this -> vin              = $vin;
-			$this -> id_vehicle_model = $id_vehicle_model;
-			$this -> id_location      = $id_location;
-			$this -> color            = $color;
+			//Importamos la capa de la base de datos.
+			require("Model/Database Motor/DatabaseLayer.php");
 
-			return TRUE;
+			//Creamos la conexión.
+			$this -> db_driver = DatabaseLayer::getConnection("MySqlProvider");
+		}
+		/*************************************************************/
+
+		public function insert($id_vehicle, $id_location, $id_vehicle_model, $vin, $color)
+		{
+			//Escapamos las variables.
+			$this -> id_vehicle       = $this -> db_driver -> escape($id_vehicle);
+			$this -> id_location      = $this -> db_driver -> escape($id_location);
+			$this -> id_vehicle_model = $this -> db_driver -> escape($id_vehicle_model);
+			$this -> vin              = $this -> db_driver -> escape($vin);
+			$this -> color            = $this -> db_driver -> escape($color);
+
+			//Query a ejecutar.
+			$query = "INSERT INTO Vehicle VALUES(".$this -> id_vehicle.
+				", ".$this -> id_location.
+				", ".$this -> id_vehicle_model.
+				", '".$this -> vin.
+				"', '".$this -> color."');";
+
+			//Ejecutamos el query y retornamos el resultado.
+		    //Retornará verdadero si se insertaron los datos correctamente.
+			//Retornará falso en caso de no poder insertar.
+			return $this -> db_driver -> execute($query);
 		} 
 
 		public function delete($id_vehicle)
 		{
-			$this -> id_vehicle = $id_vehicle;
+			//Escapamos el id.
+			$this -> id_vehicle = $this -> db_driver -> escape($id_vehicle);
 
-			/*Eliminamos el vehículo de la base de datos y retornamos TRUE*/
-			return TRUE;
+			//Query a ejecutar.
+			$query = "DELETE FROM Vehicle WHERE idVehicle=".$this -> id_vehicle.";";
 
-			/*Si hay un error al momento de realizar la eliminación retornamos FALSE*/
-			//return FALSE;
+			//Ejecutamos el query y retornamos el resultado.
+		    //Retornará verdadero si se eliminó el registro correctamente.
+			//Retornará falso en caso de no poder eliminar.
+			return $this -> db_driver -> execute($query);
 		}
 
 		public function select($id_vehicle)
 		{
-			$this -> id_vehicle = $id_vehicle;
+			//Escapamos el id.
+			$this -> id_vehicle = $this -> db_driver -> escape($id_vehicle);
 
-			//Se accede a la base de datos por medio del id
-			//y en base a esta consulta se asignan los demás atributos.
-			$this -> vin              = "vin_prueba";
-			$this -> id_location      = "id_location_prueba";
-			$this -> id_vehicle_model = "id_vehicle_model_prueba";
-			$this -> vin              = "vin_prueba";
-			$this -> color            = "color_prueba";
+			//Query a ejecutar
+			//Para el primer ejemplo se ejecutará un SELECT * con el id deseado.
+			$query = "SELECT * FROM Vehicle WHERE idVehicle=".$this -> id_vehicle.";";
 
-			//Si la consulta fue éxitosa retornamos TRUE
-			return TRUE;
+			//Ejecutamos el query y recogemos el resultado.
+			$result = $this -> db_driver -> execute($query);
 
-			//sino FALSE
-			//return FALSE;
+			//Si el resultado no es null, procesamos la información.
+			if($result != null)
+			{
+				//Si el resultado contiene información retornamos el resultado.
+				return $result;
+			}
+			else
+			{
+				//Si el resultado es null, retornamos FALSE.
+				return FALSE;
+			}	
 		}
 
-		public function update()
+		public function update($id_vehicle, $id_location, $id_vehicle_model, $vin, $color)
 		{
-			//Se accede a la base de datos por medio del id
-			//y en base a esta consulta se podrán modificar los demás atributos.
-			$this -> vin              = "vin_modificado";
-			$this -> id_location      = "id_location_modificado";
-			$this -> id_vehicle_model = "id_vehicle_model_modificado";
-			$this -> vin              = "vin_modificado";
-			$this -> color            = "color_modificado";
-		}       
+			//Escapamos las variables.
+			$this -> id_vehicle       = $this -> db_driver -> escape($id_vehicle);
+			$this -> id_location      = $this -> db_driver -> escape($id_location);
+			$this -> id_vehicle_model = $this -> db_driver -> escape($id_vehicle_model);
+			$this -> vin              = $this -> db_driver -> escape($vin);
+			$this -> color            = $this -> db_driver -> escape($color);
+
+			//Query a ejecutar.
+			$query = "UPDATE Vehicle SET idLocation=".$this-> id_location.
+				", idVehicleModel=".$this -> id_vehicle_model.
+				", vin=".$this -> vin.
+				", color='".$this -> color."';";
+
+			//Ejecutamos el query y retornamos el resultado.
+			//Retornará verdadero si se modificó el registro correctamente.
+			//Retornará falso en caso de no poder modificar.
+			return $this -> db_driver -> execute($query);
+		}    
+
+		/******** GETTERS PARA ACCEDER A LA INFORMACIÓN PRIVADA DE LA CLASE **********/
+		public function getIdVehicle()
+		{
+			return $this -> id_vehicle;
+		}
+
+		public function getIdLocation()
+		{
+			return $this -> id_location;
+		}
+
+		public function getIdVehicleModel()
+		{
+			return $this -> id_vehicle_model;
+		}
+
+		public function getVin()
+		{
+			return $this -> vin;
+		}   
+
+		public function getColor()
+		{
+			return $this -> color;
+		}
 	}
 
 ?>

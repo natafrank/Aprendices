@@ -1,4 +1,6 @@
 <?php
+	
+	session_start();
 
 	if(count($_GET) > 0)
 	{
