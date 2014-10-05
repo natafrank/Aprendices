@@ -1,5 +1,5 @@
 <?php
 
-echo "vista para eliminar un evento"
+	echo 'El evento con el id: ', $idEvent, ' ha sido eliminado con éxito.';
 
 ?>

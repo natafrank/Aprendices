@@ -1,5 +1,5 @@
 <?php
 
-echo "vista para actualizar una locacion"
+echo "vista para actualizar una ubicación"
 
 ?>

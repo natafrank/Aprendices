@@ -1,6 +1,6 @@
 <?php
 
-echo "Registro de Evento Capturado<br>ID:",$this->model->$idEvent,
-	"Evento: ",$this->model->Event;
+echo "Evento Capturado<br>ID:",$idEvent,
+	"Evento: ",$Event;
 
 ?>

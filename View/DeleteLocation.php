@@ -1,5 +1,5 @@
 <?php
 
-echo "vista para eliminar una locacion"
+	echo 'La ubicación con el id: ', $idLocation, ' ha sido eliminado con éxito.';
 
 ?>

@@ -1,5 +1,5 @@
 <?php
 
-echo "vista para eliminar un status de un vehiculo"
+	echo 'El estatus de vehiculo con el id: ', $idVehicleStatus, ' ha sido eliminado con éxito.';
 
 ?>

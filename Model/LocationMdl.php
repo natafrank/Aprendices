@@ -1,33 +1,113 @@
 <?php
-
-class LocationMdl{
-
-	public $idLocation;
-	public $location;
-	public $idMasterLocation;
-	
-	public function insert($idLocation, $location, $idMasterLocation){
-		$this->idLocation = $idLocation;
-		$this->location = $location;
-		$this->idMasterLocation = $idMasterLocation;
+	class LocationMdl
+	{
 		
-		return TRUE;
-	}
-	public function select($idLocation){
-		return TRUE;
-	}
-	public function delete($idLocation){
-		return TRUE;
-	}
+		private $idLocation;
+		private $location;
+		private $idMasterLocation;
+
+		//CONEXIÓN A LA BASE DE DATOS
+		/*************************************************************/
+		public $db_driver;
+
+		function __construct()
+		{
+			//Importamos la capa de la base de datos.
+			require("Model/Database Motor/DatabaseLayer.php");
+
+			//Creamos la conexión.
+			$this->db_driver = DatabaseLayer::getConnection("MySqlProvider");
+		}
+		/*************************************************************/
+
+
+		public function insert($idLocation, $location, $idMasterLocation)
+		{
+			//Escapamos las variables.
+			$this->idLocation 		= $this->db_driver->escape($idLocation);
+			$this->location	   		= $this->db_driver->escape($location);
+			$this->idMasterLocation = $this->db_driver->escape($idMasterLocation);
+			
+			//Query a ejecutar.
+			$query = "INSERT INTO Location VALUES(".$this -> idLocation.", "
+												 	.$this -> location.", "
+													.$this -> Reason.");";
 	
-	public function update($idLocation, $location, $idMasterLocation){
-		$this->idLocation = $idLocation;
-		$this->location = $location;
-		$this->idMasterLocation = $idMasterLocation;
+			//Ejecutamos el query.
+			if($this->db_driver->execute($query))
+			{
+				//Retornamos verdadero si se insertaron los datos correctamente.
+				return TRUE;
+			}		
+			else
+			{
+				//Retornamos falso en caso de no poder insertar.
+				return FALSE;
+			}
+		} /* fin alta*/
 		
-		return TRUE;
+		public function delete($idLocation)
+		{
+			//Escapamos el id con el que vamos a realizar la eliminación.
+			$this->idLocation = $this->db_driver->escape($idLocation);
+
+			//Query a ejecutar
+			$query = "DELETE FROM Location WHERE idLocation=".$this->idLocation.";";
+
+			//Ejecutamos el query
+			if($this->db_driver->execute($query))
+			{
+				//Retornamos verdadero si se insertaron los datos correctamente.
+				return TRUE;
+			}		
+			else
+			{
+				//Retornamos falso en caso de no poder insertar.
+				return FALSE;
+			}	
+		}
+		
+		public function update($idLocation, $location, $idMasterLocation)
+		{
+			//Escapamos las variables.
+			$this->idLocation 		= $this->db_driver->escape($idLocation);
+			$this->location	   		= $this->db_driver->escape($location);
+			$this->idMasterLocation = $this->db_driver->escape($idMasterLocation);
+			
+			//Query que realizará la modificación.
+			$query = "UPDATE Location SET location=".$this -> location." "
+										."idMasterLocation=".$this -> idMasterLocation.
+					  " WHERE idLocation=".$this -> idLocation.";";
+
+		  	//Ejecutamos el query.
+		  	$result = $this->db_driver->execute($query);
+
+		  	return $result;
+		}
+		
+		public function select($idLocation)
+		{
+			//Escapamos la variable.
+			$this->idLocation = $this->db_driver->escape($idLocation);
+
+			//Para el primer ejemplo se ejecutará un SELECT * con el id deseado.
+			$query = "SELECT * FROM Location WHERE idLocation=".$this->idLocation.";";
+
+			//Ejecutamos el query y recogemos el resultado.
+			$result = $this->db_driver->execute($query);
+
+			//Si el resultado no es null, procesamos la información.
+			if($result != null)
+			{
+				//Si el resultado contiene información retornamos el resultado.
+				return $result;
+			}
+			else
+			{
+				//Si el resultado es null, retornamos FALSE.
+				return FALSE;
+			}	
+		}
+
 	}
-
-}
-
 ?>
