@@ -7,6 +7,15 @@ Integrantes:
 
 Hosting: http://aprendices.url.ph/
 
+Facebook:
+https://www.facebook.com/natafrank.cucei
+https://www.facebook.com/MigueLopezC
+https://www.facebook.com/jordanalberto.alvarezmacias
+
+Twitter:
+https://twitter.com/natafrank - @natafrank
+https://twitter.com/MigueLpzC - @MigueLpzC
+
 
 ==========
 
