@@ -7,14 +7,14 @@ Integrantes:
 
 Hosting: http://aprendices.url.ph/
 
-Facebook:
-https://www.facebook.com/natafrank.cucei
-https://www.facebook.com/MigueLopezC
-https://www.facebook.com/jordanalberto.alvarezmacias
+Facebook:<br>
+* https://www.facebook.com/natafrank.cucei<br>
+* https://www.facebook.com/MigueLopezC<br>
+* https://www.facebook.com/jordanalberto.alvarezmacias<br>
 
-Twitter:
-https://twitter.com/natafrank - @natafrank
-https://twitter.com/MigueLpzC - @MigueLpzC
+Twitter:<br>
+* https://twitter.com/natafrank - @natafrank<br>
+* https://twitter.com/MigueLpzC - @MigueLpzC<br>
 
 
 ==========
