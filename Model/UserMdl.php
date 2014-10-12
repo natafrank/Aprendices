@@ -105,7 +105,8 @@
 				"', Password='".$this -> pass.
 				"', Email='".$this -> email.
 				"', Tel='".$this -> tel.
-				"', idUserType=".$this -> id_user_type.";";
+				"', idUserType=".$this -> id_user_type.
+				" WHERE idUser=".$id_user.";";
 
 			//Ejecutamos el query y retornamos el resultado.
 			//Retornará verdadero si se modificó el registro correctamente.

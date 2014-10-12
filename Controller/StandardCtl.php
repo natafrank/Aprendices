@@ -167,7 +167,7 @@
 		//Valida que el usuario de la sesion actual sea de tipo administrador
 		function isAdmin()
 		{
-			if( isset($_SESSION['usertype']) && $_SESSION['usertype'] == 1 )
+			if( isset($_SESSION['user_type']) && $_SESSION['user_type'] == 1 )
 				return true;
 			return false;
 		}
@@ -175,7 +175,7 @@
 		//Valida que el usuario de la sesion actual sea de tipo empleado
 		function isEmployee()
 		{
-			if( isset($_SESSION['usertype']) && $_SESSION['usertype'] == 2 )
+			if( isset($_SESSION['user_type']) && $_SESSION['user_type'] == 2 )
 				return true;
 			return false;
 		}
@@ -183,7 +183,7 @@
 		//Valida que el usuario de la sesion actual sea de tipo cliente
 		function isClient()
 		{
-			if( isset($_SESSION['usertype']) && $_SESSION['usertype'] == 3 )
+			if( isset($_SESSION['user_type']) && $_SESSION['user_type'] == 3 )
 				return true;
 			return false;
 		}
@@ -205,16 +205,19 @@
 			//Creamos la conexión.
 			$db_driver = DatabaseLayer::getConnection("MySqlProvider");
 			
-			$query = "SELECT * FROM User WHERE Login='".$login."' AND Pass='".$pass."';";
+			
+			
+			$query = "SELECT * FROM User WHERE Login='".$login."' AND Password='".$pass."';";
 			
 			//Ejecutamos la consulta
 			$result = $db_driver -> execute($query);
 			
 			//Si nos regresa una fila ingresar los valores del usuario en la sesion
-			if($result == null)
+			if($result != null)
 			{
+				$_SESSION['id_user'] = $result[0]['idUser'];
 				$_SESSION['user'] = $result[0]['User'];
-				$_SESSION['usertype'] = $result[0]['idUserType'];
+				$_SESSION['user_type'] = $result[0]['idUserType'];
 				return true;
 			}
 			else
