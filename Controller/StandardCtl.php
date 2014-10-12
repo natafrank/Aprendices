@@ -155,6 +155,73 @@
 
 			return $result;
 		}
+		
+		//si inicia una sesion si es que no existe
+		function isLogged()
+		{
+			if( isset($_SESSION['user']) )
+				return true;
+			return false;
+		}
+
+		//Valida que el usuario de la sesion actual sea de tipo administrador
+		function isAdmin()
+		{
+			if( isset($_SESSION['usertype']) && $_SESSION['usertype'] == 1 )
+				return true;
+			return false;
+		}
+		
+		//Valida que el usuario de la sesion actual sea de tipo empleado
+		function isEmployee()
+		{
+			if( isset($_SESSION['usertype']) && $_SESSION['usertype'] == 2 )
+				return true;
+			return false;
+		}
+		
+		//Valida que el usuario de la sesion actual sea de tipo cliente
+		function isClient()
+		{
+			if( isset($_SESSION['usertype']) && $_SESSION['usertype'] == 3 )
+				return true;
+			return false;
+		}
+
+		//Termina la sesion actual
+		function logout()
+		{
+			session_unset();
+			session_destroy();		
+			setcookie(session_name(), '', time()-3600);
+		}
+
+		//Inicia una sesion en base al login y contraseña del usuario
+		function login($login, $pass)
+		{
+			//Importamos la capa de la base de datos.
+			require_once("Model/Database Motor/DatabaseLayer.php");
+
+			//Creamos la conexión.
+			$db_driver = DatabaseLayer::getConnection("MySqlProvider");
+			
+			$query = "SELECT * FROM User WHERE Login='".$login."' AND Pass='".$pass."';";
+			
+			//Ejecutamos la consulta
+			$result = $db_driver -> execute($query);
+			
+			//Si nos regresa una fila ingresar los valores del usuario en la sesion
+			if($result == null)
+			{
+				$_SESSION['user'] = $result[0]['User'];
+				$_SESSION['usertype'] = $result[0]['idUserType'];
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 	}
 
 ?>
