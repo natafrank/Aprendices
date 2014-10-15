@@ -32,7 +32,7 @@
 				{	
 					case "insert" :
 					{
-						//Unicamente los administradores podran hacer incercion de usuarios
+						//Unicamente los administradores podran hacer insercion de usuarios
 						if( $this -> isAdmin() )
 						{
 						
@@ -89,7 +89,7 @@
 						}
 						else
 						{
-							$error = "Su perfil no tiene permisos para realizar esta accion";
+							$error = "No tiene permisos para realizar esta accion";
 							require_once("View/Error.php");
 						}
 
@@ -137,7 +137,7 @@
 						}
 						else
 						{
-							$error = "Su perfil no tiene permisos para esta accion.";
+							$error = "No tiene permisos para realizar esta accion.";
 							require_once("View/Error.php");	
 						}
 						break;
@@ -298,6 +298,6 @@
 				$error = "No se ha iniciado ninguna sesion.";
 				require_once("View/Error.php");	
 			}
-		} /* fin ejecutar */
+		} /* fin run */
 	}
 ?>
