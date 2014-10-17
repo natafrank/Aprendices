@@ -53,6 +53,7 @@
 									require_once("View/Error.php");
 								}
 							}
+						}
 						else
 						{
 							$error = "No tiene permisos para realizar esta acción";
@@ -116,7 +117,6 @@
 									echo $error,'<br/>';
 									require_once("View/UpdateEvent.php");
 								}
-
 							}
 						}
 						else
@@ -132,7 +132,7 @@
 						//Solo administradores y empleados pueden ver los Eventos
 						if( !$this -> isClient() )
 						{
-							//Comprobamos que el $_POST no esté vacío, si lo está se mostrara la vista con el 								formulario para hacer select.
+							//Comprobamos que el $_POST no esté vacío, si lo está se mostrará la vista con el 								formulario para hacer select.
 							if(empty($_POST))
 							{
 								require_once("View/SelectEvent.php");
@@ -177,10 +177,10 @@
 					
 					case "delete" :
 					{
-						//Solo administradores y empleados pueden eliminar Checklists
+						//Solo administradores y empleados pueden eliminar Eventos
 						if( !$this -> isClient() )
 						{
-							//Comprobamos que el $_POST no esté vacío.
+							//Comprobamos que el $_POST no esté vacío, si lo está se mostrará la vista con el 								formulario para eliminar un Evento.	
 							if(empty($_POST))
 							{
 								require_once("View/DeleteEvent.php");
