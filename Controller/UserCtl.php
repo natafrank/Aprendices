@@ -72,6 +72,30 @@
 										if($result)
 										{
 											require_once("View/ShowUser.php");
+
+											//Enviamos el correo de que se ha añadido un usuario.
+											require_once("Controller/mail.php");
+
+											//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+											$subject = "Alta de usuario";
+											$body = "El usuario con los siguientes datos se ha añadido:".
+											"\nId   : ". $id_user.
+											"\nName : ". $name.
+											"\nLogin: ". $login.
+											"\nPass : ". $pass.
+											"\nEmail: ". $email.
+											"\nTel  : ". $tel.
+											"\nType : ". $type;
+
+											//Manadamos el correo solo a administradores - 4.
+											if(Mailer::sendMail($subject, $body, 4))
+											{
+												echo "<br>Correo enviado con éxito.";
+											}
+											else
+											{
+												echo "<br>Error al enviar el correo.";
+											}
 										}
 										else
 										{
@@ -121,6 +145,21 @@
 									if($result)
 									{
 										require_once("View/DeleteUser.php");
+
+										//Enviamos el correo del usuario que se eliminó a los admin
+										require_once("Controller/mail.php");
+
+										$subject = "Eliminación de Usuario";
+										$body    = "Se ha eliminado el usuario con el id: ".$id_user;
+
+										if(Mailer::sendMail($subject, $body, 4))
+										{
+											echo "Correo enviado con éxito";
+										}
+										else
+										{
+											echo "Error al enviar el correo";
+										}
 									}
 									else
 									{
@@ -260,6 +299,29 @@
 											if($this -> model -> update($id_user, $name,$login,$pass ,$email,$tel, $type))
 											{
 												require_once("View/UpdateUserShow.php");
+
+												//Enviamos correo de usuario actualizado a los admin
+												require_once("Controller/mail.php");
+
+												$subject = "Modificación de Usuario";
+												$body = "El usuario con los siguientes datos se ha modificado:".
+														"\nId   : ". $id_user.
+														"\nName : ". $name.
+														"\nLogin: ". $login.
+														"\nPass : ". $pass.
+														"\nEmail: ". $email.
+														"\nTel  : ". $tel.
+														"\nType : ". $type;
+
+												//Manadamos el correo solo a administradores - 4.
+												if(Mailer::sendMail($subject, $body, 4))
+												{
+													echo "<br>Correo enviado con éxito.";
+												}
+												else
+												{
+													echo "<br>Error al enviar el correo.";
+												}
 											}
 											else
 											{
@@ -297,6 +359,7 @@
 			{
 				$error = "No se ha iniciado ninguna sesion.";
 				require_once("View/Error.php");	
+				var_dump($_SESSION);
 			}
 		} /* fin run */
 	}

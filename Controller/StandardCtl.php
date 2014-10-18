@@ -205,8 +205,6 @@
 			//Creamos la conexión.
 			$db_driver = DatabaseLayer::getConnection("MySqlProvider");
 			
-			
-			
 			$query = "SELECT * FROM User WHERE Login='".$login."' AND Password='".$pass."';";
 			
 			//Ejecutamos la consulta
