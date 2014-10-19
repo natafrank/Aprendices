@@ -26,8 +26,9 @@
 				$mail -> Port = 465; 
 
 				//Datos del correo
-				$mail -> Username = "aprendices.cucei@gmail.com";  
-				$mail -> Password = "magic100";           
+				require_once("mailData.inc");
+				$mail -> Username = $username
+				$mail -> Password = $password;           
 				$mail -> SetFrom("aprendices.cucei@gmail.com", "Aprendices");
 
 				//Agregamos los datos que vienen por parámetros
