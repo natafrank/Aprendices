@@ -48,6 +48,27 @@
 								if($result = $this->model->insert($idVehicleStatus,$vehicleStatus,$Fuel,$Km))
 								{
 									require_once("View/ShowInserVehicleStatus.php");
+
+									//Enviamos el correo de que se ha añadido un Estatus de Vehículo.
+									require_once("Controller/mail.php");
+
+									//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+									$subject = "Alta de Estatus de Vehículo";
+									$body = "El Estatus de Vehículo con los siguientes datos se ha añadido:".
+									"\nId   : ". $idVehicleStatus.
+									"\nVehicleStatus : ". $vehicleStatus.
+									"\nFuel : ". $Fuel.
+									"\nKm : ". $Km;
+
+									//Manadamos el correo solo a administradores y empleados - 6
+									if(Mailer::sendMail($subject, $body, 6))
+									{
+										echo "<br>Correo enviado con éxito.";
+									}
+									else
+									{
+										echo "<br>Error al enviar el correo.";
+									}
 								}
 								else
 								{
@@ -100,7 +121,28 @@
 										//se imprime un mensaje.
 										if($this->model->update($idVehicleStatus,$vehicleStatus,$Fuel,$Km))
 										{
-											require_once("View/ShowUpdateVehicleStatus.php");	
+											require_once("View/ShowUpdateVehicleStatus.php");
+
+											//Enviamos el correo de que se ha modificado un Estatus de Vehículo.
+											require_once("Controller/mail.php");
+
+											//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+											$subject = "Modificación de Estatus de Vehículo";
+											$body = "El Estatus de Vehículo con los siguientes datos se ha modificado:".
+											"\nId   : ". $idVehicleStatus.
+											"\nVehicleStatus : ". $vehicleStatus.
+											"\nFuel : ". $Fuel.
+											"\nKm : ". $Km;
+
+											//Manadamos el correo solo a administradores y empleados - 6
+											if(Mailer::sendMail($subject, $body, 6))
+											{
+												echo "<br>Correo enviado con éxito.";
+											}
+											else
+											{
+												echo "<br>Error al enviar el correo.";
+											}
 										}
 										else
 										{
@@ -196,6 +238,27 @@
 									if($result)
 									{
 										require_once("View/DeleteVehicleStatus.php");
+
+										//Enviamos el correo de que se ha eliminado un Estatus de Vehículo.
+										require_once("Controller/mail.php");
+
+										//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+										$subject = "Eliminación de Estatus de Vehículo";
+										$body = "El Estatus de Vehículo con los siguientes datos se ha eiminado:".
+										"\nId   : ". $idVehicleStatus.
+										"\nVehicleStatus : ". $vehicleStatus.
+										"\nFuel : ". $Fuel.
+										"\nKm : ". $Km;
+
+										//Manadamos el correo solo a administradores y empleados - 6
+										if(Mailer::sendMail($subject, $body, 6))
+										{
+											echo "<br>Correo enviado con éxito.";
+										}
+										else
+										{
+											echo "<br>Error al enviar el correo.";
+										}
 									}
 									//Si no pudimos eliminar, señalamos el error.
 									else
