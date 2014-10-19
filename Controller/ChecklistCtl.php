@@ -49,6 +49,28 @@
 								if($result = $this -> model -> insert($idChecklist,$idVehicle,$idVehicleStatus,$Date,$InOut))
 								{
 									require_once("View/ShowInsertChecklist.php");
+
+									//Enviamos el correo de que se ha añadido un checklist.
+									require_once("Controller/mail.php");
+
+									//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+									$subject = "Alta de Checklist";
+									$body = "El checklist con los siguientes datos se ha añadido:".
+									"\nId   : ". $idChecklist.
+									"\nIdVehicle : ". $idVehicle.
+									"\nidVehicleStatus: ". $idVehicleStatus.
+									"\nFecha : ". $Date.
+									"\nInOut : ". $InOut;
+
+									//Manadamos el correo solo a administradores y empleados - 6
+									if(Mailer::sendMail($subject, $body, 6))
+									{
+										echo "<br>Correo enviado con éxito.";
+									}
+									else
+									{
+										echo "<br>Error al enviar el correo.";
+									}
 								}
 								else
 								{
@@ -101,7 +123,29 @@
 										//se imprime un mensaje.
 										if($this -> model -> update($idChecklist, $idVehicle, $idVehicleStatus, $Date, $InOut))
 										{
-											require_once("View/ShowUpdateChecklist.php");	
+											require_once("View/ShowUpdateChecklist.php");
+											
+											//Enviamos el correo de que se ha añadido un checklist.
+											require_once("Controller/mail.php");
+
+											//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+											$subject = "Actualizacion de Checklist";
+											$body = "El checklist con los siguientes datos se ha modificado:".
+											"\nId   : ". $idChecklist.
+											"\nIdVehicle : ". $idVehicle.
+											"\nidVehicleStatus: ". $idVehicleStatus.
+											"\nFecha : ". $Date.
+											"\nInOut : ". $InOut;
+
+											//Manadamos el correo solo a administradores y empleados - 6
+											if(Mailer::sendMail($subject, $body, 6))
+											{
+												echo "<br>Correo enviado con éxito.";
+											}
+											else
+											{
+												echo "<br>Error al enviar el correo.";
+											}
 										}
 										else
 										{
@@ -190,6 +234,23 @@
 									if($result)
 									{
 										require_once("View/DeleteChecklist.php");
+
+										//Enviamos el correo de que se ha eliminado un checklist.
+										require_once("Controller/mail.php");
+
+										//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+										$subject = "Eliminación de Checklist";
+										$body = "Se ha eliminado el Checklist con ID: ".$idChecklist;
+
+										//Manadamos el correo solo a administradores y empleados - 6
+										if(Mailer::sendMail($subject, $body, 6))
+										{
+											echo "<br>Correo enviado con éxito.";
+										}
+										else
+										{
+											echo "<br>Error al enviar el correo.";
+										}
 									}
 									//Si no pudimos eliminar, señalamos el error.
 									else

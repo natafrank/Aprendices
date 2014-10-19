@@ -49,6 +49,25 @@
 								if($result = $this -> model -> insert($idVehiclePart, $VehiclePart))
 								{
 									require_once("View/ShowInsertVehiclePart.php");
+
+									//Enviamos el correo de que se ha añadido una parte de vehiculo.
+									require_once("Controller/mail.php");
+
+									//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+									$subject = "Alta de Parte de Vehiculo";
+									$body = "La parte de vehiculo con los siguientes datos se ha añadido:".
+									"\nId   : ". $idVehiclePart.
+									"\nDaño : ". $VehiclePart;
+
+									//Manadamos el correo solo a administradores y empleados - 6
+									if(Mailer::sendMail($subject, $body, 6))
+									{
+										echo "<br>Correo enviado con éxito.";
+									}
+									else
+									{
+										echo "<br>Error al enviar el correo.";
+									}
 								}
 								else
 								{
@@ -98,7 +117,26 @@
 										//se imprime un mensaje.
 										if($this -> model -> update($idVehiclePart, $VehiclePart))
 										{
-											require_once("View/ShowUpdateVehiclePart.php");	
+											require_once("View/ShowUpdateVehiclePart.php");
+											
+											//Enviamos el correo de que se ha modificado una parte de vehiculo.
+											require_once("Controller/mail.php");
+
+											//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+											$subject = "Actualizacion de Parte de Vehiculo";
+											$body = "La parte de vehiculo con los siguientes datos se ha modificado:".
+											"\nId   : ". $idVehiclePart.
+											"\nDaño : ". $VehiclePart;
+
+											//Manadamos el correo solo a administradores y empleados - 6
+											if(Mailer::sendMail($subject, $body, 6))
+											{
+												echo "<br>Correo enviado con éxito.";
+											}
+											else
+											{
+												echo "<br>Error al enviar el correo.";
+											}	
 										}
 										else
 										{
@@ -186,6 +224,23 @@
 									if($result)
 									{
 										require_once("View/DeleteVehiclePart.php");
+
+										//Enviamos el correo de que se ha eliminado una parte de vehiculo.
+										require_once("Controller/mail.php");
+
+										//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+										$subject = "Eliminación de Parte de Vehiculo";
+										$body = "Se ha eliminado la parte de vehiculo con ID: ".$idVehiclePart;
+
+										//Manadamos el correo solo a administradores y empleados - 6
+										if(Mailer::sendMail($subject, $body, 6))
+										{
+											echo "<br>Correo enviado con éxito.";
+										}
+										else
+										{
+											echo "<br>Error al enviar el correo.";
+										}
 									}
 									//Si no pudimos eliminar, señalamos el error.
 									else
