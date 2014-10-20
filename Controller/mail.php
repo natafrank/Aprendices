@@ -27,7 +27,7 @@
 
 				//Datos del correo
 				require_once("mailData.inc");
-				$mail -> Username = $username
+				$mail -> Username = $username;
 				$mail -> Password = $password;           
 				$mail -> SetFrom("aprendices.cucei@gmail.com", "Aprendices");
 

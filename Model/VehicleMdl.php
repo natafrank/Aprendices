@@ -95,8 +95,8 @@
 			//Query a ejecutar.
 			$query = "UPDATE Vehicle SET idLocation=".$this-> id_location.
 				", idVehicleModel=".$this -> id_vehicle_model.
-				", vin=".$this -> vin.
-				", color='".$this -> color."';";
+				", vin='".$this -> vin.
+				"', color='".$this -> color."';";
 
 			//Ejecutamos el query y retornamos el resultado.
 			//Retornará verdadero si se modificó el registro correctamente.

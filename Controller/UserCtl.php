@@ -10,7 +10,7 @@
 			
 			//Importamos el archivo del modelo
 			require_once("Model/UserMdl.php");
-
+			
 			//Creamos el modelo
 			$this -> model = new UserMdl();
 			
@@ -77,7 +77,7 @@
 											require_once("Controller/mail.php");
 
 											//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
-											$subject = "Alta de usuario";
+											$subject = "Alta de Usuario";
 											$body = "El usuario con los siguientes datos se ha añadido:".
 											"\nId   : ". $id_user.
 											"\nName : ". $name.
@@ -359,7 +359,6 @@
 			{
 				$error = "No se ha iniciado ninguna sesion.";
 				require_once("View/Error.php");	
-				var_dump($_SESSION);
 			}
 		} /* fin run */
 	}

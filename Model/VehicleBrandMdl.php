@@ -1,7 +1,7 @@
 <?php
 	class VehicleBrandMdl{
-		private $idVehicleBrand;
-		private $VehicleBrand;
+		private $id_vehicle_brand;
+		private $vehicle_brand;
 		
 		//CONEXIÓN A LA BASE DE DATOS
 		/*************************************************************/
@@ -17,15 +17,15 @@
 		}
 		/*************************************************************/		
 
-		public function insert($idVehicleBrand,$VehicleBrand)
+		public function insert($id_vehicle_brand,$vehicle_brand)
 		{
 			//Escapamos las variables.
-			$this -> idVehicleBrand  = $this -> db_driver -> escape($idVehicleBrand);
-			$this -> VehicleBrand    = $this -> db_driver -> escape($VehicleBrand);
+			$this -> id_vehicle_brand  = $this -> db_driver -> escape($id_vehicle_brand);
+			$this -> vehicle_brand    = $this -> db_driver -> escape($vehicle_brand);
 
 			//Query a ejecutar.
-			$query = "INSERT INTO VehicleBrand VALUES(".$this -> idVehicleBrand.", '"
-												 	   .$this -> VehicleBrand."');";
+			$query = "INSERT INTO VehicleBrand VALUES(".$this -> id_vehicle_brand.", '"
+												 	   .$this -> vehicle_brand."');";
 	
 			//Ejecutamos el query.
 			if($this -> db_driver -> execute($query))
@@ -40,13 +40,13 @@
 			}
 		}
 		
-		public function delete($idVehicleBrand)
+		public function delete($id_vehicle_brand)
 		{
 			//Escapamos el id con el que vamos a realizar la eliminación.
-			$this -> idVehicleBrand = $this -> db_driver -> escape($idVehicleBrand);
+			$this -> id_vehicle_brand= $this -> db_driver -> escape($id_vehicle_brand);
 
 			//Query a ejecutar
-			$query = "DELETE FROM VehicleBrand WHERE idVehicleBrand=".$this -> idVehicleBrand.";";
+			$query = "DELETE FROM VehicleBrand WHERE idVehicleBrand=".$this -> id_vehicle_brand.";";
 
 			//Ejecutamos el query
 			if($this -> db_driver -> execute($query))
@@ -61,29 +61,29 @@
 			}	
 		}
 		
-		public function update($idVehicleBrand,$VehicleBrand)
+		public function update($id_vehicle_brand,$vehicle_brand)
 		{
 			//Escapamos las variables.
-			$this -> idVehicleBrand  = $this -> db_driver -> escape($idVehicleBrand);
-			$this -> VehicleBrand    = $this -> db_driver -> escape($VehicleBrand);
+			$this -> id_vehicle_brand  = $this -> db_driver -> escape($id_vehicle_brand);
+			$this -> vehicle_brand     = $this -> db_driver -> escape($vehicle_brand);
 
 			//Query que realizará la modificación.
-			$query = "UPDATE VehicleBrand SET VehicleBrand='".$this -> VehicleBrand."', " 
-					  ." WHERE idVehicleBrand=".$this -> idVehicleBrand.";";
+			$query = "UPDATE VehicleBrand SET Brand='".$this -> vehicle_brand."'" 
+					  ." WHERE idVehicleBrand=".$this -> id_vehicle_brand.";";
 
 		  	//Ejecutamos el query.
 		  	$result = $this -> db_driver -> execute($query);
-
+	
 		  	return $result;
 		}
 		
-		public function select()
+		public function select($id_vehicle_brand)
 		{
 			//Escapamos la variable.
-			$this -> idVehicleBrand = $this -> db_driver -> escape($idVehicleBrand);
+			$this -> id_vehicle_brand = $this -> db_driver -> escape($id_vehicle_brand);
 
 			//Para el primer ejemplo se ejecutará un SELECT * con el id deseado.
-			$query = "SELECT * FROM VehicleBrand WHERE idVehicleBrand=".$this -> idVehicleBrand.";";
+			$query = "SELECT * FROM VehicleBrand WHERE idVehicleBrand=".$this -> id_vehicle_brand.";";
 
 			//Ejecutamos el query y recogemos el resultado.
 			$result = $this -> db_driver -> execute($query);
