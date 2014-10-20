@@ -50,6 +50,29 @@
 								if($result = $this->model->insert($idEventRegistry,$idVehicle,$idUser,$idEvent,$Date,$Reason))
 								{
 									require_once("View/ShowInserEventRegistry.php");
+			
+									//Enviamos el correo de que se ha añadido un Registro de Evento.
+									require_once("Controller/mail.php");
+
+									//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+									$subject = "Alta de Registro de Evento";
+									$body = "El Registro de Evento con los siguientes datos se ha añadido:".
+									"\nId   : ". $idEventRegistry.
+									"\nIdVehicle : ". $idVehicle.
+									"\nIdUser : ". $idUser.
+									"\nIdEvent : ". $idEvent.
+									"\nDate: ". $Date.
+									"\nReason : ". $Reason;
+
+									//Manadamos el correo solo a administradores y empleados - 6
+									if(Mailer::sendMail($subject, $body, 6))
+									{
+										echo "<br>Correo enviado con éxito.";
+									}
+									else
+									{
+										echo "<br>Error al enviar el correo.";
+									}
 								}
 								else
 								{
@@ -103,7 +126,30 @@
 										//se imprime un mensaje.
 										if($this->model->update($idEventRegistry,$idVehicle,$idUser,$idEvent,$Date,$Reason))
 										{
-											require_once("View/ShowUpdateEventRegistry.php");	
+											require_once("View/ShowUpdateEventRegistry.php");
+
+											//Enviamos el correo de que se ha modificado un Registro de Evento.
+											require_once("Controller/mail.php");
+
+											//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+											$subject = "Modificación de Registro de Evento";
+											$body = "El Registro de Evento con los siguientes datos se ha modificado:".
+											"\nId   : ". $idEventRegistry.
+											"\nIdVehicle : ". $idVehicle.
+											"\nIdUser : ". $idUser.
+											"\nIdEvent : ". $idEvent.
+											"\nDate: ". $Date.
+											"\nReason : ". $Reason;
+
+											//Manadamos el correo solo a administradores y empleados - 6
+											if(Mailer::sendMail($subject, $body, 6))
+											{
+												echo "<br>Correo enviado con éxito.";
+											}
+											else
+											{
+												echo "<br>Error al enviar el correo.";
+											}
 										}
 										else
 										{
@@ -207,6 +253,29 @@
 									if($result)
 									{
 										require_once("View/DeleteEventRegistry.php");
+
+										//Enviamos el correo de que se ha eliminado un Registro de Evento.
+										require_once("Controller/mail.php");
+
+										//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+										$subject = "Eliminación de Registro de Evento";
+										$body = "El Registro de Evento con los siguientes datos se ha eliminado:".
+										"\nId   : ". $idEventRegistry.
+										"\nIdVehicle : ". $idVehicle.
+										"\nIdUser : ". $idUser.
+										"\nIdEvent : ". $idEvent.
+										"\nDate: ". $Date.
+										"\nReason : ". $Reason;
+
+										//Manadamos el correo solo a administradores y empleados - 6
+										if(Mailer::sendMail($subject, $body, 6))
+										{
+											echo "<br>Correo enviado con éxito.";
+										}
+										else
+										{
+											echo "<br>Error al enviar el correo.";
+										}
 									}
 									//Si no pudimos eliminar, señalamos el error.
 									else

@@ -47,6 +47,26 @@
 								if($result = $this->model->insert($idLocation,$location,$idMasterLocation))
 								{
 									require_once("View/ShowInserLocation.php");
+
+									//Enviamos el correo de que se ha añadido una Ubicación.
+									require_once("Controller/mail.php");
+
+									//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+									$subject = "Alta de Ubicación";
+									$body = "La Ubicación con los siguientes datos se ha añadido:".
+									"\nId   : ". $idLocation.
+									"\nLocation : ". $location.
+									"\nIdMasterLocation : ". $idMasterLocation;
+
+									//Manadamos el correo solo a administradores y empleados - 6
+									if(Mailer::sendMail($subject, $body, 6))
+									{
+										echo "<br>Correo enviado con éxito.";
+									}
+									else
+									{
+										echo "<br>Error al enviar el correo.";
+									}
 								}
 								else
 								{
@@ -98,7 +118,27 @@
 										//se imprime un mensaje.
 										if($this->model->update($idLocation,$location,$idMasterLocation))
 										{
-											require_once("View/ShowUpdateLocation.php");	
+											require_once("View/ShowUpdateLocation.php");
+
+											//Enviamos el correo de que se ha modificado una Ubicación.
+											require_once("Controller/mail.php");
+
+											//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+											$subject = "Modificación de Ubicación";
+											$body = "La Ubicación con los siguientes datos se ha modificado:".
+											"\nId   : ". $idLocation.
+											"\nLocation : ". $location.
+											"\nIdMasterLocation : ". $idMasterLocation;
+
+											//Manadamos el correo solo a administradores y empleados - 6
+											if(Mailer::sendMail($subject, $body, 6))
+											{
+												echo "<br>Correo enviado con éxito.";
+											}
+											else
+											{
+												echo "<br>Error al enviar el correo.";
+											}
 										}
 										else
 										{
@@ -203,6 +243,26 @@
 									if($result)
 									{
 										require_once("View/DeleteLocation.php");
+
+										//Enviamos el correo de que se ha eliminado una Ubicación.
+										require_once("Controller/mail.php");
+
+										//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+										$subject = "Eliminación de Ubicación";
+										$body = "La Ubicación con los siguientes datos se ha eliminado:".
+										"\nId   : ". $idLocation.
+										"\nLocation : ". $location.
+										"\nIdMasterLocation : ". $idMasterLocation;
+
+										//Manadamos el correo solo a administradores y empleados - 6
+										if(Mailer::sendMail($subject, $body, 6))
+										{
+											echo "<br>Correo enviado con éxito.";
+										}
+										else
+										{
+											echo "<br>Error al enviar el correo.";
+										}
 									}
 									//Si no pudimos eliminar, señalamos el error.
 									else
