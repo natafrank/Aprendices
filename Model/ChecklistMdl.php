@@ -1,6 +1,20 @@
 <?php
 	class ChecklistMdl
 	{
+		/**
+		 * Variables de los Campos de la tabla Checklist.
+		 *
+		 * @access private
+		 * @var int $idChecklist - Llave primaria de la tabla.
+		 * @access private
+		 * @var int $idVehicle - Llave foranea a la tabla Vehicle.
+		 * @access private
+		 * @var int $idVehicleStatus - Llave foranea a la tabla VehicleStatus.
+		 * @access private
+		 * @var datetime $Date - Fecha de creación del registro.
+		 * @access private
+		 * @var bool $InOut - Indicador de si el registro es de entrada o salida.
+		 */
 		private $idChecklist;
 		private $idVehicle;
 		private $idVehicleStatus;
@@ -9,8 +23,20 @@
 		
 		//CONEXIÓN A LA BASE DE DATOS
 		/*************************************************************/
+		/**
+		 * Variable para la conexion con la base de datos.
+		 *
+		 * @access public
+		 * @var MySqlProvider $db_driver.
+		 */
 		public $db_driver;
 
+		/**
+		 * Constructor de la clase.
+		 *
+		 * Contructor del Modelo en que se crea la conexion con la base de datos.
+		 *
+		 */
 		function __construct()
 		{
 			//Importamos la capa de la base de datos.
@@ -21,6 +47,19 @@
 		}
 		/*************************************************************/		
 
+		/**
+		 * Funcion de Insercion.
+		 *
+		 * Inserta un nuevo registro en la base de datos.
+		 *
+		 * @param int $idChecklist - Llave primaria de la tabla.
+		 * @param int $idVehicle - Llave foranea a la tabla Vehicle.
+		 * @param int $idVehicleStatus - Llave foranea a la tabla VehicleStatus.
+		 * @param datetime $Date - Fecha de creación del registro.
+		 * @param bit $InOut - Indicador de si el registro es de entrada o salida.
+		 *
+		 * @return bool - TRUE si la inserción se hizo correctamente, FALSE en caso contrario
+		 */
 		public function insert($idChecklist,$idVehicle,$idVehicleStatus,$Date,$InOut)
 		{
 			//Escapamos las variables.
@@ -50,6 +89,15 @@
 			}
 		}
 		
+		/**
+		 * Funcion de Eliminación.
+		 *
+		 * Elimina un registro de la tabla en la base de datos.
+		 *
+		 * @param int $idChecklist - Llave primaria del registro que se va a eliminar.
+		 *
+		 * @return bool - TRUE si la eliminación se hizo correctamente, FALSE en caso contrario
+		 */
 		public function delete($idChecklist)
 		{
 			//Escapamos el id con el que vamos a realizar la eliminación.
@@ -61,16 +109,30 @@
 			//Ejecutamos el query
 			if($this -> db_driver -> execute($query))
 			{
-				//Retornamos verdadero si se insertaron los datos correctamente.
+				//Retornamos verdadero si se eliminó el registro correctamente.
 				return TRUE;
 			}		
 			else
 			{
-				//Retornamos falso en caso de no poder insertar.
+				//Retornamos falso en caso contrario.
 				return FALSE;
 			}	
 		}
 		
+		/**
+		 * Funcion de Actualización.
+		 *
+		 * Actualiza un registro en la base de datos.
+		 *
+		 * @param int $idChecklist - Llave primaria del registro que se va a modificar.
+		 * @param int $idVehicle - Llave foranea a la tabla Vehicle.
+		 * @param int $idVehicleStatus - Llave foranea a la tabla VehicleStatus.
+		 * @param datetime $Date - Fecha de creación del registro.
+		 * @param bit $InOut - Indicador de si el registro es de entrada o salida.
+		 *
+		 * @return array - Arreglo con los datos actualizados si se actualizaron correctamente.
+		 * @return bool FALSE - Si no se actualizó el registro correctamente en la base de datos.
+		 */
 		public function update($idChecklist,$idVehicle,$idVehicleStatus,$Date,$InOut)
 		{
 			//Escapamos las variables.
@@ -87,13 +149,30 @@
 									   	 ."InOut=".$this -> InOut.   
 					  " WHERE idChecklist = ".$this -> idChecklist.";";
 
-		  	//Ejecutamos el query.
-		  	$result = $this -> db_driver -> execute($query);
-
-		  	return $result;
+		  	//Ejecutamos el query
+			if($this -> db_driver -> execute($query))
+			{
+				//Retornamos los datos si se actualizó el registro correctamente.
+				return $result;
+			}		
+			else
+			{
+				//Retornamos falso en caso contrario.
+				return FALSE;
+			}
 		}
 		
-		public function select()
+		/**
+		 * Funcion de Selección.
+		 *
+		 * Muestra un registro en la base de datos.
+		 *
+		 * @param int $idChecklist - Llave primaria del registro que se va a mostrar.
+		 *
+		 * @return array - Arreglo con los datos obtenidos del query.
+		 * @return bool FALSE - Si no se obtuvieron datos con el query o si hubo un error.
+		 */
+		public function select($idChecklist)
 		{
 			//Escapamos la variable.
 			$this -> idChecklist = $this -> db_driver -> escape($idChecklist);

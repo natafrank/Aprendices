@@ -3,8 +3,21 @@
 	
 	class DamageDetailCtl extends StandardCtl
 	{
+		/**
+		 * Variable Modelo de la clase DamageDetail.
+		 *
+		 * @access private
+		 * @var DamageDetailMdl $model - Variable para realizar las funciones de Modelo en la estructura MVC.
+		 */
 		private $model;
 
+		/**
+		 * Funcion principal del controlador.
+		 *
+		 * Se encarga del manejo de vistas y funciones del modelo
+		 * de acuerdo a la accion que se indica con la llave 'act' en $_GET
+		 *
+		 */
 		public function run()
 		{
 			
