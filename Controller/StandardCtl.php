@@ -1,9 +1,20 @@
 <?php
 	class StandardCtl{
 		
-		//Metodos de limpieza que seran heredados por los demas controladores
-		//Se agrgaran mas metodos segun se requiera
+		/**
+		 * Metodos de limpieza que seran heredados por los demas controladores.
+		 */
 		
+		/**
+		 * Limpia Texto.
+		 *
+		 * Función que se encarga de varificar si una variable es de tipo cadena o no.
+		 *
+		 * @param mixed $text - variable a validar.
+		 *
+		 * @return bool - FALSE si $text no es una cadena.
+		 * @return string $result - la cadena ya limpia que venia en $text.
+		 */
 		function cleanText($text){
 			if(is_string($text)){
 				$result = addslashes(trim($text));
@@ -14,22 +25,53 @@
 			return FALSE;
 		}
 		
+		/**
+		 * Limpia Entero.
+		 *
+		 * Función que se encarga de varificar si una variable es de tipo entero o no.
+		 *
+		 * @param mixed $number - variable a validar.
+		 *
+		 * @return bool - FALSE si $number no es un entero.
+		 * @return int $result - el valor entero que venia en $number.
+		 */
 		function cleanInt($number){
-			$result = 0;
 			if(is_numeric($number)){
 				$result = $number;
+				return $result;
 			}
-			return $result;
+
+			return FALSE;
 		}
 		
+		/**
+		 * Limpia Flotante.
+		 *
+		 * Función que se encarga de varificar si una variable es de tipo flotante o no.
+		 *
+		 * @param mixed $number - variable a validar.
+		 *
+		 * @return bool - FALSE si $number no es un número flotante.
+		 * @return float $result - el valor flotante que venia en $number.
+		 */
 		function cleanFloat($number){
-			$result = 0.0;
 			if(is_float($number)){
 				$result = $number;
+				return $result;
 			}
-			return $result;
+			return FALSE;
 		}	
 		
+		/**
+		 * Limpia Correo.
+		 *
+		 * Función que se encarga de varificar si una cadena de texto es un correo válido o no.
+		 *
+		 * @param mixed $email - variable a validar.
+		 *
+		 * @return bool - FALSE si $email no es un correo válido.
+		 * @return string $email - la cadena de caracteres con el correo.
+		 */
 		function cleanEmail($email)
 		{
 			$regex = "/^[a-zA-Z].*@\w+\..+/";
@@ -44,8 +86,17 @@
 			}
 		}
 
-		//El login tiene que empezar con letra, tiene mínimo 6 y máximo de 20 caracteres
-		//y puede usar la cantidad de números que quiera.
+		/**
+		 * Limpia Login.
+		 *
+		 * Función que se encarga de varificar si una cadena de texto es un login válido o no.
+		 * El login tiene que empezar con letra, tiene mínimo 6 y máximo de 20 caracteres y puede usar la cantidad de números que quiera.
+		 *
+		 * @param mixed $login - variable a validar.
+		 *
+		 * @return bool - FALSE si $login no es un login válido.
+		 * @return string $login - la cadena de caracteres con el login.
+		 */
 		function cleanLogin($login)
 		{
 			$regex = "/^[a-zA-z][a-zA-Z\d]{5,19}/";
@@ -60,8 +111,17 @@
 			}
 		}
 		
-		//La contraseña tiene tamaño mínimo de 8 caracteres,
-		//debe contener un número y puede tener cualquier caracter.
+		/**
+		 * Limpia Contraseña.
+		 *
+		 * Función que se encarga de varificar si una cadena de texto es una contraseña válido o no.
+		 * La contraseña tiene tamaño mínimo de 8 caracteres, debe contener un número y puede tener cualquier caracter.
+		 *
+		 * @param mixed $password - variable a validar.
+		 *
+		 * @return bool - FALSE si $password no es una contraseña válida.
+		 * @return string $password - la cadena de caracteres con la contraseña.
+		 */
 		function cleanPassword($password)
 		{
 			$regex = "/.*(?=.{8,})(?=.*\d).*/";
