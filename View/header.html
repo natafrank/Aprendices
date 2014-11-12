@@ -1,0 +1,159 @@
+<!-- DOCTYPE HTML -->
+<html lang="es">
+	<meta charset="UTF-8" />
+	<head>
+		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href='http://fonts.googleapis.com/css?family=Play' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
+		<title>Formulario</title>
+		<link rel="stylesheet" href="Bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="Bootstrap/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+ 
+	 	<div class="container menu_header">
+	 		<ul class="nav nav-pills">
+			   	<li class="active"><a href="index.php"><i class="fa fa-home"></i> Home</a></li>
+			    <li class="dropdown">
+			        <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-user"></i> Usuarios <b class="caret"></b></a>
+			        <ul class="dropdown-menu">
+			            <li><a href="index.php?ctl=user&act=insert"><i class="fa fa-plus"></i> Agregar</a></li>
+			            <li><a href="index.php?ctl=user&act=update"><i class="fa fa-refresh"></i> Editar</a></li>
+			            <li><a href="index.php?ctl=user&act=select"><i class="fa fa-search"></i> Consultar</a></li>
+			            <li><a href="index.php?ctl=user&act=delete"><i class="fa fa-trash"></i> Eliminar</a></li>
+			        </ul>
+			    </li>
+			    <li class="dropdown">
+			        <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-cogs"></i> Operaciones <b class="caret"></b></a>
+			        <ul class="dropdown-menu multi-level" role="menu">
+			            <li class="dropdown-submenu">
+			            	<a href="#"><i class="fa fa-car"></i> Vehículos</a>
+			            	<ul class="dropdown-menu">
+			            		<li><a href="index.php?ctl=vehicle&act=insert"><i class="fa fa-plus"></i> Agregar</a></li>
+					            <li><a href="index.php?ctl=vehicle&act=update"><i class="fa fa-refresh"></i> Editar</a></li>
+					            <li><a href="index.php?ctl=vehicle&act=select"><i class="fa fa-search"></i> Consultar</a></li>
+					            <li><a href="index.php?ctl=vehicle&act=delete"><i class="fa fa-trash"></i> Eliminar</a></li>
+			            	</ul>
+			            </li>
+			            <li class="dropdown-submenu">
+			            	<a href="#"><i class="fa fa-check-circle"></i> Checklist</a>
+			            	<ul class="dropdown-menu">
+			            		<li><a href="index.php?ctl=checklist&act=insert"><i class="fa fa-plus"></i> Agregar</a></li>
+					            <li><a href="index.php?ctl=checklist&act=update"><i class="fa fa-refresh"></i> Editar</a></li>
+					            <li><a href="index.php?ctl=checklist&act=select"><i class="fa fa-search"></i> Consultar</a></li>
+					            <li><a href="index.php?ctl=checklist&act=delete"><i class="fa fa-trash"></i> Eliminar</a></li>
+			            	</ul>
+			            </li>
+			            <li class="dropdown-submenu">
+			            	<a href="#"><i class="fa fa-line-chart"></i> Estatus de Vehículo</a>
+			            	<ul class="dropdown-menu">
+			            		<li><a href="index.php?ctl=vehiclestatus&act=insert"><i class="fa fa-plus"></i> Agregar</a></li>
+					            <li><a href="index.php?ctl=vehiclestatus&act=update"><i class="fa fa-refresh"></i> Editar</a></li>
+					            <li><a href="index.php?ctl=vehiclestatus&act=select"><i class="fa fa-search"></i> Consultar</a></li>
+					            <li><a href="index.php?ctl=vehiclestatus&act=delete"><i class="fa fa-trash"></i> Eliminar</a></li>
+			            	</ul>
+			            </li>
+			            <li class="dropdown-submenu">
+			            	<a href="#"><i class="fa fa-wrench"></i> Detalles de Daños</a>
+			            	<ul class="dropdown-menu">
+			            		<li><a href="index.php?ctl=damagedetail&act=insert"><i class="fa fa-plus"></i> Agregar</a></li>
+					            <li><a href="index.php?ctl=damagedetail&act=update"><i class="fa fa-refresh"></i> Editar</a></li>
+					            <li><a href="index.php?ctl=damagedetail&act=select"><i class="fa fa-search"></i> Consultar</a></li>
+					            <li><a href="index.php?ctl=damagedetail&act=delete"><i class="fa fa-trash"></i> Eliminar</a></li>
+			            	</ul>
+			            </li>
+			            <li class="dropdown-submenu">
+			            	<a href="#"><i class="fa fa-calendar"></i> Registro de Eventos</a>
+			            	<ul class="dropdown-menu">
+			            		<li><a href="index.php?ctl=eventregistry&act=insert"><i class="fa fa-plus"></i> Agregar</a></li>
+					            <li><a href="index.php?ctl=eventregistry&act=update"><i class="fa fa-refresh"></i> Editar</a></li>
+					            <li><a href="index.php?ctl=eventregistry&act=select"><i class="fa fa-search"></i> Consultar</a></li>
+					            <li><a href="index.php?ctl=eventregistry&act=delete"><i class="fa fa-trash"></i> Eliminar</a></li>
+			            	</ul>
+			            </li>
+			        </ul>
+			    </li>
+			    <li class="dropdown">
+			        <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-folder-open"></i> Catálogos <b class="caret"></b></a>
+			        <ul class="dropdown-menu">
+			            <li class="dropdown-submenu">
+			            	<a href="#"><i class="fa fa-users"></i> Tipos de Usuario</a>
+			            	<ul class="dropdown-menu">
+			            		<li><a href="index.php?ctl=usertype&act=insert"><i class="fa fa-plus"></i> Agregar</a></li>
+					            <li><a href="index.php?ctl=usertype&act=update"><i class="fa fa-refresh"></i> Editar</a></li>
+					            <li><a href="index.php?ctl=usertype&act=select"><i class="fa fa-search"></i> Consultar</a></li>
+					            <li><a href="index.php?ctl=usertype&act=delete"><i class="fa fa-trash"></i> Eliminar</a></li>
+			            	</ul>
+			            </li>
+			            <li class="dropdown-submenu">
+			            	<a href="#"><i class="fa fa-bookmark"></i> Marcas</a>
+			            	<ul class="dropdown-menu">
+			            		<li><a href="index.php?ctl=vehiclebrand&act=insert"><i class="fa fa-plus"></i> Agregar</a></li>
+					            <li><a href="index.php?ctl=vehiclebrand&act=update"><i class="fa fa-refresh"></i> Editar</a></li>
+					            <li><a href="index.php?ctl=vehiclebrand&act=select"><i class="fa fa-search"></i> Consultar</a></li>
+					            <li><a href="index.php?ctl=vehiclebrand&act=delete"><i class="fa fa-trash"></i> Eliminar</a></li>
+			            	</ul>
+			            </li>
+
+			            <li class="dropdown-submenu">
+			            	<a href="#"><i class="fa fa-truck"></i> Modelos</a>
+			            	<ul class="dropdown-menu">
+			            		<li><a href="index.php?ctl=vehiclemodel&act=insert"><i class="fa fa-plus"></i> Agregar</a></li>
+					            <li><a href="index.php?ctl=vehiclemodel&act=update"><i class="fa fa-refresh"></i> Editar</a></li>
+					            <li><a href="index.php?ctl=vehiclemodel&act=select"><i class="fa fa-search"></i> Consultar</a></li>
+					            <li><a href="index.php?ctl=vehiclemodel&act=delete"><i class="fa fa-trash"></i> Eliminar</a></li>
+			            	</ul>
+			            </li>
+			            <li class="dropdown-submenu">
+			            	<a href="#"><i class="fa fa-cog"></i> Partes de Vehículos</a>
+			            	<ul class="dropdown-menu">
+			            		<li><a href="index.php?ctl=vehiclepart&act=insert"><i class="fa fa-plus"></i> Agregar</a></li>
+					            <li><a href="index.php?ctl=vehiclepart&act=update"><i class="fa fa-refresh"></i> Editar</a></li>
+					            <li><a href="index.php?ctl=vehiclepart&act=select"><i class="fa fa-search"></i> Consultar</a></li>
+					            <li><a href="index.php?ctl=vehiclepart&act=delete"><i class="fa fa-trash"></i> Eliminar</a></li>
+			            	</ul>
+			            </li>
+			            <li class="dropdown-submenu">
+			            	<a href="#"><i class="fa fa-bolt"></i> Daños</a>
+			            	<ul class="dropdown-menu">
+			            		<li><a href="index.php?ctl=damage&act=insert"><i class="fa fa-plus"></i> Agregar</a></li>
+					            <li><a href="index.php?ctl=damage&act=update"><i class="fa fa-refresh"></i> Editar</a></li>
+					            <li><a href="index.php?ctl=damage&act=select"><i class="fa fa-search"></i> Consultar</a></li>
+					            <li><a href="index.php?ctl=damage&act=delete"><i class="fa fa-trash"></i> Eliminar</a></li>
+			            	</ul>
+			            </li>
+			            <li class="dropdown-submenu">
+			            	<a href="#"><i class="fa fa-calendar-o"></i> Eventos</a>
+			            	<ul class="dropdown-menu">
+			            		<li><a href="index.php?ctl=event&act=insert"><i class="fa fa-plus"></i> Agregar</a></li>
+					            <li><a href="index.php?ctl=event&act=update"><i class="fa fa-refresh"></i> Editar</a></li>
+					            <li><a href="index.php?ctl=event&act=select"><i class="fa fa-search"></i> Consultar</a></li>
+					            <li><a href="index.php?ctl=event&act=delete"><i class="fa fa-trash"></i> Eliminar</a></li>
+			            	</ul>
+			            </li>
+			            <li class="dropdown-submenu">
+			            	<a href="#"><i class="fa fa-university"></i> Ubicaciones</a>
+			            	<ul class="dropdown-menu">
+			            		<li><a href="index.php?ctl=location&act=insert"><i class="fa fa-plus"></i> Agregar</a></li>
+					            <li><a href="index.php?ctl=location&act=update"><i class="fa fa-refresh"></i> Editar</a></li>
+					            <li><a href="index.php?ctl=location&act=select"><i class="fa fa-search"></i> Consultar</a></li>
+					            <li><a href="index.php?ctl=location&act=delete"><i class="fa fa-trash"></i> Eliminar</a></li>
+			            	</ul>
+			            </li>
+			        </ul>
+			    </li>
+			    <li class="dropdown pull-right">
+			        <a href="#" data-toggle="dropdown" class="dropdown-toggle"> {user-name} <b class="caret"></b></a>
+			        <ul class="dropdown-menu">
+			            <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+			        </ul>
+			    </li>
+			</ul>
+	 	</div>
+	 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+		<script src="Bootstrap/js/bootstrap.js"></script>
+		<script>
+			$('.dropdown-toggle').dropdown();
+		</script>
+

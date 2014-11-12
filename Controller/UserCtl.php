@@ -39,7 +39,39 @@
 							//Comprobamos que el POST no esté vacío.
 							if(empty($_POST))
 							{
-								require_once("View/InsertUser.php");
+								//Cargamos el formulario
+								$view = file_get_contents("View/UserForm.html");
+								$header = file_get_contents("View/header.html");
+								$footer = file_get_contents("View/footer.html");
+
+								//Creamos el diccionario
+								//Para el insert los cmapos van vacios y los input estan activos
+								$dictionary = array(
+													'{value-id-user}' => '', 
+													'{value-name}' => '', 
+													'{value-login}' => '', 
+													'{value-pass}' => '', 
+													'{value-email}' => '', 
+													'{value-tel}' => '', 
+													'{value-type}' => '', 
+													'{active}' => ''
+												);
+								
+								//Sustituir los valores en la plantilla
+								$view = strtr($view,$dictionary);
+
+								//Sustituir el usuario en el header
+								$dictionary = array(
+													'{user-name}' => $_SESSION['user']
+												);
+								$header = strtr($header,$dictionary);
+
+								//Agregamos el header y el footer a la vista
+								$view = $header.$view.$footer;
+
+								//Mostramos la vista
+								echo $view;
+								//require_once("View/Formulario.html");
 							}
 							else
 							{
@@ -62,7 +94,7 @@
 									if(!$name || !$login || !$pass || !$type || !$email || !$tel )
 									{
 										$error = "Error al insertar el usuario, alguno de los campos es inválido.";
-										require_once("View/Error.php");
+										$this -> showErrorView($error);
 									}
 									else
 									{
@@ -71,7 +103,38 @@
 
 										if($result)
 										{
-											require_once("View/ShowUser.php");
+											//Cargamos el formulario
+											$view = file_get_contents("View/UserForm.html");
+											$header = file_get_contents("View/header.html");
+											$footer = file_get_contents("View/footer.html");
+
+											//Creamos el diccionario
+											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
+											$dictionary = array(
+																'{value-id-user}' => $_POST['id_user'], 
+																'{value-name}' => $_POST['name'], 
+																'{value-login}' => $_POST['login'], 
+																'{value-pass}' => $_POST['pass'], 
+																'{value-email}' => $_POST['email'], 
+																'{value-tel}' => $_POST['tel'], 
+																'{value-type}' => $_POST['type'], 
+																'{active}' => 'disabled'
+															);
+
+											//Sustituir los valores en la plantilla
+											$view = strtr($view,$dictionary);
+
+											//Sustituir el usuario en el header
+											$dictionary = array(
+																'{user-name}' => $_SESSION['user']
+															);
+											$header = strtr($header,$dictionary);
+
+											//Agregamos el header y el footer
+											$view = $header.$view.$footer;
+
+											echo $view;
+											//require_once("View/ShowUser.php");
 
 											//Enviamos el correo de que se ha añadido un usuario.
 											require_once("Controller/mail.php");
@@ -90,31 +153,32 @@
 											//Manadamos el correo solo a administradores - 4.
 											if(Mailer::sendMail($subject, $body, 4))
 											{
-												echo "<br>Correo enviado con éxito.";
+												//echo "<br>Correo enviado con éxito.";
 											}
 											else
 											{
-												echo "<br>Error al enviar el correo.";
+												$error =  "<br>Error al enviar el correo.";
+												$this -> showErrorView($error);
 											}
 										}
 										else
 										{
 											$error = "Error al insertar el usuario.";
-											require_once("View/Error.php");
+											$this -> showErrorView($error);
 										}
 									}
 								}
 								else
 								{
 									$error = "Error al insertar el usuario, faltan variables por setear.";
-									require_once("View/Error.php");
+									$this -> showErrorView($error);
 								}
 							}
 						}
 						else
 						{
 							$error = "No tiene permisos para realizar esta accion";
-							require_once("View/Error.php");
+							$this -> showErrorView($error);
 						}
 
 						break;
@@ -128,8 +192,10 @@
 							//Comprobamos que el POST no esté vacío.
 							if(empty($_POST))
 							{
-								$error = "Error al eliminar el usuario, el POST está vacío.";
-								require_once("View/Error.php");
+								//Si el post está vacio cargamos la vista para solicitar el id a eliminar
+								//Se envia como parametro la vista a mostrar y la accion
+								$this -> showGetIdView("View/GetIdUserForm.html","delete");
+
 							}
 							else
 							{
@@ -164,20 +230,20 @@
 									else
 									{
 										$error = "Error al eliminar el usuario.";
-										require_once("View/Error.php");
+										$this -> showErrorView($error);
 									}
 								}
 								else
 								{
 									$error = "Error al eliminar el usuario, el id no está seteado.";
-									require_once("View/Error.php");
+									$this -> showErrorView($error);
 								}
 							}
 						}
 						else
 						{
 							$error = "No tiene permisos para realizar esta accion.";
-							require_once("View/Error.php");	
+							$this -> showErrorView($error);
 						}
 						break;
 					}
@@ -189,8 +255,9 @@
 						//Comprobamos que el POST no esté vacío cuando el usuario no sea cliente
 						if(!$this -> isClient() && empty($_POST))
 						{
-							$error = "Error al mostrar el usuario, el POST está vacío.";
-							require_once("View/Error.php");
+							//Si el post está vacio cargamos la vista para solicitar el id a consultar
+							//Se envia como parametro la vista a mostrar y la accion
+							$this -> showGetIdView("View/GetIdUserForm.html","select");
 						}
 						else
 						{
@@ -211,20 +278,52 @@
 								//Ejecutamos el query y guardamos el resultado.
 								$result = $this -> model -> select($id_user);
 
-								if($result != null)
+								if($result !== FALSE)
 								{
-									var_dump($result);
+									//Cargamos el formulario
+									$view = file_get_contents("View/UserForm.html");
+									$header = file_get_contents("View/header.html");
+									$footer = file_get_contents("View/footer.html");
+
+									//Acceder al resultado y crear el diccionario
+									//Revisar que el nombre de los campos coincida con los de la base de datos
+									foreach ($result as $row) {
+										$dictionary = array(
+															'{value-id-user}' => $result['idUser'], 
+															'{value-name}' => $result['User'], 
+															'{value-login}' => $result['Login'], 
+															'{value-pass}' => $result['Password'], 
+															'{value-email}' => $result['Email'], 
+															'{value-tel}' => $result['Tel'], 
+															'{value-type}' => $result['idUserType'], 
+															'{active}' => 'disabled'
+														);
+									}
+
+									//Sustituir los valores en la plantilla
+									$view = strtr($view,$dictionary);
+
+									//Sustituir el usuario en el header
+									$dictionary = array(
+														'{user-name}' => $_SESSION['user']
+													);
+									$header = strtr($header,$dictionary);
+
+									//Agregamos el header y el footer
+									$view = $header.$view.$footer;
+
+									echo $view;
 								}
 								else
 								{
 									$error = "Error al mostrar el usuario.";
-									require_once("View/Error.php");
+									$this -> showErrorView($error);
 								}
 							}
 							else
 							{
 								$error = "Error al mostrar el usuario, el id no está seteado.";
-								require_once("View/Error.php");
+								$this -> showErrorView($error);
 							}
 						}
 
@@ -239,8 +338,9 @@
 						//Comprobamos que el POST no esté vacío en caso de que el usuario sea tipo Admin.
 						if( $this -> isAdmin() && empty($_POST))
 						{
-							$error = "Error al tratar de modificar el registro, el POST está vacío.";
-							require_once("View/Error.php");
+							//Si el post está vacio cargamos la vista para solicitar el id a consultar
+							//Se envia como parametro la vista a mostrar y la accion
+							$this -> showGetIdView("View/GetIdUserForm.html","update");
 						}
 						else
 						{
@@ -289,7 +389,7 @@
 										if(!$name || !$login || !$pass || !$email || !$tel )
 										{
 											$error = "Error al insertar el usuario, alguno de los campos es inválido.";
-											require_once("View/Error.php");
+											$this -> showErrorView($error);
 										}
 										else
 										{
@@ -298,7 +398,38 @@
 											//se imprime un mensaje.
 											if($this -> model -> update($id_user, $name,$login,$pass ,$email,$tel, $type))
 											{
-												require_once("View/UpdateUserShow.php");
+												//Cargamos el formulario
+												$view = file_get_contents("View/UserForm.html");
+												$header = file_get_contents("View/header.html");
+												$footer = file_get_contents("View/footer.html");
+
+												//Creamos el diccionario
+												//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
+												$dictionary = array(
+																	'{value-id-user}' => $id_user, 
+																	'{value-name}' => $name, 
+																	'{value-login}' => $login, 
+																	'{value-pass}' => $pass, 
+																	'{value-email}' => $email, 
+																	'{value-tel}' => $tel, 
+																	'{value-type}' => $type, 
+																	'{active}' => 'disabled'
+																);
+
+												//Sustituir los valores en la plantilla
+												$view = strtr($view,$dictionary);
+
+												//Sustituir el usuario en el header
+												$dictionary = array(
+																	'{user-name}' => $_SESSION['user']
+																);
+												$header = strtr($header,$dictionary);
+
+												//Agregamos el header y el footer
+												$view = $header.$view.$footer;
+
+												echo $view;
+												//require_once("View/UpdateUserShow.php");
 
 												//Enviamos correo de usuario actualizado a los admin
 												require_once("Controller/mail.php");
@@ -316,37 +447,38 @@
 												//Manadamos el correo solo a administradores - 4.
 												if(Mailer::sendMail($subject, $body, 4))
 												{
-													echo "<br>Correo enviado con éxito.";
+													//echo "<br>Correo enviado con éxito.";
 												}
 												else
 												{
-													echo "<br>Error al enviar el correo.";
+													$error =  "<br>Error al enviar el correo.";
+													$this -> showErrorView($error);
 												}
 											}
 											else
 											{
 												$error = "Error al tratar de modificar el registro.";
-												require_once("View/Error.php");
+												$this -> showErrorView($error);
 											}
 										}
 									}	
 									else
 									{
 										$error = "Error al tratar de modificar el registro, el tipo de usuario no está seteado.";
-										require_once("View/Error.php");
+										$this -> showErrorView($error);
 									}
 								}
 								//Si el resultado no contiene información, mostramos el error.
 								else
 								{
 									$error = "Error al tratar de mostrar el registro.";
-									require_once("View/Error.php");
+									$this -> showErrorView($error);
 								}
 							}
 							else
 							{
 								$error = "Error al tratar de modificar el registro, el id no está seteado.";
-								require_once("View/Error.php");
+								$this -> showErrorView($error);
 							}
 						}
 
@@ -358,7 +490,7 @@
 			else
 			{
 				$error = "No se ha iniciado ninguna sesion.";
-				require_once("View/Error.php");	
+				$this -> showErrorView($error);	
 			}
 		} /* fin run */
 	}
