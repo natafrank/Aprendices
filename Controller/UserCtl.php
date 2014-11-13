@@ -483,7 +483,77 @@
 						}
 
 						break;
-					}		
+					}
+					case "list" :
+					{
+						//Solo si es empleado o administrados puede consultar la lista de usuarios
+						if(!$this -> isClient())
+						{
+							//Ejecutamos el query y guardamos el resultado.
+							$result = $this -> model -> getList();
+
+							if($result !== FALSE)
+							{
+								//Cargamos el formulario
+								$view = file_get_contents("View/UserTable.html");
+								$header = file_get_contents("View/header.html");
+								$footer = file_get_contents("View/footer.html");
+
+								//Obtengo la posicion donde va a insertar los registros
+								$row_start = strrpos($view,'{row-start}') + 11;
+								$row_end = strrpos($view,'{row-end}');
+
+								//Hacer copia de la fila donde se va a reemplazar el contenido
+								$base_row = substr($view,$row_start,$row_end-$row_start);
+
+								//Acceder al resultado y crear el diccionario
+								//Revisar que el nombre de los campos coincida con los de la base de datos
+								$rows = '';
+								foreach ($result as $row) {
+									$new_row = $base_row;
+									$dictionary = array(
+														'{value-id-user}' => $result['idUser'], 
+														'{value-name}' => $result['User'], 
+														'{value-login}' => $result['Login'], 
+														'{value-pass}' => $result['Password'], 
+														'{value-email}' => $result['Email'], 
+														'{value-tel}' => $result['Tel'], 
+														'{value-type}' => $result['idUserType'], 
+														'{active}' => 'disabled'
+													);
+									$new_row = strtr($new_row,$dictionary);
+									$rows .= $new_row;
+								}
+
+								//Reemplazar en la vista la fila base por las filas creadas
+								$view = str_replace($base_row, $rows, $view);
+								$view = str_replace('{row-start}', '', $view);
+								$view = str_replace('{row-end}', '', $view);
+
+								//Reemplazar nombre de la tabla
+								$dictionary = array( '{table-name}' => 'Usuarios');
+								$view = strtr($view,$dictionary);
+
+								//Sustituir el usuario en el header
+								$dictionary = array(
+													'{user-name}' => $_SESSION['user']
+												);
+								$header = strtr($header,$dictionary);
+
+								//Agregamos el header y el footer
+								$view = $header.$view.$footer;
+
+								echo $view;
+							}
+							else
+							{
+								$error = "Error al listar usuarios.";
+								$this -> showErrorView($error);
+							}
+						}
+
+						break;
+					}	
 				} /* fin switch */
 				$this -> logout();
 			}

@@ -1,0 +1,30 @@
+		<div class="container form_body">
+			<h1>{table-name}</h1>
+			<table class="table table-bordered table-hover">
+				<thead>
+					<!-- Encabezado con los campos de la tabla -->
+					<tr>
+						<th>IdUsuario</th>
+						<th>Nombre</th>
+						<th>Login</th>
+						<th>Contraseña</th>
+						<th>E-mail</th>
+						<th>Teléfono</th>
+						<th>Tipo de Usuario</th>
+					</tr>
+				</thead>
+				<tbody>
+					{row-start}
+					<tr>
+						<td>{value-id-user}</td>
+						<td>{value-name}</td>
+						<td>{value-login}</td>
+						<td>{value-pass}</td>
+						<td>{value-email}</td>
+						<td>{value-tel}</td>
+						<td>{value-type}</td>
+					</tr>
+					{row-end}
+				</tbody>
+			</table>
+		</div>
