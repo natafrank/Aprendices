@@ -161,8 +161,7 @@
 											}
 											else
 											{
-												$error =  "<br>Error al enviar el correo.";
-												$this -> showErrorView($error);
+												echo "<br />Error al enviar el correo.";
 											}
 										}
 										else
@@ -229,7 +228,7 @@
 										}
 										else
 										{
-											echo "Error al enviar el correo";
+											echo "<br />Error al enviar el correo";
 										}
 									}
 									else
@@ -460,8 +459,7 @@
 												}
 												else
 												{
-													$error =  "<br>Error al enviar el correo.";
-													$this -> showErrorView($error);
+													echo "<br />Error al enviar el correo.";
 												}
 											}
 											else
@@ -565,6 +563,10 @@
 								$error = "Error al listar usuarios.";
 								$this -> showErrorView($error);
 							}
+						}
+						else{
+							$error = "No tiene permisos para realizar esta acción";
+							$this -> showErrorView($error);
 						}
 
 						break;

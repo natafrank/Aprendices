@@ -1,0 +1,23 @@
+	 	<div class="container form_body">
+			<form action="index.php?ctl=damagedetail&act=insert" method="post" role="form">
+	 			<h1>Detalle de Daños</h1>
+	 			<div class="form-group">
+				    <label for="idDamageDetail">Id Detalle de Daño:</label>
+				    <input type="number" class="form-control" id="idDamageDetail" name="idDamageDetail" value="{value-id-damage-detail}" min="1" {active} required>
+			  	</div>
+			  	<div class="form-group">
+				    <label for="idChecklist">Id Checklist:</label>
+				    <input type="number" class="form-control" id="idChecklist" name="idChecklist" value="{value-id-checklist}" min="1" {active} required>
+			  	</div>
+			  	<div class="form-group">
+				    <label for="idVehiclePart">Id Parte de Vehículo:</label>
+				    <input type="number" class="form-control" id="idVehiclePart" name="idVehiclePart" value="{value-id-vehicle-part}" min="1" {active} required>
+			  	</div>
+			  	<div class="form-group">
+				    <label for="idDamage">Id Daño:</label>
+				    <input type="number" class="form-control" id="idDamage" name="idDamage" value="{value-id-damage}" min="1" {active} required>
+			  	</div>
+				<button type="submit" class="btn btn-default" {active}>Guardar</button>
+			</form>
+		</div>
+		
