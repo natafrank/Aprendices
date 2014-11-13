@@ -122,10 +122,10 @@
 		 * @return array - con los registros obtenidos si la consulta fue exitosa
 		 * @return bool - FALSE si hubo un error
 		 */
-		public function getList()
+		public function getList($filter)
 		{
 			//Query a ejecutar
-			$query = "SELECT * FROM User;";
+			$query = "SELECT * FROM User WHERE ".$filter.";";
 
 			//Ejecutamos el query y recogemos el resultado.
 			$result = $this -> db_driver -> execute($query);

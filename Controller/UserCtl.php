@@ -498,8 +498,16 @@
 						//Solo si es empleado o administrados puede consultar la lista de usuarios
 						if(!$this -> isClient())
 						{
+							//Revisar si hay un filtro, sino hay se queda el filtro po default
+							$filter = "0=0";
+							if(isset($_POST['filter_condition'])){
+								//Creamos la condicion con el campo seleccionadoo y el filtro
+								$filter = $_POST['filter_select']." = ".$_POST['filter_condition']; 
+							}
+
+
 							//Ejecutamos el query y guardamos el resultado.
-							$result = $this -> model -> getList();
+							$result = $this -> model -> getList($filter);
 
 							if($result !== FALSE)
 							{

@@ -127,3 +127,13 @@
 .nav-stacked>li>a{
     padding : 0 10px;    
 }
+
+#filter_label{
+    line-height : 34px;
+    height : 34px;
+}
+
+.filter_control{
+    width : 20%;
+    margin : 0 1%;
+}
