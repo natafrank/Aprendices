@@ -346,7 +346,9 @@
 
 			//Sustituir el usuario en el header
 			$dictionary = array(
-								'{user-name}' => $_SESSION['user']
+								'{user-name}' => $_SESSION['user'],
+								'{log-link}' => 'index.php?ctl=logout',
+								'{log-type}' => 'Logout'
 							);
 			$header = strtr($header,$dictionary);
 
@@ -358,11 +360,9 @@
 		}
 
 		/**
-		 * Muestra la vista Error.
+		 * Muestra la vista de Eliminacion.
 		 *
-		 * Función que se encarga de mostrar la vista con el error especifico.
-		 *
-		 * @param string $error - cadena con el error a mostrar.
+		 * Función que se encarga de mostrar la vista que indica que un registro se eliminó correctamente.
 		 *
 		 */
 		function showDeleteView(){
@@ -373,7 +373,49 @@
 
 			//Sustituir el usuario en el header
 			$dictionary = array(
-								'{user-name}' => $_SESSION['user']
+								'{user-name}' => $_SESSION['user'],
+								'{log-link}' => 'index.php?ctl=logout',
+								'{log-type}' => 'Logout'
+							);
+			$header = strtr($header,$dictionary);
+
+			//Agregamos el header y el footer a la vista
+			$view = $header.$view.$footer;
+
+			//Mostramos la vista
+			echo $view;
+		}
+
+		/**
+		 * Muestra la vista de Login.
+		 *
+		 * Función que se encarga de mostrar la vista para hacer login.
+		 *
+		 * @param string $ctl - cadena con el controlador desde el que fue llamado.
+		 * @param string $act - cadena con la accion que se iba a realizar.
+		 *
+		 */
+		function showLoginView($ctl,$act){
+			//Cargamos el formulario
+			$view = file_get_contents("View/Login.html");
+			$header = file_get_contents("View/header.html");
+			$footer = file_get_contents("View/footer.html");
+
+			//Creamos el diccionario
+			//Ponemos la accion y el controlador desde donde se llamo el login para regresar ahi cuando inicie sesion
+			$dictionary = array(
+								'{controller}' => $ctl,
+								'{action}' => $act
+							);
+			
+			//Sustituir los valores en la plantilla
+			$view = strtr($view,$dictionary);
+
+			//Sustituir los valores en el header de usuario
+			$dictionary = array(
+								'{user-name}' => 'Login',
+								'{log-link}' => 'index.php',
+								'{log-type}' => 'Login'
 							);
 			$header = strtr($header,$dictionary);
 

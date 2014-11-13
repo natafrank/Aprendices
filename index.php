@@ -85,8 +85,25 @@
 				$ctl = new VehicleStatusCtl();
 				break;
 			}
+			case "logout":
+			{
+				//Si no se especifico ctl mostramos la pestaña de login
+				require_once("Controller/StandardCtl");
+				$ctl = new StandardCtl();
+				//Terminamos la sesion
+				$ctl -> logout();
+				//Por default nos envia a la consulta de un usuario después del login
+				$ctl -> showLoginView('user','select');
+				break
+			}
 			default:
-				echo "Controlador indefinido"; 
+			{
+				//Si no se especifico ctl mostramos la pestaña de login
+				require_once("Controller/StandardCtl");
+				$ctl = new StandardCtl();
+				//Por default nos envia a la consulta de un usuario despues del login
+				$ctl -> showLoginView('user','select');
+			}
 		}
 
 		$ctl->run();

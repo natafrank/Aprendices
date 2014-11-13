@@ -62,7 +62,9 @@
 
 								//Sustituir el usuario en el header
 								$dictionary = array(
-													'{user-name}' => $_SESSION['user']
+													'{user-name}' => $_SESSION['user'],
+													'{log-link}' => 'index.php?ctl=logout',
+													'{log-type}' => 'Logout'
 												);
 								$header = strtr($header,$dictionary);
 
@@ -126,7 +128,9 @@
 
 											//Sustituir el usuario en el header
 											$dictionary = array(
-																'{user-name}' => $_SESSION['user']
+																'{user-name}' => $_SESSION['user'],
+																'{log-link}' => 'index.php?ctl=logout',
+																'{log-type}' => 'Logout'
 															);
 											$header = strtr($header,$dictionary);
 
@@ -306,7 +310,9 @@
 
 									//Sustituir el usuario en el header
 									$dictionary = array(
-														'{user-name}' => $_SESSION['user']
+														'{user-name}' => $_SESSION['user'],
+														'{log-link}' => 'index.php?ctl=logout',
+														'{log-type}' => 'Logout'
 													);
 									$header = strtr($header,$dictionary);
 
@@ -422,7 +428,9 @@
 
 												//Sustituir el usuario en el header
 												$dictionary = array(
-																	'{user-name}' => $_SESSION['user']
+																	'{user-name}' => $_SESSION['user'],
+																	'{log-link}' => 'index.php?ctl=logout',
+																	'{log-type}' => 'Logout'
 																);
 												$header = strtr($header,$dictionary);
 
@@ -537,7 +545,9 @@
 
 								//Sustituir el usuario en el header
 								$dictionary = array(
-													'{user-name}' => $_SESSION['user']
+													'{user-name}' => $_SESSION['user'],
+													'{log-link}' => 'index.php?ctl=logout',
+													'{log-type}' => 'Logout'
 												);
 								$header = strtr($header,$dictionary);
 
@@ -556,12 +566,13 @@
 						break;
 					}	
 				} /* fin switch */
-				$this -> logout();
+				//El logout se hace cuando se especifica
+				//$this -> logout();
 			}
 			else
 			{
-				$error = "No se ha iniciado ninguna sesion.";
-				$this -> showErrorView($error);	
+				//Si no ha iniciado sesion mostrar la vista para hacer login
+				$this -> showLoginView($_GET['ctl'],$_GET['act']);
 			}
 		} /* fin run */
 	}
