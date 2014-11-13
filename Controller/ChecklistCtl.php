@@ -187,7 +187,6 @@
 									//Recogemos el resultado y si contiene información, la mostramos.
 									if(($result = $this -> model -> select($idChecklist)) != null)
 									{
-										echo var_dump($result);
 
 										//La modificación se realizará en base al id.
 										//Por ahora se modificarán todos los atributos.
