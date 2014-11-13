@@ -210,7 +210,8 @@
 
 									if($result)
 									{
-										require_once("View/DeleteUser.php");
+										//Muestra la vista de que la eliminación se realizó con éxito
+										$this -> showDeleteView();
 
 										//Enviamos el correo del usuario que se eliminó a los admin
 										require_once("Controller/mail.php");
@@ -220,7 +221,7 @@
 
 										if(Mailer::sendMail($subject, $body, 4))
 										{
-											echo "Correo enviado con éxito";
+											//echo "Correo enviado con éxito";
 										}
 										else
 										{

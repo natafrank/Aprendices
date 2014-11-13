@@ -356,6 +356,33 @@
 			//Mostramos la vista
 			echo $view;
 		}
+
+		/**
+		 * Muestra la vista Error.
+		 *
+		 * Función que se encarga de mostrar la vista con el error especifico.
+		 *
+		 * @param string $error - cadena con el error a mostrar.
+		 *
+		 */
+		function showDeleteView(){
+			//Cargamos el formulario
+			$view = file_get_contents("View/DeleteRegistry.html");
+			$header = file_get_contents("View/header.html");
+			$footer = file_get_contents("View/footer.html");
+
+			//Sustituir el usuario en el header
+			$dictionary = array(
+								'{user-name}' => $_SESSION['user']
+							);
+			$header = strtr($header,$dictionary);
+
+			//Agregamos el header y el footer a la vista
+			$view = $header.$view.$footer;
+
+			//Mostramos la vista
+			echo $view;
+		}
 	}
 
 ?>
