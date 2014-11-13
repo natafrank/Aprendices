@@ -74,10 +74,17 @@
 			$query = "UPDATE Event SET Event='".$Event." 
 					  WHERE idEvent=".$idEvent.";";
 
-		  	//Ejecutamos el query.
-		  	$result = $this->db_driver->execute($query);
-
-		  	return $result;
+		  	//Ejecutamos el query
+			if($this->db_driver->execute($query))
+			{
+				//Retornamos verdadero si se insertaron los datos correctamente.
+				return TRUE;
+			}		
+			else
+			{
+				//Retornamos falso en caso de no poder insertar.
+				return FALSE;
+			}	
 		}
 		
 		public function select($idEvent)
@@ -102,6 +109,46 @@
 				//Si el resultado es null, retornamos FALSE.
 				return FALSE;
 			}	
+		}
+
+		/**
+		 * Funcion de Listado.
+		 *
+		 * Obtiene todos los registros de la tabla.
+		 *
+		 * @return array - con los registros obtenidos si la consulta fue exitosa
+		 * @return bool - FALSE si hubo un error
+		 */
+		public function getList($filter)
+		{
+			//Query a ejecutar
+			$query = "SELECT * FROM Event WHERE ".$filter.";";
+
+			//Ejecutamos el query y recogemos el resultado.
+			$result = $this -> db_driver -> execute($query);
+
+			//Si el resultado no es null, procesamos la información.
+			if($result != null)
+			{
+				//Si el resultado contiene información retornamos el resultado.
+				return $result;
+			}
+			else
+			{
+				//Si el resultado es null, retornamos FALSE.
+				return FALSE;
+			}	
+		}
+
+		/******** GETTERS PARA ACCEDER A LA INFORMACIÓN PRIVADA DE LA CLASE **********/
+		public function getIdEvent()
+		{
+			return $this -> idEvent;
+		}
+
+		public function getEvent()
+		{
+			return $this -> Event;
 		}
 
 	}
