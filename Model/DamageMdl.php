@@ -46,7 +46,8 @@
 		 * @param int $id_damage - Llave primaria de la tabla.
 		 * @param string $damage - Nombre del daño.
 		 *
-		 * @return bool - TRUE si la inserción se hizo correctamente, FALSE en caso contrario
+		 * @return array - con el registro insertado si se inserto correctamente
+		 * @return bool - FALSE si falló la inserción
 		 */
 		public function insert($id_damage,$damage)
 		{
@@ -58,17 +59,10 @@
 			$query = "INSERT INTO Damage VALUES(".$this -> id_damage
 					 .", '".$this -> damage."');";
 	
-			//Ejecutamos el query.
-			if($this -> db_driver -> execute($query))
-			{
-				//Retornamos verdadero si se insertaron los datos correctamente.
-				return TRUE;
-			}		
-			else
-			{
-				//Retornamos falso en caso de no poder insertar.
-				return FALSE;
-			}
+			//Ejecutamos el query y retornamos el resultado.
+		    //Retornará verdadero si se insertaron los datos correctamente.
+			//Retornará falso en caso de no poder insertar.
+			return $this -> db_driver -> execute($query);
 		}
 		
 		/**
@@ -78,7 +72,8 @@
 		 *
 		 * @param int $id_damage - Llave primaria del registro que se va a eliminar.
 		 *
-		 * @return bool - TRUE si la eliminación se hizo correctamente, FALSE en caso contrario
+		 * @return array - con el registro eliminado si se inserto correctamente
+		 * @return bool - FALSE si falló la eliminacion
 		 */
 		public function delete($id_damage)
 		{
@@ -88,17 +83,10 @@
 			//Query a ejecutar
 			$query = "DELETE FROM Damage WHERE idDamage=".$this -> id_damage.";";
 
-			//Ejecutamos el query
-			if($this -> db_driver -> execute($query))
-			{
-				//Retornamos verdadero si se insertaron los datos correctamente.
-				return TRUE;
-			}		
-			else
-			{
-				//Retornamos falso en caso de no poder insertar.
-				return FALSE;
-			}	
+			//Ejecutamos el query y retornamos el resultado.
+		    //Retornará verdadero si se eliminó el registro correctamente.
+			//Retornará falso en caso de no poder eliminar.
+			return $this -> db_driver -> execute($query);	
 		}
 		
 		/**
@@ -122,17 +110,10 @@
 			$query = "UPDATE Damage SET Damage='".$damage."' 
 					  WHERE idDamage=".$id_damage.";";
 
-		  	//Ejecutamos el query
-			if($this -> db_driver -> execute($query))
-			{
-				//Retornamos los datos si se actualizó el registro correctamente.
-				return $result;
-			}		
-			else
-			{
-				//Retornamos falso en caso contrario.
-				return FALSE;
-			}
+		  	//Ejecutamos el query y retornamos el resultado.
+			//Retornará verdadero si se modificó el registro correctamente.
+			//Retornará falso en caso de no poder modificar.
+			return $this -> db_driver -> execute($query);
 		}
 		
 		/**
