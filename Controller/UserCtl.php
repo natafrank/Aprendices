@@ -547,10 +547,6 @@
 								$view = str_replace('{row-start}', '', $view);
 								$view = str_replace('{row-end}', '', $view);
 
-								//Reemplazar nombre de la tabla
-								$dictionary = array( '{table-name}' => 'Usuarios');
-								$view = strtr($view,$dictionary);
-
 								//Sustituir el usuario en el header
 								$dictionary = array(
 													'{user-name}' => $_SESSION['user'],
