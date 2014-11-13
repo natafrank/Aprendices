@@ -197,8 +197,8 @@
 							if(empty($_POST))
 							{
 								//Si el post está vacio cargamos la vista para solicitar el id a eliminar
-								//Se envia como parametro la vista a mostrar y la accion
-								$this -> showGetIdView("View/GetIdUserForm.html","delete");
+								//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
+								$this -> showGetIdView("user","delete","id_user","Id Usuario:");
 
 							}
 							else
@@ -261,8 +261,8 @@
 						if(!$this -> isClient() && empty($_POST))
 						{
 							//Si el post está vacio cargamos la vista para solicitar el id a consultar
-							//Se envia como parametro la vista a mostrar y la accion
-							$this -> showGetIdView("View/GetIdUserForm.html","select");
+							//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
+							$this -> showGetIdView("user","select","id_user","Id Usuario:");
 						}
 						else
 						{
@@ -346,8 +346,8 @@
 						if( $this -> isAdmin() && empty($_POST))
 						{
 							//Si el post está vacio cargamos la vista para solicitar el id a consultar
-							//Se envia como parametro la vista a mostrar y la accion
-							$this -> showGetIdView("View/GetIdUserForm.html","update");
+							//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
+							$this -> showGetIdView("user","update","id_user","Id Usuario:");
 						}
 						else
 						{

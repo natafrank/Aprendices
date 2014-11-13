@@ -290,19 +290,24 @@
 		 * Función que se encarga de mostrar la vista que solicitara el id necesario para
 		 * realizar las acciones de actualización, consulta y eliminación.
 		 *
-		 * @param string $view - ruta de la vista a cargar.
+		 * @param string $controller - controlador desde donde se llama la funcion.
 		 * @param string $action - action a realizar con el id que se obtenga del formulario.
+		 * @param string $id_field - nombre del campo como se pedira en $_POST.
+		 * @param string $caption - texto a mostrar como label del input.
 		 */
-		function showGetIdView($view,$action){
+		function showGetIdView($controller,$action,$id_field,$caption){
 			//Cargamos el formulario
-			$view = file_get_contents($view);
+			$view = file_get_contents("View/GetIdView.html");
 			$header = file_get_contents("View/header.html");
 			$footer = file_get_contents("View/footer.html");
 
 			//Creamos el diccionario
 			//Para el delete ponemos la accion en delete
 			$dictionary = array(
-								'{action}' => $action
+								'{controller}' => $controller,
+								'{action}' => $action,
+								'{id-field}' => $id_field,
+								'{id-caption}' => $caption,
 							);
 			
 			//Sustituir los valores en la plantilla
@@ -310,7 +315,9 @@
 
 			//Sustituir el usuario en el header
 			$dictionary = array(
-								'{user-name}' => $_SESSION['user']
+								'{user-name}' => $_SESSION['user'],
+								'{log-link}' => 'index.php?ctl=logout',
+								'{log-type}' => 'Logout'
 							);
 			$header = strtr($header,$dictionary);
 
