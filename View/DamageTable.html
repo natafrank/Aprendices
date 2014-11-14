@@ -1,14 +1,12 @@
 		<div class="container form_body">
-			<h1>Detalles de Daños</h1>
-			<form action="index.php?ctl=damagedetail&act=list" method="post" role="form">
+			<h1>Daños</h1>
+			<form action="index.php?ctl=damage&act=list" method="post" role="form">
 	 			<div class="form-group">
 				    <label class="pull-left" for="filter_select" id="filter_label">Filtro: </label>
 				    <select class="form-control pull-left filter_control" name="filter_select" id="filter_select">
 						<!-- En value va el nombre como vienen el campo en la BDD -->
-						<option value="idDamageDetail">Id Detalle de Daños</option>
-					    <option value="idChecklist">Id Checklist</option>
-					    <option value="idVehiclePart">Id Parte de Vehículo</option>
-					    <option value="IdDamage">Id Daño</option>
+						<option value="idDamageDetail">Id Daño</option>
+					    <option value="Damage">Daño</option>
 					</select>
 					<input type="text" class="form-control pull-left filter_control" id="filter_condition" name="filter_condition" required>
 			  	</div>
@@ -20,19 +18,15 @@
 				<thead>
 					<!-- Encabezado con los campos de la tabla -->
 					<tr>
-						<th>Id Detalle de Daño</th>
-						<th>Id Checklist</th>
-						<th>Id Parte de Vehículo</th>
 						<th>Id Daño</th>
+						<th>Daño</th>
 					</tr>
 				</thead>
 				<tbody>
 					{row-start}
 					<tr>
-						<td>{value-id-damage-detail}</td>
-						<td>{value-id-checklist}</td>
-						<td>{value-id-vehicle-part}</td>
 						<td>{value-id-damage}</td>
+						<td>{value-damage}</td>
 					</tr>
 					{row-end}
 				</tbody>

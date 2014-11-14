@@ -368,9 +368,7 @@
 								//Primero mostramos el id que se quire modificar.
 								//Recogemos el resultado y si contiene información, la mostramos.
 								if(($result = $this -> model -> select($id_user)) != null)
-								{
-									var_dump($result);
-									
+								{									
 									//Comprobamos que las variables a modificar estén seteadas
 									if(isset($_POST['name'])
 										&& isset($_POST['login']) && isset($_POST['pass'])

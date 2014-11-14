@@ -1,0 +1,15 @@
+	 	<div class="container form_body">
+			<form action="index.php?ctl=vehiclepart&act=insert" method="post" role="form">
+	 			<h1>Parte de Vehículo</h1>
+	 			<div class="form-group">
+				    <label for="idVehiclePart">Id Parte de Vehículo:</label>
+				    <input type="number" class="form-control" id="idVehiclePart" name="idVehiclePart" value="{value-id-vehicle-part}" min="1" {active} required>
+			  	</div>
+			  	<div class="form-group">
+				    <label for="VehiclePart">Parte de Vehículo:</label>
+				    <input type="text" class="form-control" id="VehiclePart" name="VehiclePart" value="{value-vehicle-part}" {active} required>
+			  	</div>
+				<button type="submit" class="btn btn-default" {active}>Guardar</button>
+			</form>
+		</div>
+		
