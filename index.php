@@ -94,7 +94,7 @@
 				$ctl -> logout();
 				//Por default nos envia a la consulta de un usuario después del login
 				$ctl -> showLoginView('user','select');
-				break
+				break;
 			}
 			default:
 			{

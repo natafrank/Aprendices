@@ -49,7 +49,7 @@
 								//Sustituir los valores en la plantilla
 								$view = strtr($view,$dictionary);
 
-								//Sustituir el evento en el header
+								//Sustituir el usuario en el header
 								$dictionary = array(
 									'{user-name}' => $_SESSION['user'],
 									'{log-link}' => 'index.php?ctl=logout',
@@ -123,7 +123,7 @@
 									}
 									else
 									{
-										$error =  "<br>Error al enviar el correo.";
+										$error =  "Error al enviar el correo.";
 										$this -> showErrorView($error);
 									}
 								}
@@ -151,7 +151,7 @@
 							if(empty($_POST))
 							{
 								//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
-								$this -> showGetIdView("event","update","idEvent","Id Event:");
+								$this -> showGetIdView("event","update","idEvent","Id Evento:");
 							}
 							else
 							{
@@ -222,7 +222,7 @@
 											}
 											else
 											{
-												$error =  "<br>Error al enviar el correo.";
+												$error =  "Error al enviar el correo.";
 												$this -> showErrorView($error);
 											}	
 										}
@@ -250,7 +250,7 @@
 						else
 						{
 							$error = "No tiene permisos para realizar esta acción";
-							require_once("View/Error.php");
+							$this -> showErrorView($error);
 						}
 						break;
 					}
@@ -265,7 +265,7 @@
 							{
 								//Si el post está vacio cargamos la vista para solicitar el id a consultar
 								//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
-								$this -> showGetIdView("event","select","idEvent","Id Event:");
+								$this -> showGetIdView("event","select","idEvent","Id Evento:");
 							}
 							else
 							{
@@ -342,7 +342,7 @@
 							{
 								//Si el post está vacio cargamos la vista para solicitar el id a eliminar
 								//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar de $_POST y el texto a mostrar en el label del input
-								$this -> showGetIdView("event","delete","idEvent","Id Event:");
+								$this -> showGetIdView("event","delete","idEvent","Id Evento:");
 							}
 
 							else
@@ -378,7 +378,7 @@
 										}
 										else
 										{
-											$error =  "<br>Error al enviar el correo.";
+											$error =  "Error al enviar el correo.";
 											$this -> showErrorView($error);
 										}
 									}

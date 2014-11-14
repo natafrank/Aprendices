@@ -1,0 +1,23 @@
+	 	<div class="container form_body">
+			<form action="index.php?ctl=vehiclestatus&act=insert" method="post" role="form">
+	 			<h1>Estatus de Vehiculo</h1>
+	 			<div class="form-group">
+				    <label for="idVehicleStatus">Id Estatus de Vehiculo:</label>
+				    <input type="number" class="form-control" id="idVehicleStatus" name="idVehicleStatus" value="{value-idVehicleStatus}" {active} required>
+			  	</div>
+			  	<div class="form-group">
+				    <label for="vehicleStatus">Estatus de Vehiculo:</label>
+				    <input type="text" class="form-control" id="vehicleStatus" name="vehicleStatus" value="{value-vehicleStatus}" {active} required>
+			  	</div>
+			  	<div class="form-group">
+				    <label for="Fuel">Gasolina:</label>
+				    <input type="number" step=".1" class="form-control" id="Fuel" name="Fuel" value="{value-Fuel}" {active} required>
+			  	</div>
+			  	<div class="form-group">
+				    <label for="Km">Km:</label>
+				    <input type="number" step=".1" class="form-control" id="Km" name="Km" value="{value-Km}" {active} required>
+			  	</div>
+				<button type="submit" class="btn btn-default" {active}>Guardar</button>
+			</form>
+		</div>
+		

@@ -2,12 +2,12 @@
 			<form action="index.php?ctl=event&act=insert" method="post" role="form">
 	 			<h1>Evento</h1>
 	 			<div class="form-group">
-				    <label for="idEvent">Id Event:</label>
-				    <input type="number" class="form-control" id="idEvent" name="idEvent" value="{value-idEevent}" {active}>
+				    <label for="idEvent">Id Evento:</label>
+				    <input type="number" class="form-control" id="idEvent" name="idEvent" value="{value-idEevent}" {active} required>
 			  	</div>
 			  	<div class="form-group">
 				    <label for="Event">Evento:</label>
-				    <input type="text" class="form-control" id="Event" name="Event" value="{value-Event}" {active}>
+				    <input type="text" class="form-control" id="Event" name="Event" value="{value-Event}" {active} required>
 			  	</div>
 				<button type="submit" class="btn btn-default" {active}>Guardar</button>
 			</form>
