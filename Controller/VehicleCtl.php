@@ -48,7 +48,8 @@
 													'{value-id-location}' => '',
 													'{value-id-vehicle-model}' => '',
 													'{value-vin}' => '',
-													'{value-color}' => ''
+													'{value-color}' => '',
+													'{active}' => ''
 												);
 
 								//Sustituir los valores en la plantilla
@@ -272,11 +273,11 @@
 										foreach($result as $row)
 										{
 											$dictionary = array(
-													'{value-id-vehicle}' => $result['id_vehicle'],
-													'{value-id-location}' => $result['id_location'],
-													'{value-id-vehicle-model}' => $result['id_vehicle_model'],
-													'{value-vin}' => $result['vin'],
-													'{value-color}' => $result['color'],
+													'{value-id-vehicle}' => $result['idVehicle'],
+													'{value-id-location}' => $result['idLocation'],
+													'{value-id-vehicle-model}' => $result['idVehicleModel'],
+													'{value-vin}' => $result['VIN'],
+													'{value-color}' => $result['Color'],
 													'{active}' => 'disabled'
 												);
 										}
@@ -479,7 +480,7 @@
 							if($result !== FALSE)
 							{
 								//Cargamos el formulario
-								$view = file_get_contents("View/UserTable.html");
+								$view = file_get_contents("View/VehicleTable.html");
 								$header = file_get_contents("View/header.html");
 								$footer = file_get_contents("View/footer.html");
 
@@ -498,12 +499,12 @@
 								{
 									$new_row = $base_row;
 									$dictionary = array(
-														'{value-id-vehicle}' => $result['id_vehicle'],
-														'{value-id-location}' => $result['id_location'],
-														'{value-id-vehicle-model}' => $result['id_vehicle_model'],
-														'{value-vin}' => $result['vin'],
-														'{value-color}' => $result['color'],
-														'{active}' => 'disabled'
+														'{value-id-vehicle}' => $result['idVehicle'],
+													'{value-id-location}' => $result['idLocation'],
+													'{value-id-vehicle-model}' => $result['idVehicleModel'],
+													'{value-vin}' => $result['VIN'],
+													'{value-color}' => $result['Color'],
+													'{active}' => 'disabled'
 													);
 
 									$new_row = strtr($new_row,$dictionary);
