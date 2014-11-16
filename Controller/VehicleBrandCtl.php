@@ -35,43 +35,107 @@
 							//Comprobar si $_POST está vacio, si es así se mostrará el formulario para capturar los datos.
 							if(empty($_POST))
 							{
-								require_once("View/InsertVehicleBrand.php");
+								//Cargamos el formulario
+								$view = file_get_contents("View/VehicleBrandForm.html");
+								$header = file_get_contents("View/header.html");
+								$footer = file_get_contents("View/footer.html");
+
+								//Creamos el diccionario
+								//Para el insert los cmapos van vacios y los input estan activos
+								$dictionary = array(
+													'{value-id-vehicle-brand}' => '', 
+													'{value-vehicle-brand}' => '', 
+													'{active}' => ''
+												);
+								
+								//Sustituir los valores en la plantilla
+								$view = strtr($view,$dictionary);
+
+								//Sustituir el usuario en el header
+								$dictionary = array(
+													'{user-name}' => $_SESSION['user'],
+													'{log-link}' => 'index.php?ctl=logout',
+													'{log-type}' => 'Logout'
+												);
+								$header = strtr($header,$dictionary);
+
+								//Agregamos el header y el footer a la vista
+								$view = $header.$view.$footer;
+
+								//Mostramos la vista
+								echo $view;
 							}
 							else
 							{
-								//Limpiamos los datos.
-								$id_vehicle_brand = $this->cleanText($_POST['id_vehicle_brand']);  // Para este dato se creara un Trigger en la BD
-								$vehicle_brand   = $this->cleanText($_POST['vehicle_brand']);
-
-								//Recogemos el resultado de la inserción e imprimimos un mensaje
-								//en base a este resultado.
-								if($result = $this -> model -> insert($id_vehicle_brand, $vehicle_brand))
+								//Comprobamos que las variables estén seteadas.
+								if(isset($_POST['id_vehicle_brand']) && isset($_POST['vehicle_brand']))
 								{
-									require_once("View/ShowInsertVehicleBrand.php");
-								
-									//Enviamos el correo de que se ha añadido un usuario.
-									require_once("Controller/mail.php");
+									//Limpiamos los datos.
+									$id_vehicle_brand = $this->cleanText($_POST['id_vehicle_brand']);  // Para este dato se creara un Trigger en la BD
+									$vehicle_brand   = $this->cleanText($_POST['vehicle_brand']);
 
-									//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
-									$subject = "Alta de Marca de Vehículo";
-									$body = "La Marca de Vehículo con los siguientes datos se ha añadido:".
-									"\nId            : ". $id_vehicle_brand.
-									"\nVehicle Brand : ". $vehicle_brand;
-
-									//Manadamos el correo solo a administradores - 4.
-									if(Mailer::sendMail($subject, $body, 4))
+									//Recogemos el resultado de la inserción e imprimimos un mensaje
+									//en base a este resultado.
+									if($result = $this -> model -> insert($id_vehicle_brand, $vehicle_brand))
 									{
-										echo "<br>Correo enviado con éxito.";
+										//Cargamos el formulario
+											$view = file_get_contents("View/VehicleBrandForm.html");
+											$header = file_get_contents("View/header.html");
+											$footer = file_get_contents("View/footer.html");
+
+											//Creamos el diccionario
+											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
+											$dictionary = array(
+																'{value-id-vehicle-brand}' => $_POST['id_vehicle_brand'], 
+																'{value-vehicle-brand}' => $_POST['vehicle_brand'], 
+																'{active}' => 'disabled'
+															);
+
+											//Sustituir los valores en la plantilla
+											$view = strtr($view,$dictionary);
+
+											//Sustituir el usuario en el header
+											$dictionary = array(
+																'{user-name}' => $_SESSION['user'],
+																'{log-link}' => 'index.php?ctl=logout',
+																'{log-type}' => 'Logout'
+															);
+											$header = strtr($header,$dictionary);
+
+											//Agregamos el header y el footer
+											$view = $header.$view.$footer;
+
+											echo $view;
+									
+										//Enviamos el correo de que se ha añadido un usuario.
+										require_once("Controller/mail.php");
+
+										//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+										$subject = "Alta de Marca de Vehículo";
+										$body = "La Marca de Vehículo con los siguientes datos se ha añadido:".
+										"\nId            : ". $id_vehicle_brand.
+										"\nVehicle Brand : ". $vehicle_brand;
+
+										//Manadamos el correo solo a administradores - 4.
+										if(Mailer::sendMail($subject, $body, 4))
+										{
+											//echo "<br>Correo enviado con éxito.";
+										}
+										else
+										{
+											echo "<br>Error al enviar el correo.";
+										}
 									}
 									else
 									{
-										echo "<br>Error al enviar el correo.";
-									}
+										$error = "Error al insertar el nuevo registro"; 
+										require_once("View/Error.php");
+									}	
 								}
 								else
 								{
-									$error = "Error al insertar el nuevo registro"; 
-									require_once("View/Error.php");
+									$error = "Error al insertar el usuario, faltan variables por setear.";
+									$this -> showErrorView($error);
 								}
 							}
 						}
@@ -92,8 +156,9 @@
 							//Comprobamos que $_POST no este vacio.
 							if(empty($_POST))
 							{
-								$error = "Error al tratar de modificar el registro, el POST está vacío.";
-								require_once("View/Error.php");
+								//Si el post está vacio cargamos la vista para solicitar el id a consultar
+								//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
+								$this -> showGetIdView("vehiclebrand","update","id_vehicle_brand","Id Marca Vehículo:");
 							}
 							else
 							{
@@ -113,55 +178,90 @@
 										//Por ahora se modificarán todos los atributos.  
 										$vehicle_brand   = $this->cleanText($_POST['vehicle_brand']);
 
-										//Se llama a la función de modificación.
-										//Se recoge el resultado y en base a este resultado
-										//se imprime un mensaje.
-										if($this -> model -> update($id_vehicle_brand, $vehicle_brand))
+										if(!$id_vehicle_brand || !$vehicle_brand)
 										{
-											require_once("View/ShowUpdateVehicleBrand.php");	
-
-											//Enviamos el correo de que se ha añadido un usuario.
-											require_once("Controller/mail.php");
-
-											//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
-											$subject = "Modificación de Marca de Vehículo";
-											$body = "La Marca de Vehículo con los siguientes datos se ha modificado:".
-											"\nId            : ". $id_vehicle_brand.
-											"\nVehicle Brand : ". $vehicle_brand;
-
-											//Manadamos el correo solo a administradores - 4.
-											if(Mailer::sendMail($subject, $body, 4))
-											{
-												echo "<br>Correo enviado con éxito.";
-											}
-											else
-											{
-												echo "<br>Error al enviar el correo.";
-											}
+											$error = "Error al insertar la marca de vehículo, alguno de los campos es inválido.";
+											$this -> showErrorView($error);
 										}
 										else
 										{
-											$error = "Error al modificar la marca de vehiculo.";
-											require_once("View/Error.php");
+											//Se llama a la función de modificación.
+											//Se recoge el resultado y en base a este resultado
+											//se imprime un mensaje.
+											if($this -> model -> update($id_vehicle_brand, $vehicle_brand))
+											{
+												//Cargamos el formulario
+												$view = file_get_contents("View/VehicleBrandForm.html");
+												$header = file_get_contents("View/header.html");
+												$footer = file_get_contents("View/footer.html");
+
+												//Creamos el diccionario
+												//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
+												$dictionary = array(
+																	'{value-id-vehicle-brand}' => $id_vehicle_brand, 
+																	'{value-vehicle-brand}' => $vehicle_brand,  
+																	'{active}' => 'disabled'
+																);
+
+												//Sustituir los valores en la plantilla
+												$view = strtr($view,$dictionary);
+
+												//Sustituir el usuario en el header
+												$dictionary = array(
+																	'{user-name}' => $_SESSION['user'],
+																	'{log-link}' => 'index.php?ctl=logout',
+																	'{log-type}' => 'Logout'
+																);
+												$header = strtr($header,$dictionary);
+
+												//Agregamos el header y el footer
+												$view = $header.$view.$footer;
+
+												echo $view;	
+
+												//Enviamos el correo de que se ha añadido un usuario.
+												require_once("Controller/mail.php");
+
+												//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+												$subject = "Modificación de Marca de Vehículo";
+												$body = "La Marca de Vehículo con los siguientes datos se ha modificado:".
+												"\nId            : ". $id_vehicle_brand.
+												"\nVehicle Brand : ". $vehicle_brand;
+
+												//Manadamos el correo solo a administradores - 4.
+												if(Mailer::sendMail($subject, $body, 4))
+												{
+													//echo "<br>Correo enviado con éxito.";
+												}
+												else
+												{
+													echo "<br>Error al enviar el correo.";
+												}
+											}
+											else
+											{
+												$error = "Error al modificar la marca de vehiculo.";
+												$this -> showErrorView($error);
+											}
 										}
 									}
 									else
 									{
 										$error = "Error al tratar de mostrar el registro.";
-										require_once("View/Error.php");
+										$this -> showErrorView($error);
 									}
 								}
 								else
 								{
 									$error = 'No se especifico el ID del registro a modificar';
-									require_once("View/Error.php");	
+									$this -> showErrorView($error);
 								}
 							}
 						}
 						else
 						{
 							$error = "No tiene permisos para realizar esta accion";
-							require_once("View/Error.php");
+							$this -> showErrorView($error);
 						}
 
 						break;
@@ -175,8 +275,9 @@
 							//Comprobamos que el $_POST no esté vacío.	
 							if(empty($_POST))
 							{
-								$error = "No se especificó el id.";
-								require_once("View/Error.php");
+								//Si el post está vacio cargamos la vista para solicitar el id a consultar
+							//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
+							$this -> showGetIdView("vehiclebrand","select","id_vehicle_brand","Id Marca Vehículo:");
 							}
 							else
 							{
@@ -189,27 +290,56 @@
 									//Recogemos el resultado y si contiene información, la mostramos.
 									if(($result = $this -> model -> select($id_vehicle_brand)) != null)
 									{
-										var_dump($result);
+										//Cargamos el formulario
+										$view = file_get_contents("View/VehicleBrandForm.html");
+										$header = file_get_contents("View/header.html");
+										$footer = file_get_contents("View/footer.html");
+
+										//Acceder al resultado y crear el diccionario
+										//Revisar que el nombre de los campos coincida con los de la base de datos
+										foreach ($result as $row) {
+											$dictionary = array(
+																'{value-id-vehicle-brand}' => $result['idVehicleBrand'], 
+																'{value-vehicle-brand}' => $result['Brand'], 	
+																'{active}' => 'disabled'
+															);
+										}
+
+										//Sustituir los valores en la plantilla
+										$view = strtr($view,$dictionary);
+
+										//Sustituir el usuario en el header
+										$dictionary = array(
+															'{user-name}' => $_SESSION['user'],
+															'{log-link}' => 'index.php?ctl=logout',
+															'{log-type}' => 'Logout'
+														);
+										$header = strtr($header,$dictionary);
+
+										//Agregamos el header y el footer
+										$view = $header.$view.$footer;
+
+										echo $view;
 									}
 									//Si el resultado no contiene información, mostramos el error.
 									else
 									{
 										$error = "Error al tratar de mostrar el registro.";
-										require_once("View/Error.php");
+										$this -> showErrorView($error);
 									}
 								}
 								//Imprimimos el error si la variable no está seteada.
 								else
 								{
 									$error = "El id no esta seteado.";
-									require_once("View/Error.php");
+									$this -> showErrorView($error);
 								}
 							}
 						}
 						else
 						{
 							$error = "No tiene permisos para realizar esta accion";
-							require_once("View/Error.php");
+							$this -> showErrorView($error);
 						}
 
 						break;
@@ -223,7 +353,9 @@
 							//Comprobamos que el $_POST no esté vacío.
 							if(empty($_POST))
 							{
-								require_once("View/DeleteVehicleBrand.php");
+								//Si el post está vacio cargamos la vista para solicitar el id a eliminar
+								//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
+								$this -> showGetIdView("vehiclebrand","delete","id_vehicle_brand","Id Marca Vehículo:");
 							}
 
 							else
@@ -240,7 +372,8 @@
 									//Si la eliminación fue exitosa, mostramos el mensaje.
 									if($result)
 									{
-										require_once("View/DeleteVehicleBrand.php");
+										//Muestra la vista de que la eliminación se realizó con éxito
+										$this -> showDeleteView();
 
 										//Enviamos el correo del usuario que se eliminó a los admin
 										require_once("Controller/mail.php");
@@ -251,7 +384,7 @@
 										//Enviamos el correo solo a admins - 4
 										if(Mailer::sendMail($subject, $body, 4))
 										{
-											echo "Correo enviado con éxito";
+											//echo "Correo enviado con éxito";
 										}
 										else
 										{
@@ -262,21 +395,98 @@
 									else
 									{
 										$error = "Error al elimiar la marca de vehiculo.";
-										require_once("View/Error.php");
+										$this -> showErrorView($error);
 									}
 								}
 								//Si el id no está seteado, marcamos el error.
 								else
 								{
 									$error = 'No se ha especificado el ID del registro a eliminar';
-									require_once("View/Error.php");	
+									$this -> showErrorView($error);
 								}
 							}
 						}
 						else
 						{
 							$error = "No tiene permisos para realizar esta accion";
-							require_once("View/Error.php");
+							$this -> showErrorView($error);
+						}
+
+						break;
+					}
+
+					case "list" :
+					{
+						//Solo si es empleado o administrados puede consultar la lista de usuarios
+						if(!$this -> isClient())
+						{
+							//Revisar si hay un filtro, sino hay se queda el filtro po default
+							$filter = "0=0";
+							if(isset($_POST['filter_condition'])){
+								//Creamos la condicion con el campo seleccionadoo y el filtro
+								$filter = $_POST['filter_select']." = ".$_POST['filter_condition']; 
+							}
+
+
+							//Ejecutamos el query y guardamos el resultado.
+							$result = $this -> model -> getList($filter);
+
+							if($result !== FALSE)
+							{
+								//Cargamos el formulario
+								$view = file_get_contents("View/VehicleBrandTable.html");
+								$header = file_get_contents("View/header.html");
+								$footer = file_get_contents("View/footer.html");
+
+								//Obtengo la posicion donde va a insertar los registros
+								$row_start = strrpos($view,'{row-start}') + 11;
+								$row_end = strrpos($view,'{row-end}');
+
+								//Hacer copia de la fila donde se va a reemplazar el contenido
+								$base_row = substr($view,$row_start,$row_end-$row_start);
+
+								//Acceder al resultado y crear el diccionario
+								//Revisar que el nombre de los campos coincida con los de la base de datos
+								$rows = '';
+								foreach ($result as $row) {
+									$new_row = $base_row;
+									$dictionary = array(
+														'{value-id-vehicle-brand}' => $result['idVehicleBrand'], 
+														'{value-vehicle-brand}' => $result['Brand'], 
+														'{active}' => 'disabled'
+													);
+									$new_row = strtr($new_row,$dictionary);
+									$rows .= $new_row;
+								}
+
+								//Reemplazar en la vista la fila base por las filas creadas
+								$view = str_replace($base_row, $rows, $view);
+								$view = str_replace('{row-start}', '', $view);
+								$view = str_replace('{row-end}', '', $view);
+
+								//Sustituir el usuario en el header
+								$dictionary = array(
+													'{user-name}' => $_SESSION['user'],
+													'{log-link}' => 'index.php?ctl=logout',
+													'{log-type}' => 'Logout'
+												);
+								$header = strtr($header,$dictionary);
+
+								//Agregamos el header y el footer
+								$view = $header.$view.$footer;
+
+								echo $view;
+							}
+							else
+							{
+								$error = "Error al listar usuarios.";
+								$this -> showErrorView($error);
+							}
+						}
+						else
+						{
+							$error = "No tiene permisos para realizar esta acción";
+							$this -> showErrorView($error);
 						}
 
 						break;
@@ -286,8 +496,8 @@
 			}
 			else
 			{
-				$error = "No se ha iniciado ninguna sesion.";
-				require_once("View/Error.php");
+				//Si no ha iniciado sesion mostrar la vista para hacer login
+				$this -> showLoginView($_GET['ctl'],$_GET['act']);
 			}
 			
 

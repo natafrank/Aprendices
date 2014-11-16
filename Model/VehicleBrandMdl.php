@@ -101,5 +101,43 @@
 			}	
 		}
 
+		/**
+		 * Funcion de Listado.
+		 *
+		 * Obtiene todos los registros de la tabla.
+		 *
+		 * @return array - con los registros obtenidos si la consulta fue exitosa
+		 * @return bool - FALSE si hubo un error
+		 */
+		public function getList($filter)
+		{
+			//Query a ejecutar
+			$query = "SELECT * FROM VehicleBrand WHERE ".$filter.";";
+
+			//Ejecutamos el query y recogemos el resultado.
+			$result = $this -> db_driver -> execute($query);
+
+			//Si el resultado no es null, procesamos la información.
+			if($result != null)
+			{
+				//Si el resultado contiene información retornamos el resultado.
+				return $result;
+			}
+			else
+			{
+				//Si el resultado es null, retornamos FALSE.
+				return FALSE;
+			}	
+		}
+
+		public function getIdVehicleBrand()
+		{
+			return $this -> id_vehicle_brand;
+		}
+
+		public function getVehicleBrand()
+		{
+			return $this -> vehicle_brand;
+		}
 	}
 ?>
