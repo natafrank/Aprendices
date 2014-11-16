@@ -1,0 +1,37 @@
+		<div class="container form_body">
+			<h1>Usuarios</h1>
+			<form action="index.php?ctl=vehiclemodel&act=list" method="post" role="form">
+	 			<div class="form-group">
+				    <label class="pull-left" for="filter_select" id="filter_label">Filtro: </label>
+				    <select class="form-control pull-left filter_control" name="filter_select" id="filter_select">
+						<!-- En value va el nombre como vienen el campo en la BDD -->
+						<option value="idVehicleModel">IdModeloVehículo</option>
+					    <option value="Model">ModeloVehículo</option>
+					    <option value="idVehicleBrand">IdMarcaVehículo</option>
+					</select>
+					<input type="text" class="form-control pull-left filter_control" id="filter_condition" name="filter_condition" required>
+			  	</div>
+				<button type="submit" class="btn btn-default pull-left">Filtrar</button>
+			</form>
+			<br />
+			<br />
+			<table class="table table-bordered table-hover">
+				<thead>
+					<!-- Encabezado con los campos de la tabla -->
+					<tr>
+						<th>IdModeloVehículo</th>
+						<th>ModeloVehículo</th>
+						<th>IdMarcaVehículo</th>
+					</tr>
+				</thead>
+				<tbody>
+					{row-start}
+					<tr>
+						<td>{value-id-vehicle-model}</td>
+						<td>{value-vehicle-model}</td>
+						<td>{value-id-vehicle-brand}</td>
+					</tr>
+					{row-end}
+				</tbody>
+			</table>
+		</div>

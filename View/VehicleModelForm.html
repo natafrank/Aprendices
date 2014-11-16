@@ -1,0 +1,19 @@
+	 	<div class="container form_body">
+			<form action="index.php?ctl=vehiclemodel&act=insert" method="post" role="form">
+	 			<h1>Usuario</h1>
+	 			<div class="form-group">
+				    <label for="id_user">Id Modelo Vehículo:</label>
+				    <input type="number" class="form-control" id="id_vehicle_model" name="id_vehicle_model" value="{value-id-vehicle-model}" {active} required>
+			  	</div>
+			  	<div class="form-group">
+				    <label for="name">Marca Vehículo:</label>
+				    <input type="text" class="form-control" id="vehicle_model" name="vehicle_model" value="{value-vehicle_model}" {active} required>
+			  	</div>
+			  	<div class="form-group">
+				    <label for="login">Id Marca Vehículo:</label>
+				    <input type="number" class="form-control" id="id_vehicle_brand" name="id_vehicle_brand" value="{value-id-vehicle-brand}" {active} required>
+			  	</div>
+				<button type="submit" class="btn btn-default" {active}>Guardar</button>
+			</form>
+		</div>
+		

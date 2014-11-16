@@ -479,7 +479,7 @@
 							}
 							else
 							{
-								$error = "Error al listar usuarios.";
+								$error = "Error al listar las marcas de vehículos.";
 								$this -> showErrorView($error);
 							}
 						}

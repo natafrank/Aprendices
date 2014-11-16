@@ -90,7 +90,7 @@
 										if($result)
 										{
 											//Cargamos el formulario
-											$view = file_get_contents("View/UserForm.html");
+											$view = file_get_contents("View/UserTypeForm.html");
 											$header = file_get_contents("View/header.html");
 											$footer = file_get_contents("View/footer.html");
 
@@ -285,7 +285,7 @@
 										$view = $header.$view.$footer;
 
 										echo $view;
-										}
+									}
 									else
 									{
 										$error = "Error al mostrar el tipo de usuario.";
