@@ -1,0 +1,26 @@
+<div class="container form_body">
+			<form action="index.php?ctl=vehicle&act=insert" method="post" role="form">
+	 			<h1>Vehículo</h1>
+	 			<div class="form-group">
+				    <label for="id_user">Id Vehículo:</label>
+				    <input type="number" class="form-control" id="id_vehicle" name="id_vehicle" value="{value-id-vehicle}" {active} required>
+			  	</div>
+			  	<div class="form-group">
+				    <label for="name">Id Locacion:</label>
+				    <input type="number" class="form-control" id="id_location" name="id_location" value="{value-id-location}" {active} required>
+			  	</div>
+			  	<div class="form-group">
+				    <label for="login">Id Modelo Vehiculo:</label>
+				    <input type="number" class="form-control" id="id_vehicle_model" name="id_vehicle_model" value="{value-id-vehicle-model}" {active} required>
+			  	</div>
+			  	<div class="form-group">
+				    <label for="tel">Vin:</label>
+				    <input type="text" class="form-control" id="vin" name="vin" value="{value-vin}" {active} required>
+			  	</div>
+			  	<div class="form-group">
+				    <label for="type">Color:</label>
+				    <input type="text" class="form-control" id="color" name="color" value="{value-color}" {active} required>
+			  	</div>
+				<button type="submit" class="btn btn-default" {active}>Guardar</button>
+			</form>
+		</div>

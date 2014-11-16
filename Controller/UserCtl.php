@@ -562,7 +562,8 @@
 								$this -> showErrorView($error);
 							}
 						}
-						else{
+						else
+						{
 							$error = "No tiene permisos para realizar esta acción";
 							$this -> showErrorView($error);
 						}

@@ -102,7 +102,36 @@
 			//Retornará verdadero si se modificó el registro correctamente.
 			//Retornará falso en caso de no poder modificar.
 			return $this -> db_driver -> execute($query);
-		}    
+		}  
+
+		/**
+		 * Funcion de Listado.
+		 *
+		 * Obtiene todos los registros de la tabla.
+		 *
+		 * @return array - con los registros obtenidos si la consulta fue exitosa
+		 * @return bool - FALSE si hubo un error
+		 */
+		public function getList($filter)
+		{
+			//Query a ejecutar
+			$query = "SELECT * FROM Vehicle WHERE ".$filter.";";
+
+			//Ejecutamos el query y recogemos el resultado.
+			$result = $this -> db_driver -> execute($query);
+
+			//Si el resultado no es null, procesamos la información.
+			if($result != null)
+			{
+				//Si el resultado contiene información retornamos el resultado.
+				return $result;
+			}
+			else
+			{
+				//Si el resultado es null, retornamos FALSE.
+				return FALSE;
+			}	
+		}  
 
 		/******** GETTERS PARA ACCEDER A LA INFORMACIÓN PRIVADA DE LA CLASE **********/
 		public function getIdVehicle()
