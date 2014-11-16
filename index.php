@@ -63,43 +63,43 @@
 			}
 			case "event":
 			{
-				require_once("Controller/EventCtl");
+				require_once("Controller/EventCtl.php");
 				$ctl = new EventCtl();
 				break;
 			}
 			case "eventregistry":
 			{
-				require_once("Controller/EventRegistryCtl");
+				require_once("Controller/EventRegistryCtl.php");
 				$ctl = new EventRegistryCtl();
 				break;
 			}
 			case "location":
 			{
-				require_once("Controller/LocationCtl");
+				require_once("Controller/LocationCtl.php");
 				$ctl = new LocationCtl();
 				break;
 			}
 			case "vehiclestatus":
 			{
-				require_once("Controller/VehicleStatusCtl");
+				require_once("Controller/VehicleStatusCtl.php");
 				$ctl = new VehicleStatusCtl();
 				break;
 			}
 			case "logout":
 			{
 				//Si no se especifico ctl mostramos la pestaña de login
-				require_once("Controller/StandardCtl");
+				require_once("Controller/StandardCtl.php");
 				$ctl = new StandardCtl();
 				//Terminamos la sesion
 				$ctl -> logout();
 				//Por default nos envia a la consulta de un usuario después del login
 				$ctl -> showLoginView('user','select');
-				break
+				break;
 			}
 			default:
 			{
 				//Si no se especifico ctl mostramos la pestaña de login
-				require_once("Controller/StandardCtl");
+				require_once("Controller/StandardCtl.php");
 				$ctl = new StandardCtl();
 				//Por default nos envia a la consulta de un usuario despues del login
 				$ctl -> showLoginView('user','select');
@@ -110,7 +110,11 @@
 	}
 	else
 	{
-		echo "Aprendices WEB";
+		//Si no se especifico ctl mostramos la pestaña de login
+		require_once("Controller/StandardCtl.php");
+		$ctl = new StandardCtl();
+		//Por default nos envia a la consulta de un usuario despues del login
+		$ctl -> showLoginView('user','select');
 	}
 
 ?>
