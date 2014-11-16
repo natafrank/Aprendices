@@ -1,12 +1,12 @@
 		<div class="container form_body">
-			<h1>Eventos</h1>
-			<form action="index.php?ctl=event&act=list" method="post" role="form">
+			<h1>Ubicaciones</h1>
+			<form action="index.php?ctl=location&act=list" method="post" role="form">
 	 			<div class="form-group">
 					<label class="pull-left" for="filter_select" id="filter_label">Filtro: </label>
 					<select class="form-control pull-left filter_control" name="filter_select" id="filter_select">
 						<!-- En value va el nombre como vienen el campo en la BDD -->
-						<option value="idEvent">IdEvento</option>
-					   	<option value="Event">Evento</option>
+						<option value="idLocation">IdUbicación</option>
+					   	<option value="location">Ubicación</option>
 					</select>
 					<input type="text" class="form-control pull-left filter_control" id="filter_condition" name="filter_condition" required>
 			  	</div>
@@ -18,15 +18,15 @@
 				<thead>
 					<!-- Encabezado con los campos de la tabla -->
 					<tr>
-						<th>IdEvento</th>
-						<th>Evento</th>
+						<th>IdUbicación</th>
+						<th>Ubicación</th>
 					</tr>
 				</thead>
 				<tbody>
 					{row-start}
 					<tr>
-						<td>{value-idEvent}</td>
-						<td>{value-Event}</td>
+						<td>{value-idLocation}</td>
+						<td>{value-locaiton}</td>
 					</tr>
 					{row-end}
 				</tbody>

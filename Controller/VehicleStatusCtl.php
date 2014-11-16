@@ -33,7 +33,39 @@
 							//Comprobamos que el $_POST no esté vacío, si lo está se mostrará la vista con el 								formulario para insertar.
 							if(empty($_POST))
 							{
-								require_once("View/InsertVehicleStatus.php");
+								//Cargamos el formulario
+								$view = file_get_contents("View/VehicleStatusForm.html");
+								$header = file_get_contents("View/header.html");
+								$footer = file_get_contents("View/footer.html");
+
+								//Creamos el diccionario
+								//Para el insert los campos van vacios y los input estan activos
+								$dictionary = array(
+									'{value-idVehicleStatus}' => '',
+									'{value-vehicleStatus}' => '',
+									'{value-Fuel}' => '',
+									'{value-Km}' => '',
+									'{active}' => ''
+									);
+
+								//Sustituir los valores en la plantilla
+								$view = strtr($view,$dictionary);
+
+								//Sustituir el usuario en el header
+								$dictionary = array(
+									'{user-name}' => $_SESSION['user'],
+									'{log-link}' => 'index.php?ctl=logout',
+									'{log-type}' => 'Logout'
+									);
+
+								$header = strtr($header,$dictionary);
+
+								//Agregamos el header y el footer a la vista
+								$view = $header.$view.$footer;
+								
+								//Mostramos la vista
+								echo $view;
+								//require_once("View/Formulario.html");
 							}
 							else
 							{
@@ -47,7 +79,38 @@
 								//en base a este resultado.
 								if($result = $this->model->insert($idVehicleStatus,$vehicleStatus,$Fuel,$Km))
 								{
-									require_once("View/ShowInserVehicleStatus.php");
+									//Cargamos el formulario
+									$view = file_get_contents("View/VehicleStatusForm.html");
+									$header = file_get_contents("View/header.html");
+									$footer = file_get_contents("View/footer.html");
+
+									//Creamos el diccionario
+									//Despues de insertar los campos van con la info insertada y los input estan inactivos
+									$dictionary = array(
+										'{value-idVehicleStatus}' => $_POST['idVehicleStatus'],
+										'{value-vehicleStatus}' => $_POST['vehicleStatus'],
+										'{value-Fuel}' => $_POST['Fuel'],
+										'{value-Km}' => $_POST['Km'],
+										'{active}' => 'disabled'
+										);
+									
+									//Sustituir los valores en la plantilla
+									$view = strtr($view,$dictionary);
+									
+									//Sustituir el usuario en el header
+									$dictionary = array(
+										'{user-name}' => $_SESSION['user'],
+										'{log-link}' => 'index.php?ctl=logout',
+										'{log-type}' => 'Logout'
+										);
+
+									$header = strtr($header,$dictionary);
+									
+									//Agregamos el header y el footer
+									$view = $header.$view.$footer;
+									
+									echo $view;
+									//require_once("View/ShowUser.php");
 
 									//Enviamos el correo de que se ha añadido un Estatus de Vehículo.
 									require_once("Controller/mail.php");
@@ -63,24 +126,25 @@
 									//Manadamos el correo solo a administradores y empleados - 6
 									if(Mailer::sendMail($subject, $body, 6))
 									{
-										echo "<br>Correo enviado con éxito.";
+										//echo "<br>Correo enviado con éxito.";
 									}
 									else
 									{
-										echo "<br>Error al enviar el correo.";
+										$error =  "Error al enviar el correo.";
+										$this -> showErrorView($error);
 									}
 								}
 								else
 								{
 									$error = "Error al insertar el nuevo registro"; 
-									require_once("View/Error.php");
+									$this -> showErrorView($error);
 								}
 							}
 						}
 						else
 						{
 							$error = "No tiene permisos para realizar esta acción";
-							require_once("View/Error.php");
+							$this -> showErrorView($error);
 						}
 						break;
 					}
@@ -93,7 +157,8 @@
 							//Comprobamos que el $_POST no esté vacío, si lo está se mostrará la vista con el 								formulario para actualizar la información.
 							if(empty($_POST))
 							{
-								require_once("View/UpdateVehicleStatus.php");
+								//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
+								$this -> showGetIdView("vehiclestatus","update","idVehicleStatus","Id EstatusVehiculo:");
 							}
 							else
 							{
@@ -121,7 +186,37 @@
 										//se imprime un mensaje.
 										if($this->model->update($idVehicleStatus,$vehicleStatus,$Fuel,$Km))
 										{
-											require_once("View/ShowUpdateVehicleStatus.php");
+											//Cargamos el formulario
+											$view = file_get_contents("View/VehicleStatusForm.html");
+											$header = file_get_contents("View/header.html");
+											$footer = file_get_contents("View/footer.html");
+
+											//Creamos el diccionario
+											//Despues de insertar los campos van con la info insertada y los input estan inactivos
+											$dictionary = array(
+												'{value-idVehicleStatus}' => $idVehicleStatus, 
+												'{value-vehicleStatus}' => $vehicleStatus,
+												'{value-Fuel}' => $idFuel, 
+												'{value-Km}' => $Km,
+												'{active}' => 'disabled'
+											);
+
+											//Sustituir los valores en la plantilla
+											$view = strtr($view,$dictionary);
+
+											//Sustituir el usuario en el header
+											$dictionary = array(
+												'{user-name}' => $_SESSION['user'],
+												'{log-link}' => 'index.php?ctl=logout',
+												'{log-type}' => 'Logout'
+																);
+											$header = strtr($header,$dictionary);
+
+											//Agregamos el header y el footer
+											$view = $header.$view.$footer;
+
+											echo $view;
+											//require_once("View/UpdateUserShow.php");
 
 											//Enviamos el correo de que se ha modificado un Estatus de Vehículo.
 											require_once("Controller/mail.php");
@@ -137,77 +232,118 @@
 											//Manadamos el correo solo a administradores y empleados - 6
 											if(Mailer::sendMail($subject, $body, 6))
 											{
-												echo "<br>Correo enviado con éxito.";
+												//echo "<br>Correo enviado con éxito.";
 											}
 											else
 											{
-												echo "<br>Error al enviar el correo.";
+												$error =  "Error al enviar el correo.";
+												$this -> showErrorView($error);
 											}
 										}
 										else
 										{
-											$error = "Error al modificar el estatus del vehiculo.";
-											require_once("View/Error.php");
+											$error = "Error al modificar el evento.";
+											$this -> showErrorView($error);
 										}
 									}
 									//Si el resultado no contiene información, mostramos el error.
 									else
 									{
 										$error = "Error al tratar de mostrar el registro.";
-										require_once("View/Error.php");
+										$this -> showErrorView($error);
 									}
 								}
 								//Sino está seteado, imprimimos el mensaje y se mostrará la vista con 									el formulario para actualizar la información.
 								else
 								{
-									$error = "El id no está seteado.";
-									echo $error,'<br/>';
-									require_once("View/UpdateVehicleStatus.php");
+									$error = "Error al tratar de modificar el registro, el id no está seteado.";
+									$this -> showErrorView($error);
 								}
 							}
 						}
 						else
 						{
 							$error = "No tiene permisos para realizar esta acción";
-							require_once("View/Error.php");
+							$this -> showErrorView($error);
 						}
 						break;
 					}
 					
 					case "select" :
 					{
-						//Comprobamos que el $_POST no esté vacío.	
-						if(empty($_POST))
+						//Solo administradores y empleados pueden ver los Eventos
+						if( !$this -> isClient() )
 						{
-							require_once("View/SelectVehicleStatus.php");
+							//Comprobamos que el $_POST no esté vacío.	
+							if(empty($_POST))
+							{
+								//Si el post está vacio cargamos la vista para solicitar el id a consultar
+									//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
+									$this -> showGetIdView("vehiclestatus","select","idVehicleStatus","Id EstatusVehiculo:");
+							}
+							else
+							{
+								//Comprobamos que el id esté seteado.
+								if(isset($_POST['idVehicleStatus']))
+								{
+									//Limpiamos el id.
+									$idVehicleStatus = $this->cleanInt($_POST['idVehicleStatus']);
+
+									//Recogemos el resultado y si contiene información, la mostramos.
+									if(($result = $this->model->select($idVehicleStatus)) != null)
+									{
+										//Cargamos el formulario
+										$view = file_get_contents("View/VehicleStatusForm.html");
+										$header = file_get_contents("View/header.html");
+										$footer = file_get_contents("View/footer.html");
+
+										//Acceder al resultado y crear el diccionario
+										//Revisar que el nombre de los campos coincida con los de la base de datos
+										foreach ($result as $row) {
+											$dictionary = array(
+												'{value-idVehicleStatus}' => $result['idVehicleStatus'], 
+												'{value-vehicleStatus}' => $result['vehicleStatus'],
+												'{value-Fuel}' => $result['Fuel'], 
+												'{value-Km}' => $result['Km'],
+												'{active}' => 'disabled'
+											);
+										}
+
+										//Sustituir los valores en la plantilla
+										$view = strtr($view,$dictionary);
+
+										//Sustituir el usuario en el header
+										$dictionary = array(
+											'{user-name}' => $_SESSION['user'],
+											'{log-link}' => 'index.php?ctl=logout',
+											'{log-type}' => 'Logout'
+										);
+										$header = strtr($header,$dictionary);
+
+										//Agregamos el header y el footer
+										$view = $header.$view.$footer;
+
+										echo $view;
+									}
+									//Si el resultado no contiene información, mostramos el error.
+									else
+									{
+										$error = "Error al tratar de mostrar el registro.";
+										$this -> showErrorView($error);
+									}
+								}
+								//Si el ID no está seteado, se marcará el error y se mostrará la vista con 								el formulario para hacer select.
+								else
+								{
+									$error = "Error al mostrar el evento, el id no está seteado.";
+										$this -> showErrorView($error);
+								}
+							}
 						}
 						else
 						{
-							//Comprobamos que el id esté seteado.
-							if(isset($_POST['idVehicleStatus']))
-							{
-								//Limpiamos el id.
-								$idVehicleStatus = $this->cleanInt($_POST['idVehicleStatus']);
-
-								//Recogemos el resultado y si contiene información, la mostramos.
-								if(($result = $this->model->select($idVehicleStatus)) != null)
-								{
-									require_once("View/ShowSelectVehicleStatus.php");
-								}
-								//Si el resultado no contiene información, mostramos el error.
-								else
-								{
-									$error = "Error al tratar de mostrar el registro.";
-									require_once("View/Error.php");
-								}
-							}
-							//Si el ID no está seteado, se marcará el error y se mostrará la vista con 								el formulario para hacer select.
-							else
-							{
-								$error = "El id no esta seteado.";
-								echo $error,'<br/>';
-								require_once("View/SelectVehicleStatus.php");
-							}
+							$error = "No tiene permisos para realizar esta acción";
+							$this -> showErrorView($error);
 						}
 						break;
 					}
@@ -220,7 +356,9 @@
 							//Comprobamos que el $_POST no esté vacío, si lo está se mostrará la vista con el 								formulario para eliminar un Evento.
 							if(empty($_POST))
 							{
-								require_once("View/DeleteVehicleStatus.php");
+								//Si el post está vacio cargamos la vista para solicitar el id a eliminar
+								//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar de $_POST y el texto a mostrar en el label del input
+								$this -> showGetIdView("vehiclestatus","delete","idVehicleStatus","Id EstatusVehiculo:");
 							}
 
 							else
@@ -237,7 +375,8 @@
 									//Si la eliminación fue exitosa, mostramos el mensaje.
 									if($result)
 									{
-										require_once("View/DeleteVehicleStatus.php");
+										//Muestra la vista de que la eliminación se realizó con éxito
+										$this -> showDeleteView();
 
 										//Enviamos el correo de que se ha eliminado un Estatus de Vehículo.
 										require_once("Controller/mail.php");
@@ -253,44 +392,119 @@
 										//Manadamos el correo solo a administradores y empleados - 6
 										if(Mailer::sendMail($subject, $body, 6))
 										{
-											echo "<br>Correo enviado con éxito.";
+											//echo "<br>Correo enviado con éxito.";
 										}
 										else
 										{
-											echo "<br>Error al enviar el correo.";
+											$error =  "Error al enviar el correo.";
+											$this -> showErrorView($error);
 										}
 									}
 									//Si no pudimos eliminar, señalamos el error.
 									else
 									{
-										$error = "Error al elimiar el estatus del vehiculo.";
-										require_once("View/Error.php");
+										$error = "Error al elimiar el registro.";
+										$this -> showErrorView($error);
 									}
 								}
 								//Si el id no está seteado, marcamos el error y se mostrará la vista para 									eliminar un Evento.
 								else
 								{
-									$error = 'No se ha especificado el ID del registro a eliminar';
-									echo $error,'<br/>';
-									require_once("View/DeleteVehicleStatus.php");	
+									$error = "Error al eliminar el evento, el id no está seteado.";
+									$this -> showErrorView($error);
 								}
 							}
 						}
 						else
 						{
 							$error = "No tiene permisos para realizar esta acción";
-							require_once("View/Error.php");
+							$this -> showErrorView($error);
 						}
+						break;
+					}
+
+					case "list" :
+					{
+						//Solo si es empleado o administrador puede consultar la lista de eventos
+						if(!$this -> isClient())
+						{
+							//Revisar si hay un filtro, sino hay se queda el filtro po default
+							$filter = "0=0";
+							if(isset($_POST['filter_condition'])){
+								//Creamos la condicion con el campo seleccionadoo y el filtro
+								$filter = $_POST['filter_select']." = ".$_POST['filter_condition']; 
+							}
+
+
+							//Ejecutamos el query y guardamos el resultado.
+							$result = $this -> model -> getList($filter);
+
+							if($result !== FALSE)
+							{
+								//Cargamos el formulario
+								$view = file_get_contents("View/VehicleStatusTable.html");
+								$header = file_get_contents("View/header.html");
+								$footer = file_get_contents("View/footer.html");
+
+								//Obtengo la posicion donde va a insertar los registros
+								$row_start = strrpos($view,'{row-start}') + 11;
+								$row_end = strrpos($view,'{row-end}');
+
+								//Hacer copia de la fila donde se va a reemplazar el contenido
+								$base_row = substr($view,$row_start,$row_end-$row_start);
+
+								//Acceder al resultado y crear el diccionario
+								//Revisar que el nombre de los campos coincida con los de la base de datos
+								$rows = '';
+								foreach ($result as $row) {
+									$new_row = $base_row;
+									$dictionary = array(
+										'{value-idVehicleStatus}' => $result['idVehicleStatus'], 
+										'{value-vehicleStatus}' => $result['vehicleStatus'],
+										'{value-Fuel}' => $result['Fuel'], 
+										'{value-Km}' => $result['Km'],
+										'{active}' => 'disabled'
+									);
+									$new_row = strtr($new_row,$dictionary);
+									$rows .= $new_row;
+								}
+
+								//Reemplazar en la vista la fila base por las filas creadas
+								$view = str_replace($base_row, $rows, $view);
+								$view = str_replace('{row-start}', '', $view);
+								$view = str_replace('{row-end}', '', $view);
+
+								//Sustituir el usuario en el header
+								$dictionary = array(
+									'{user-name}' => $_SESSION['user'],
+									'{log-link}' => 'index.php?ctl=logout',
+									'{log-type}' => 'Logout'
+								);
+								$header = strtr($header,$dictionary);
+
+								//Agregamos el header y el footer
+								$view = $header.$view.$footer;
+
+								echo $view;
+							}
+							else
+							{
+								$error = "Error al listar los estatus.";
+								$this -> showErrorView($error);
+							}
+						}
+
 						break;
 					}
 			
 				} /* fin switch */
-				$this->logout();
+				//El logout se hace cuando se especifica
+				//$this -> logout();
 			}
 			else
 			{
-				$error = "No se ha iniciado ninguna sesion.";
-				require_once("View/Error.php");	
+				//Si no ha iniciado sesion mostrar la vista para hacer login
+				$this -> showLoginView($_GET['ctl'],$_GET['act']);
 			}
 
 		} /* fin run */

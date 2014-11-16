@@ -2,18 +2,18 @@
 	class StandardCtl{
 		
 		/**
-		 * Metodos de limpieza que seran heredados por los demas controladores.
+		 * Métodos de limpieza que serán heredados por los demás controladores.
 		 */
 		
 		/**
 		 * Limpia Texto.
 		 *
-		 * Función que se encarga de varificar si una variable es de tipo cadena o no.
+		 * Función que se encarga de verificar si una variable es de tipo cadena o no.
 		 *
 		 * @param mixed $text - variable a validar.
 		 *
 		 * @return bool - FALSE si $text no es una cadena.
-		 * @return string $result - la cadena ya limpia que venia en $text.
+		 * @return string $result - la cadena ya limpia que venía en $text.
 		 */
 		function cleanText($text){
 			if(is_string($text)){
@@ -28,12 +28,12 @@
 		/**
 		 * Limpia Entero.
 		 *
-		 * Función que se encarga de varificar si una variable es de tipo entero o no.
+		 * Función que se encarga de verificar si una variable es de tipo entero o no.
 		 *
 		 * @param mixed $number - variable a validar.
 		 *
 		 * @return bool - FALSE si $number no es un entero.
-		 * @return int $result - el valor entero que venia en $number.
+		 * @return int $result - el valor entero que venía en $number.
 		 */
 		function cleanInt($number){
 			if(is_numeric($number)){
@@ -52,7 +52,7 @@
 		 * @param mixed $number - variable a validar.
 		 *
 		 * @return bool - FALSE si $number no es un número flotante.
-		 * @return float $result - el valor flotante que venia en $number.
+		 * @return float $result - el valor flotante que venía en $number.
 		 */
 		function cleanFloat($number){
 			if(is_float($number)){
@@ -89,7 +89,7 @@
 		/**
 		 * Limpia Login.
 		 *
-		 * Función que se encarga de varificar si una cadena de texto es un login válido o no.
+		 * Función que se encarga de verificar si una cadena de texto es un login válido o no.
 		 * El login tiene que empezar con letra, tiene mínimo 6 y máximo de 20 caracteres y puede usar la cantidad de números que quiera.
 		 *
 		 * @param mixed $login - variable a validar.
@@ -114,7 +114,7 @@
 		/**
 		 * Limpia Contraseña.
 		 *
-		 * Función que se encarga de varificar si una cadena de texto es una contraseña válido o no.
+		 * Función que se encarga de verificar si una cadena de texto es una contraseña válido o no.
 		 * La contraseña tiene tamaño mínimo de 8 caracteres, debe contener un número y puede tener cualquier caracter.
 		 *
 		 * @param mixed $password - variable a validar.
@@ -135,7 +135,18 @@
 				return FALSE;
 			}
 		}
-
+		
+		/**
+		 * Limpia Nombre.
+		 *
+		 * Función que se encarga de verificar si una cadena de texto tiene el formato especificado para los nombres.
+		 * El nombre puede contener minúsculas, mayúsculas y espacios.
+		 *
+		 * @param mixed $name - variable a validar.
+		 *
+		 * @return bool - FALSE si $name no es un nombre válido.
+		 * @return string $result - cadena de caracteres con el texto recibido.
+		 */
 		function cleanName($name){
 			$regex = "/[a-zA-Z][a-zA-Z\s]*/"; //Sólo letras y espacios
 			
@@ -147,6 +158,17 @@
 			return $result;
 		}
 		
+		/**
+		 * Limpia Telefono.
+		 *
+		 * Función que se encarga de verificar si una cadena de texto tiene el formato especificado para los telefonos.
+		 * La cadena sólo puede estar formada por digitos y debe tener una longitud de 6 a 12.
+		 *
+		 * @param mixed $tel - variable a validar.
+		 *
+		 * @return bool - FALSE si $tel no es un telefono válido.
+		 * @return string $result - cadena de caracteres con el texto recibido.
+		 */
 		function cleanTel($tel){
 			$regex = "/\d{6,12}/";  //Sólo cadenas de dígitos de longitud entre 6 y 12
 			
@@ -158,6 +180,17 @@
 			return $result;
 		}
 		
+		/**
+		 * Limpia Bit.
+		 *
+		 * Función que se encarga de verificar si una cadena de texto tiene el formato especificado para las cadenas de bits.
+		 * La cadena sólo puede estar formada por los digitos 0 y 1.
+		 *
+		 * @param mixed $bit - variable a validar.
+		 *
+		 * @return bool - FALSE si $bit no es una cadena válida.
+		 * @return string $result - cadena de caracteres con el texto recibido.
+		 */
 		function cleanBit($bit){
 			$regex = "/(0|1)/"; //Sólo 0 ó 1
 			
@@ -169,6 +202,17 @@
 			return $result;
 		}
 		
+		/**
+		 * Limpia Fecha.
+		 *
+		 * Función que se encarga de verificar si una cadena de texto tiene el formato especificado para las fechas.
+		 * Esta cadena puede estar formada sólo con la fecha o conhoras, minutos y segundos incluidos.
+		 *
+		 * @param mixed $datetime - variable a validar.
+		 *
+		 * @return bool - FALSE si $datetime no es una cadena válida.
+		 * @return string $result - cadena de caracteres con el texto recibido.
+		 */
 		function cleanDateTime($datetime){
 			//Formato Valido = YYYY-MM-DD HH:MM:SS
 		
@@ -216,7 +260,14 @@
 			return $result;
 		}
 		
-		//si inicia una sesion si es que no existe
+		/**
+		 * Valida login.
+		 *
+		 * Función que se encarga de verificar si hay una sesión iniciada.
+		 *
+		 * @return bool - FALSE si no hay una sesión iniciada.
+		 * @return bool - TRUE si hay una sesión iniciada.
+		 */
 		function isLogged()
 		{
 			if( isset($_SESSION['user']) )
