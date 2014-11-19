@@ -1,9 +1,11 @@
+		<!-- Agregar script para que cambie dinámicamente el filtro -->
+		<script src="View/JS/functions.js"></script>
 		<div class="container form_body">
 			<h1>Checklists</h1>
 			<form action="index.php?ctl=checklist&act=list" method="post" role="form">
 	 			<div class="form-group">
 				    <label class="pull-left" for="filter_select" id="filter_label">Filtro: </label>
-				    <select class="form-control pull-left filter_control" name="filter_select" id="filter_select">
+				    <select class="form-control pull-left filter_control" name="filter_select" id="filter_select" onchange="changeFilterChecklist()">
 						<!-- En value va el nombre como vienen el campo en la BDD -->
 						<option value="idChecklist">Id Checklist</option>
 					    <option value="idVehicle">Id Vehículo</option>
