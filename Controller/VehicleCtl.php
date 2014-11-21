@@ -247,8 +247,8 @@
 
 					case "select" :
 					{
-						//Solo los admins y los empleados podrán consultar
-						if($this -> isAdmin() || $this -> isEmployee())
+						//Solo los admins y los empleados podrán consultar, los usuarios pueden consultar sus propios vehiculos
+						if($this -> isAdmin() || $this -> isEmployee() || $this -> isClient())
 						{
 							//Comprobamos que el POST no esté vacío.
 							if(empty($_POST))
@@ -268,45 +268,54 @@
 									//Ejecutamos el query y recogemos el resultado.
 									$result = $this -> model -> select($id_vehicle);
 
-									if($result != null)
+									//Si es cliente y el id de usuario obtenido no corresponde, mostramos un error
+									if($this -> isClient() && $result[0]['idUser'] != $_SESSION['id_user'])
 									{
-										//Cargamos el formulario
-										$view = file_get_contents("View/VehicleForm.html");
-										$header = file_get_contents("View/header.html");
-										$footer = file_get_contents("View/footer.html");
-
-										foreach($result as $row)
+										if($result != null)
 										{
+											//Cargamos el formulario
+											$view = file_get_contents("View/VehicleForm.html");
+											$header = file_get_contents("View/header.html");
+											$footer = file_get_contents("View/footer.html");
+
+											foreach($result as $row)
+											{
+												$dictionary = array(
+														'{value-id-vehicle}' => $result['idVehicle'],
+														'{value-id-user}' => $result['idUser'],
+														'{value-id-location}' => $result['idLocation'],
+														'{value-id-vehicle-model}' => $result['idVehicleModel'],
+														'{value-vin}' => $result['VIN'],
+														'{value-color}' => $result['Color'],
+														'{active}' => 'disabled'
+													);
+											}
+
+											//Sustituir los valores en la plantilla
+											$view = strtr($view,$dictionary);
+
+											//Sustituir el usuario en el header
 											$dictionary = array(
-													'{value-id-vehicle}' => $result['idVehicle'],
-													'{value-id-user}' => $result['idUser'],
-													'{value-id-location}' => $result['idLocation'],
-													'{value-id-vehicle-model}' => $result['idVehicleModel'],
-													'{value-vin}' => $result['VIN'],
-													'{value-color}' => $result['Color'],
-													'{active}' => 'disabled'
-												);
+																'{user-name}' => $_SESSION['user'],
+																'{log-link}' => 'index.php?ctl=logout',
+																'{log-type}' => 'Logout'
+															);
+											$header = strtr($header,$dictionary);
+
+											//Agregamos el header y el footer
+											$view = $header.$view.$footer;
+
+											echo $view;
 										}
-
-										//Sustituir los valores en la plantilla
-										$view = strtr($view,$dictionary);
-
-										//Sustituir el usuario en el header
-										$dictionary = array(
-															'{user-name}' => $_SESSION['user'],
-															'{log-link}' => 'index.php?ctl=logout',
-															'{log-type}' => 'Logout'
-														);
-										$header = strtr($header,$dictionary);
-
-										//Agregamos el header y el footer
-										$view = $header.$view.$footer;
-
-										echo $view;
+										else
+										{
+											$error = "Error al mostrar el vehículo.";
+											$this -> showErrorView($error);
+										}
 									}
 									else
 									{
-										$error = "Error al mostrar el vehículo.";
+										$error = "No tiene permiso de ver el vehiculo especificado.";
 										$this -> showErrorView($error);
 									}
 								}
