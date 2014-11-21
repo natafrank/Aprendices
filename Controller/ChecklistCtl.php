@@ -59,7 +59,8 @@
 													'{value-id-vehicle-status}' => '', 
 													'{value-date}' => '', 
 													'{value-inout}' => '', 
-													'{active}' => ''
+													'{active}' => '', 
+													'{action}' => 'insert'
 												);
 								
 								//Sustituir los valores en la plantilla
@@ -107,7 +108,8 @@
 															'{value-id-vehicle-status}' => $_POST['idVehicleStatus'], 
 															'{value-date}' => $_POST['Date'], 
 															'{value-inout}' => $_POST['InOut'],
-															'{active}' => 'disabled'
+															'{active}' => 'disabled', 
+															'{action}' => 'insert'
 														);
 
 										//Sustituir los valores en la plantilla
@@ -224,19 +226,17 @@
 									$idChecklist = $this -> cleanInt($_POST['idChecklist']);
 							
 									//Primero mostramos el id que se quire modificar.
-									//Recogemos el resultado y si contiene información, la mostramos.
-									if(($result = $this -> model -> select($idChecklist)) != null)
+									//Comprobamos si estan seteadas las variables en el POST
+									if(isset($_POST['idVehicle']) && isset($_POST['idVehicleStatus']) && isset($_POST['Date']) && isset($_POST['InOut']))
 									{
 										//La modificación se realizará en base al id.
-										//Por ahora se modificarán todos los atributos.
 										$idVehicle   	 = $this -> cleanInt($_POST['idVehicle']);
 										$idVehicleStatus = $this -> cleanInt($_POST['idVehicleStatus']);
 										$Date        	 = $this -> cleanDateTime($_POST['Date']);
 										$InOut       	 = $this -> cleanBit($_POST['InOut']);
 
 										//Se llama a la función de modificación.
-										//Se recoge el resultado y en base a este resultado
-										//se imprime un mensaje.
+										//Se recoge el resultado y se muestra
 										if($this -> model -> update($idChecklist, $idVehicle, $idVehicleStatus, $Date, $InOut))
 										{
 											//Cargamos el formulario
@@ -252,7 +252,8 @@
 																'{value-id-vehicle-status}' => $idVehicleStatus, 
 																'{value-date}' => $Date, 
 																'{value-inout}' => $InOut, 
-																'{active}' => 'disabled'
+																'{active}' => 'disabled', 
+																'{action}' => 'update'
 															);
 
 											//Sustituir los valores en la plantilla
@@ -299,6 +300,52 @@
 										{
 											$error = "Error al modificar el Checklist.";
 											$this -> showErrorView($error);
+										}
+
+									}
+									//Si no estan seteadas mostramos la info para actualizar
+									else
+									{
+										if(($result = $this -> model -> select($idChecklist)) != null)
+										{
+
+											//Cargamos el formulario
+											$view = file_get_contents("View/ChecklistForm.html");
+											$header = file_get_contents("View/header.html");
+											$footer = file_get_contents("View/footer.html");
+
+											//Creamos el diccionario
+											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
+											$dictionary = array(
+																'{value-id-checklist}' => $result[0]['idChecklist'], 
+																'{value-id-vehicle}' => $result[0]['idVehicle'], 
+																'{value-id-vehicle-status}' => $result[0]['idVehicleStatus'], 
+																'{value-date}' => $result[0]['Date'], 
+																'{value-inout}' => $result[0]['InOut'], 
+																'{active}' => '', 
+																'{action}' => 'update'
+															);
+
+											//Sustituir los valores en la plantilla
+											$view = strtr($view,$dictionary);
+
+											//Sustituir el usuario en el header
+											$dictionary = array(
+																'{user-name}' => $_SESSION['user'],
+																'{log-link}' => 'index.php?ctl=logout',
+																'{log-type}' => 'Logout'
+															);
+											$header = strtr($header,$dictionary);
+
+											//Agregamos el header y el footer
+											$view = $header.$view.$footer;
+
+											echo $view;
+										}
+										else
+										{
+											$error = 'Error al traer la ind¿formación para modificar';
+											$this -> showErrorView($error);	
 										}
 									}
 								}
@@ -351,7 +398,8 @@
 															'{value-id-vehicle-status}' => $result['idVehicleStatus'], 
 															'{value-date}' => $result['Date'], 
 															'{value-inout}' => $result['InOut'], 
-															'{active}' => 'disabled'
+															'{active}' => 'disabled', 
+															'{action}' => 'select'
 														);
 									}
 

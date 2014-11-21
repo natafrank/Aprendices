@@ -498,6 +498,11 @@
 											echo $view;
 											//require_once("View/UpdateUserShow.php");
 										}
+										else
+										{
+											$error = "Error al traer la información para modificar..";
+											$this -> showErrorView($error);	
+										}
 									}
 								}
 								else

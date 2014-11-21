@@ -58,7 +58,8 @@
 								$dictionary = array(
 													'{value-id-damage}' => '', 
 													'{value-damage}' => '', 
-													'{active}' => ''
+													'{active}' => '', 
+													'{action}' => 'insert'
 												);
 								
 								//Sustituir los valores en la plantilla
@@ -102,7 +103,8 @@
 										$dictionary = array(
 															'{value-id-damage}' => $_POST['idDamage'], 
 															'{value-damage}' => $_POST['Damage'], 
-															'{active}' => 'disabled'
+															'{active}' => 'disabled', 
+															'{action}' => 'insert'
 														);
 
 										//Sustituir los valores en la plantilla
@@ -138,7 +140,9 @@
 										}
 										else
 										{
-											echo "<br />Error al enviar el correo.";
+											//echo "<br />Error al enviar el correo.";
+											$error = "Error al enviar el correo.";
+											$this -> showErrorView($error);
 										}
 								
 									}
@@ -208,7 +212,9 @@
 										}
 										else
 										{
-											echo "<br />Error al enviar el correo.";
+											//echo "<br />Error al enviar el correo.";
+											$error = "Error al enviar el correo.";
+											$this -> showErrorView($error);
 										}
 									}
 									//Si no pudimos eliminar, señalamos el error.
@@ -266,7 +272,8 @@
 										$dictionary = array(
 															'{value-id-damage}' => $result['idDamage'], 
 															'{value-damage}' => $result['Damage'], 
-															'{active}' => 'disabled'
+															'{active}' => 'disabled', 
+															'{action}' => 'select'
 														);
 									}
 
@@ -315,7 +322,6 @@
 								//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
 								$this -> showGetIdView("damage","update","idDamage","Id Daño:");
 							}
-
 							else
 							{
 								//Comprobamos que el id esté seteado.
@@ -325,87 +331,113 @@
 									$idDamage = $this -> cleanText($_POST['idDamage']);
 
 									//Primero mostramos el id que se quire modificar.
-									//Recogemos el resultado y si contiene información, la mostramos.
-									if(($result = $this -> model -> select($idDamage)) != null)
+									//Comprobamos si están seteadas las variables en el POST
+									if(isset($_POST['Damage']))
 									{
+										//La modificación se realizará en base al id.
+										$Damage = $this -> cleanText($_POST['Damage']);
 
-										//Verificamos que las variables estén seteadas.
-										if(isset($_POST['Damage']))
+										//Se llama a la función de modificación.
+										//Se recoge el resultado y se muestra
+										if($this -> model -> update($idDamage, $Damage))
 										{
-											//La modificación se realizará en base al id.
-											//Por ahora se modificarán todos los atributos.
-											$Damage = $this -> cleanText($_POST['Damage']);
+											//Cargamos el formulario
+											$view = file_get_contents("View/DamageForm.html");
+											$header = file_get_contents("View/header.html");
+											$footer = file_get_contents("View/footer.html");
 
-											//Se llama a la función de modificación.
-											//Se recoge el resultado y en base a este resultado
-											//se imprime un mensaje.
-											if($this -> model -> update($idDamage, $Damage))
+											//Creamos el diccionario
+											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
+											$dictionary = array(
+														'{value-id-damage}' => $idDamage, 
+														'{value-damage}' => $Damage, 
+														'{active}' => 'disabled', 
+														'{action}' => 'update'
+													);
+
+											//Sustituir los valores en la plantilla
+											$view = strtr($view,$dictionary);
+
+											//Sustituir el usuario en el header
+											$dictionary = array(
+																'{user-name}' => $_SESSION['user'],
+																'{log-link}' => 'index.php?ctl=logout',
+																'{log-type}' => 'Logout'
+															);
+											$header = strtr($header,$dictionary);
+
+											//Agregamos el header y el footer
+											$view = $header.$view.$footer;
+
+											echo $view;
+											
+											//Enviamos el correo de que se ha modificado un daño.
+											require_once("Controller/mail.php");
+
+											//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+											$subject = "Actualización de Daño";
+											$body = "El daño con los siguientes datos se ha modificado:".
+											"\nId   : ". $idDamage.
+											"\nDaño : ". $Damage;
+
+											//Manadamos el correo solo a administradores y empleados - 6
+											if(Mailer::sendMail($subject, $body, 6))
 											{
-												//Cargamos el formulario
-												$view = file_get_contents("View/DamageForm.html");
-												$header = file_get_contents("View/header.html");
-												$footer = file_get_contents("View/footer.html");
-
-												//Creamos el diccionario
-												//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
-												$dictionary = array(
-															'{value-id-damage}' => $idDamage, 
-															'{value-damage}' => $Damage, 
-															'{active}' => 'disabled'
-														);
-
-												//Sustituir los valores en la plantilla
-												$view = strtr($view,$dictionary);
-
-												//Sustituir el usuario en el header
-												$dictionary = array(
-																	'{user-name}' => $_SESSION['user'],
-																	'{log-link}' => 'index.php?ctl=logout',
-																	'{log-type}' => 'Logout'
-																);
-												$header = strtr($header,$dictionary);
-
-												//Agregamos el header y el footer
-												$view = $header.$view.$footer;
-
-												echo $view;
-												
-												//Enviamos el correo de que se ha modificado un daño.
-												require_once("Controller/mail.php");
-
-												//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
-												$subject = "Actualización de Daño";
-												$body = "El daño con los siguientes datos se ha modificado:".
-												"\nId   : ". $idDamage.
-												"\nDaño : ". $Damage;
-
-												//Manadamos el correo solo a administradores y empleados - 6
-												if(Mailer::sendMail($subject, $body, 6))
-												{
-													//echo "<br>Correo enviado con éxito.";
-												}
-												else
-												{
-													echo "<br />Error al enviar el correo.";
-												}	
+												//echo "<br>Correo enviado con éxito.";
 											}
 											else
 											{
-												$error = "Error al modificar el daño.";
+												//echo "<br />Error al enviar el correo.";
+												$error = "Error al enviar el correo.";
 												$this -> showErrorView($error);
-											}
+											}	
 										}
 										else
 										{
-											$error = "Error al modificar el daño, el daño no está seteado.";
+											$error = "Error al modificar el daño.";
 											$this -> showErrorView($error);
 										}
 									}
-									//Si el resultado no contiene información, mostramos el error.
+									//Si no estan seteadas mostramos el formulario de actualizacion
 									else
 									{
-										$error = "Error al tratar de mostrar el registro.";
-										$this -> showErrorView($error);
+										if(($result = $this -> model -> select($idDamage)) != null)
+										{									
+											//Cargamos el formulario
+											$view = file_get_contents("View/DamageForm.html");
+											$header = file_get_contents("View/header.html");
+											$footer = file_get_contents("View/footer.html");
+
+											//Creamos el diccionario
+											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
+											$dictionary = array(
+														'{value-id-damage}' => $$result[0]['idDamage'], 
+														'{value-damage}' => $$result[0]['Damage'], 
+														'{active}' => '', 
+														'{action}' => 'update'
+													);
+
+											//Sustituir los valores en la plantilla
+											$view = strtr($view,$dictionary);
+
+											//Sustituir el usuario en el header
+											$dictionary = array(
+																'{user-name}' => $_SESSION['user'],
+																'{log-link}' => 'index.php?ctl=logout',
+																'{log-type}' => 'Logout'
+															);
+											$header = strtr($header,$dictionary);
+
+											//Agregamos el header y el footer
+											$view = $header.$view.$footer;
+
+											echo $view;
+										}
+										else
+										{
+											$error = "Error al tratar de mostrar el registro.";
+											$this -> showErrorView($error);
+										}
 									}
 								}
 								//Sino está seteado, imprimimos el mensaje.

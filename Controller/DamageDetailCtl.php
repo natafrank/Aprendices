@@ -62,7 +62,8 @@
 													'{value-id-vehicle-part}' => '', 
 													'{value-id-damage}' => '', 
 													'{value-damage-severity}' => '', 
-													'{active}' => ''
+													'{active}' => '', 
+													'{action}' => 'insert'
 												);
 								
 								//Sustituir los valores en la plantilla
@@ -109,7 +110,8 @@
 														'{value-id-vehicle-part}' => $_POST['idVehiclePart'], 
 														'{value-id-damage}' => $_POST['idDamage'], 
 														'{value-damage-severity}' => $_POST['DamageSeverity'], 
-														'{active}' => 'disabled'
+														'{active}' => 'disabled', 
+														'{action}' => 'insert'
 													);
 
 									//Sustituir los valores en la plantilla
@@ -165,17 +167,16 @@
 									$idDamageDetail = $this -> cleanInt($_POST['idDamageDetail']);
 							
 									//Primero mostramos el id que se quire modificar.
-									//Recogemos el resultado y si contiene información, la mostramos.
-									if(($result = $this -> model -> select($idDamageDetail)) != null)
+									//Comprobamos si están seteadas las variables en el POST
+									if(isset($_POST['idChecklist']) && isset($_POST['idVehiclePart']) && isset($_POST['idDamage']) && isset($_POST['DamageSeverity']))
 									{
-
 										//La modificación se realizará en base al id.
 										//Por ahora se modificarán todos los atributos.  
 										$idChecklist    = $this -> cleanInt($_POST['idChecklist']);
 										$idVehiclePart  = $this -> cleanInt($_POST['idVehiclePart']);
 										$idDamage       = $this -> cleanInt($_POST['idDamage']);
 										$DamageSeverity = $this -> cleanInt($_POST['DamageSeverity']);
-
+										
 										//Se llama a la función de modificación.
 										//Se recoge el resultado y en base a este resultado
 										//se imprime un mensaje.
@@ -194,7 +195,8 @@
 														'{value-id-vehicle-part}' => $idVehiclePart, 
 														'{value-id-damage}' => $idDamage, 
 														'{value-damage-severity}' => $DamageSeverity, 
-														'{active}' => 'disabled'
+														'{active}' => 'disabled', 
+														'{action}' => 'update'
 													);
 
 											//Sustituir los valores en la plantilla
@@ -218,8 +220,52 @@
 										{
 											$error = "Error al modificar el detalle de daños.";
 											$this -> showErrorView($error);
+										}	
+									}
+									else
+									{
+										if(($result = $this -> model -> select($idDamageDetail)) != null)
+										{
+											//Cargamos el formulario
+											$view = file_get_contents("View/DamageDetailForm.html");
+											$header = file_get_contents("View/header.html");
+											$footer = file_get_contents("View/footer.html");
+
+											//Creamos el diccionario
+											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
+											$dictionary = array(
+														'{value-id-damage-detail}' => $result[0]['idDamageDetail'], 
+														'{value-id-checklist}' => $result[0]['idChecklist'], 
+														'{value-id-vehicle-part}' => $result[0]['idVehiclePart'], 
+														'{value-id-damage}' => $result[0]['idDamage'], 
+														'{value-damage-severity}' => $result[0]['DamageSeverity'], 
+														'{active}' => '', 
+														'{action}' => 'update'
+													);
+
+											//Sustituir los valores en la plantilla
+											$view = strtr($view,$dictionary);
+
+											//Sustituir el usuario en el header
+											$dictionary = array(
+																'{user-name}' => $_SESSION['user'],
+																'{log-link}' => 'index.php?ctl=logout',
+																'{log-type}' => 'Logout'
+															);
+											$header = strtr($header,$dictionary);
+
+											//Agregamos el header y el footer
+											$view = $header.$view.$footer;
+
+											echo $view;	
+										}
+										else
+										{
+											$error = "Error al traer la información para modificar.";
+											$this -> showErrorView($error);
 										}
 									}
+									
 								}
 								else
 								{
@@ -270,7 +316,8 @@
 															'{value-id-vehicle-part}' => $result['idVehiclePart'], 
 															'{value-id-damage}' => $result['idDamage'], 
 															'{value-damage-severity}' => $result['DamageSeverity'], 
-															'{active}' => 'disabled'
+															'{active}' => 'disabled', 
+															'{action}' => 'select'
 														);
 									}
 

@@ -41,9 +41,10 @@
 								//Creamos el diccionario
 								//Para el insert los campos van vacios y los input estan activos
 								$dictionary = array(
-									'{value-idEvent}' => '',
-									'{value-Event}' => '',
-									'{active}' => ''
+										'{value-idEvent}' => '',
+										'{value-Event}' => '',
+										'{active}' => '',
+										'{action}' => 'insert'
 									);
 
 								//Sustituir los valores en la plantilla
@@ -86,7 +87,8 @@
 									$dictionary = array(
 										'{value-idEvent}' => $_POST['idEvent'],
 										'{value-Event}' => $_POST['Event'],
-										'{active}' => 'disabled'
+										'{active}' => 'disabled',
+										'{action}' => 'insert'
 										);
 									
 									//Sustituir los valores en la plantilla
@@ -162,11 +164,9 @@
 									$idEvent = $this->cleanInt($_POST['idEvent']);
 
 									//Primero mostramos el id que se quire modificar.
-									//Recogemos el resultado y si contiene información, la mostramos.
-									if(($result = $this->model->select($idEvent)) != null)
+									//Comprobamos si están seteadas las variables en el POST
+									if(isset($_POST['Event']))
 									{
-										echo var_dump($result);
-
 										//La modificación se realizará en base al id.
 										//Por ahora se modificarán todos los atributos.
 										$Event = $this->cleanText($_POST['Event']);
@@ -186,7 +186,8 @@
 											$dictionary = array(
 												'{value-idEvent}' => $idEvent, 
 												'{value-Event}' => $Event,
-												'{active}' => 'disabled'
+												'{active}' => 'disabled',
+												'{action}' => 'update'
 											);
 
 											//Sustituir los valores en la plantilla
@@ -232,11 +233,46 @@
 											$this -> showErrorView($error);
 										}
 									}
-									//Si el resultado no contiene información, mostramos el error.
 									else
 									{
-										$error = "Error al tratar de mostrar el evento.";
-										$this -> showErrorView($error);
+										if(($result = $this->model->select($idEvent)) != null)
+										{										
+											//Cargamos el formulario
+											$view = file_get_contents("View/EventForm.html");
+											$header = file_get_contents("View/header.html");
+											$footer = file_get_contents("View/footer.html");
+
+											//Creamos el diccionario
+											//Se muestra la información y los campos van activos
+											$dictionary = array(
+												'{value-idEvent}' => $idEvent, 
+												'{value-Event}' => $Event,
+												'{active}' => '',
+												'{action}' => 'update'
+											);
+
+											//Sustituir los valores en la plantilla
+											$view = strtr($view,$dictionary);
+
+											//Sustituir el usuario en el header
+											$dictionary = array(
+												'{user-name}' => $_SESSION['user'],
+												'{log-link}' => 'index.php?ctl=logout',
+												'{log-type}' => 'Logout'
+																);
+											$header = strtr($header,$dictionary);
+
+											//Agregamos el header y el footer
+											$view = $header.$view.$footer;
+
+											echo $view;
+										}
+										//Si el resultado no contiene información, mostramos el error.
+										else
+										{
+											$error = "Error al traer la información para modificar.";
+											$this -> showErrorView($error);
+										}
 									}
 								}
 								//Si no está seteado, imprimimos el mensaje y se mostrará la vista con 									el formulario para actualizar la información.
@@ -289,7 +325,8 @@
 											$dictionary = array(
 												'{value-idEvent}' => $result['idEvent'], 
 												'{value-Event}' => $result['Event'], 
-												'{active}' => 'disabled'
+												'{active}' => 'disabled',
+												'{action}' => 'select'
 											);
 										}
 
