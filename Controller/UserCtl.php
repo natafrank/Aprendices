@@ -54,7 +54,8 @@
 													'{value-email}' => '', 
 													'{value-tel}' => '', 
 													'{value-type}' => '', 
-													'{active}' => ''
+													'{active}' => '',
+													'{action}' => 'insert'
 												);
 								
 								//Sustituir los valores en la plantilla
@@ -84,7 +85,7 @@
 									&& isset($_POST['type']))
 								{
 									//Limpiamos las variables.
-									$id_user = $this -> cleanText($_POST['id_user']);
+									$id_user = $this -> cleanInt($_POST['id_user']);
 									$name    = $this -> cleanName($_POST['name']);
 									$login   = $this -> cleanLogin($_POST['login']);
 									$pass    = $this -> cleanPassword($_POST['pass']);
@@ -120,7 +121,8 @@
 																'{value-email}' => $_POST['email'], 
 																'{value-tel}' => $_POST['tel'], 
 																'{value-type}' => $_POST['type'], 
-																'{active}' => 'disabled'
+																'{active}' => 'disabled',
+																'{action}' => 'insert'
 															);
 
 											//Sustituir los valores en la plantilla
@@ -300,7 +302,8 @@
 															'{value-email}' => $result['Email'], 
 															'{value-tel}' => $result['Tel'], 
 															'{value-type}' => $result['idUserType'], 
-															'{active}' => 'disabled'
+															'{active}' => 'disabled',
+															'{action}' => 'select'
 														);
 									}
 
@@ -338,61 +341,43 @@
 					case "update" :
 					{
 					
-						//Si es administrador podra modificar cualquier perfil
-						//Si es cliente o empleado puede modificar unicamente su propio perfil
-						
-						//Comprobamos que el POST no esté vacío en caso de que el usuario sea tipo Admin.
-						if( $this -> isAdmin() && empty($_POST))
+						//Sólo si es administrador podra modificar cualquier perfil
+						if($this -> isAdmin())
 						{
-							//Si el post está vacio cargamos la vista para solicitar el id a consultar
-							//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
-							$this -> showGetIdView("user","update","id_user","Id Usuario:");
-						}
-						else
-						{
-							//Comprobamos que el id esté seteado en caso de que el usuario sea tipo admin.
-							if(!$this -> isAdmin() || isset($_POST['id_user']))
+							
+							//Comprobamos que el POST no este vacio.
+							if(empty($_POST))
 							{
-								//Si el usuario no es admin tomamos el id de la sesion y el tipo de usuario ya que solo el admin lo puede modificar.
-								if( !$this -> isAdmin() )
+								//Si el post está vacio cargamos la vista para solicitar el id a consultar
+								//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
+								$this -> showGetIdView("user","update","id_user","Id Usuario:");
+							}
+							else
+							{
+								//Comprobamos que el id esté seteado.
+								if(isset($_POST['id_user']))
 								{
-									$id_user = $_SESSION['id_user'];
-									$type    = $_SESSION['user_type'];	
-								}
-								//En caso contrario limpiamos el id.
-								else
-								{
-									$id_user = $this -> cleanText($_POST['id_user']);
-								}
+									
+									$id_user = $this -> cleanInt($_POST['id_user']);
 
-								//Primero mostramos el id que se quire modificar.
-								//Recogemos el resultado y si contiene información, la mostramos.
-								if(($result = $this -> model -> select($id_user)) != null)
-								{									
-									//Comprobamos que las variables a modificar estén seteadas
-									if(isset($_POST['name'])
-										&& isset($_POST['login']) && isset($_POST['pass'])
-										&& isset($_POST['email']) && isset($_POST['tel'])
-										&& (!$this -> isAdmin() || isset($_POST['type'])))  //Solo si es Admin validamos que este seteado el tipo de usuario
+									//Primero mostramos el id que se quire modificar.
+									//Comprobamos si están seteadas las variables en el POST
+									if(isset($_POST['name']) && isset($_POST['login']) && isset($_POST['pass']) && isset($_POST['email']) 
+									&& isset($_POST['tel']) && isset($_POST['type']))
 									{
 										//La modificación se realizará en base al id.
-										//Por ahora se modificarán todos los atributos.
 										//Limpiamos las variables.
 										$name    = $this -> cleanName($_POST['name']);
 										$login   = $this -> cleanLogin($_POST['login']);
 										$pass    = $this -> cleanPassword($_POST['pass']);
 										$email   = $this -> cleanEmail($_POST['email']);
 										$tel     = $this -> cleanTel($_POST['tel']);
-										//Si es admin ponemos el tipo de usuario
-										if( $this -> isAdmin() )
-										{  
-											$type    = $this -> cleanText($_POST['type']);
-										}
+										$type    = $this -> cleanText($_POST['type']);
 
 										//Si alguno de los campos es inválido.
 										if(!$name || !$login || !$pass || !$email || !$tel )
 										{
-											$error = "Error al insertar el usuario, alguno de los campos es inválido.";
+											$error = "Error al actualizar el usuario, alguno de los campos es inválido.";
 											$this -> showErrorView($error);
 										}
 										else
@@ -408,7 +393,7 @@
 												$footer = file_get_contents("View/footer.html");
 
 												//Creamos el diccionario
-												//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
+												//Despues de actualizar los cmapos van con la info nueva y los input estan inactivos
 												$dictionary = array(
 																	'{value-id-user}' => $id_user, 
 																	'{value-name}' => $name, 
@@ -417,7 +402,8 @@
 																	'{value-email}' => $email, 
 																	'{value-tel}' => $tel, 
 																	'{value-type}' => $type, 
-																	'{active}' => 'disabled'
+																	'{active}' => 'disabled',
+																	'{action}' => 'update'
 																);
 
 												//Sustituir los valores en la plantilla
@@ -457,7 +443,9 @@
 												}
 												else
 												{
-													echo "<br />Error al enviar el correo.";
+													//echo "<br />Error al enviar el correo.";
+													$error = "<br />Error al enviar el correo.";
+													$this -> showErrorView($error);
 												}
 											}
 											else
@@ -466,24 +454,57 @@
 												$this -> showErrorView($error);
 											}
 										}
-									}	
+									}
+									//Si no estan seteadas traemos la info y la mostramos en el formulario.
 									else
 									{
-										$error = "Error al tratar de modificar el registro, el tipo de usuario no está seteado.";
-										$this -> showErrorView($error);
+										//Recogemos el resultado y si contiene información, la mostramos.
+										if(($result = $this -> model -> select($id_user)) != null)
+										{	
+											
+											//Cargamos el formulario
+											$view = file_get_contents("View/UserForm.html");
+											$header = file_get_contents("View/header.html");
+											$footer = file_get_contents("View/footer.html");
+
+											//Creamos el diccionario
+											//Despues se muestra la informacion para modificar por lo que los campos quedan activos
+											$dictionary = array(
+																'{value-id-user}' => $result[0]['idUser'], 
+																'{value-name}' => $result[0]['User'], 
+																'{value-login}' => $result[0]['Login'], 
+																'{value-pass}' => $result[0]['Password'], 
+																'{value-email}' => $result[0]['Email'], 
+																'{value-tel}' => $result[0]['Tel'], 
+																'{value-type}' => $result[0]['idUserType'], 
+																'{active}' => '',
+																'{action}' => 'update'
+															);
+
+											//Sustituir los valores en la plantilla
+											$view = strtr($view,$dictionary);
+
+											//Sustituir el usuario en el header
+											$dictionary = array(
+																'{user-name}' => $_SESSION['user'],
+																'{log-link}' => 'index.php?ctl=logout',
+																'{log-type}' => 'Logout'
+															);
+											$header = strtr($header,$dictionary);
+
+											//Agregamos el header y el footer
+											$view = $header.$view.$footer;
+
+											echo $view;
+											//require_once("View/UpdateUserShow.php");
+										}
 									}
 								}
-								//Si el resultado no contiene información, mostramos el error.
 								else
 								{
-									$error = "Error al tratar de mostrar el registro.";
+									$error = "Error al tratar de modificar el registro, el id no está seteado.";
 									$this -> showErrorView($error);
 								}
-							}
-							else
-							{
-								$error = "Error al tratar de modificar el registro, el id no está seteado.";
-								$this -> showErrorView($error);
 							}
 						}
 
