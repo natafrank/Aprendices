@@ -256,5 +256,73 @@
 			return TRUE;
 		}
 
+		/**
+		 * Funcion obtener id del usuario del vehiculo.
+		 *
+		 * Regresa el id del usuario al que pertenece el vehiculo especificado.
+		 *
+		 * @param int $idVehicle - id del vehiculo del que se buscará el propietario.
+		 *
+		 * @return int - con el id del usuario al que pertenece el vehiculo si se encuentra
+		 * @return bool - FALSE si falló la consulta
+		 */
+		public function getIdVehicleUser($idVehicle)
+		{
+			//Escapamos la variable.
+			$this -> idVehicle = $this -> db_driver -> escape($idVehicle);
+
+			//Se obtendra el id del usuario al que pertenece el vehiculo.
+			$query = "SELECT idUser FROM Vehicle WHERE idVehicle=".$this -> idVehicle.";";
+
+			//Ejecutamos el query y recogemos el resultado.
+			$result = $this -> db_driver -> execute($query);
+
+			//Si el resultado no es null, procesamos la información.
+			if($result != null)
+			{
+				//Si el resultado contiene información retornamos el id del usuario.
+				return $result[0]['idUser'];
+			}
+			else
+			{
+				//Si el resultado es null, retornamos FALSE.
+				return FALSE;
+			}	
+		}
+
+		/**
+		 * Funcion obtener datos del vehiculo.
+		 *
+		 * Regresa la iformación del vehículo especificado.
+		 *
+		 * @param int $idVehicle - id del vehículo del que se buscará la información.
+		 *
+		 * @return array - con la información del vehículo
+		 * @return bool - FALSE si falló la consulta
+		 */
+		public function getVehicleInfo($idVehicle)
+		{
+			//Escapamos la variable.
+			$this -> idVehicle = $this -> db_driver -> escape($idVehicle);
+
+			//Se obtendra el id del usuario al que pertenece el vehiculo.
+			$query = "SELECT * FROM Vehicle WHERE idVehicle=".$this -> idVehicle.";";
+
+			//Ejecutamos el query y recogemos el resultado.
+			$result = $this -> db_driver -> execute($query);
+
+			//Si el resultado no es null, procesamos la información.
+			if($result != null)
+			{
+				//Si el resultado contiene información retornamos el id del usuario.
+				return $result;
+			}
+			else
+			{
+				//Si el resultado es null, retornamos FALSE.
+				return FALSE;
+			}	
+		}
+
 	}
 ?>

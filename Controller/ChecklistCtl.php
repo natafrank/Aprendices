@@ -150,6 +150,37 @@
 											$error = "Error al enviar el correo."; 
 											$this -> showErrorView($error);
 										}
+
+										//Si es salida, enviamos correo al usuario de que ya se dió salida a su vehiculo
+										if($InOut == 1){
+											if($result = $this -> model -> getVehicleInfo($idVehicle)){
+												//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+												$subject = "Salida de Vehículo";
+												$body = "Ya se dio salida a su vehículo con la siguiente información:".
+												"\nId              : ". $result[0]['idVehicle'].
+												"\nId Usuario      : ". $result[0]['idUser'].
+												"\nId Location     : ". $result[0]['idLocation'].
+												"\nId Vehicle Model: ". $result[0]['idVehicleModel'].
+												"\nVin             : ". $result[0]['vin'].
+												"\nColor           : ". $result[0]['color'];
+
+												//Manadamos el correo solo al usuario del vehículo - 1
+												if(Mailer::sendMail($subject, $body, 1, $result[0]['idUser']))
+												{
+													//echo "<br>Correo enviado con éxito.";
+												}
+												else
+												{
+													$error = "Error al enviar el correo."; 
+													$this -> showErrorView($error);
+												}
+											}
+											else
+											{
+												$error = "Error al obtener la información del vehículo"; 
+												$this -> showErrorView($error);
+											}	
+										}
 									}
 									else
 									{
