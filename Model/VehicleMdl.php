@@ -3,6 +3,7 @@
 	class VehicleMdl
 	{
 		private $id_vehicle;
+		private $id_user;
 		private $vin;                 
 		private $id_vehicle_model;         
 		private $id_location;
@@ -22,10 +23,11 @@
 		}
 		/*************************************************************/
 
-		public function insert($id_vehicle, $id_location, $id_vehicle_model, $vin, $color)
+		public function insert($id_vehicle, $id_user, $id_location, $id_vehicle_model, $vin, $color)
 		{
 			//Escapamos las variables.
 			$this -> id_vehicle       = $this -> db_driver -> escape($id_vehicle);
+			$this -> id_user          = $this -> db_driver -> escape($id_user);
 			$this -> id_location      = $this -> db_driver -> escape($id_location);
 			$this -> id_vehicle_model = $this -> db_driver -> escape($id_vehicle_model);
 			$this -> vin              = $this -> db_driver -> escape($vin);
@@ -33,6 +35,7 @@
 
 			//Query a ejecutar.
 			$query = "INSERT INTO Vehicle VALUES(".$this -> id_vehicle.
+				", ".$this -> id_user.
 				", ".$this -> id_location.
 				", ".$this -> id_vehicle_model.
 				", '".$this -> vin.
@@ -83,17 +86,19 @@
 			}	
 		}
 
-		public function update($id_vehicle, $id_location, $id_vehicle_model, $vin, $color)
+		public function update($id_vehicle, $id_user, $id_location, $id_vehicle_model, $vin, $color)
 		{
 			//Escapamos las variables.
 			$this -> id_vehicle       = $this -> db_driver -> escape($id_vehicle);
+			$this -> id_user          = $this -> db_driver -> escape($id_user);
 			$this -> id_location      = $this -> db_driver -> escape($id_location);
 			$this -> id_vehicle_model = $this -> db_driver -> escape($id_vehicle_model);
 			$this -> vin              = $this -> db_driver -> escape($vin);
 			$this -> color            = $this -> db_driver -> escape($color);
 
 			//Query a ejecutar.
-			$query = "UPDATE Vehicle SET idLocation=".$this-> id_location.
+			$query = "UPDATE Vehicle SET idUser=".$this-> id_user.
+				", idLocation=".$this-> id_location.
 				", idVehicleModel=".$this -> id_vehicle_model.
 				", vin='".$this -> vin.
 				"', color='".$this -> color."';";
@@ -137,6 +142,11 @@
 		public function getIdVehicle()
 		{
 			return $this -> id_vehicle;
+		}
+
+		public function getIdUser()
+		{
+			return $this -> id_user;
 		}
 
 		public function getIdLocation()

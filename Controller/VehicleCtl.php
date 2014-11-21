@@ -45,6 +45,7 @@
 								//Para el insert los cmapos van vacios y los input estan activos
 								$dictionary = array(
 													'{value-id-vehicle}' => '',
+													'{value-id-user}' => '',
 													'{value-id-location}' => '',
 													'{value-id-vehicle-model}' => '',
 													'{value-vin}' => '',
@@ -72,19 +73,18 @@
 							else
 							{
 								//Comprobamos que las variables estén seteadas.
-								if(isset($_POST['id_vehicle']) && isset($_POST['vin']) && isset($_POST['id_location'])
-									&& isset($_POST['id_vehicle_model']) && isset($_POST['color']))
+								if(isset($_POST['id_vehicle']) && isset($_POST['id_user']) && isset($_POST['vin']) && isset($_POST['id_location']) && isset($_POST['id_vehicle_model']) && isset($_POST['color']))
 								{
 									//Obtenemos las variables por la alta y las limpiamos.
-									$id_vehicle        = $this -> cleanText($_POST['id_vehicle']);
+									$id_vehicle        = $this -> cleanInt($_POST['id_vehicle']);
+									$id_user           = $this -> cleanInt($_POST['id_user']);
 									$id_location       = $this -> cleanInt($_POST['id_location']);
 									$id_vehicle_model  = $this -> cleanInt($_POST['id_vehicle_model']);
 									$vin               = $this -> cleanText($_POST['vin']);
 									$color             = $this -> cleanText($_POST['color']);
 
 									//Si alguno de los campos es inválido.
-									if(!$id_vehicle || !$id_location || !$id_vehicle_model || !$vin
-										!$color)
+									if(!$id_vehicle || !$id_user || !$id_location || !$id_vehicle_model || !$vin || !$color)
 									{
 										$error = "Error al insertar el vehículo, alguno de los campos es inválido.";
 										$this -> showErrorView($error);
@@ -92,8 +92,7 @@
 									else
 									{
 										//Guardamos el resultado de ejecutar el query.
-										$result = $this -> model -> insert($id_vehicle, $id_location, $id_vehicle_model, 
-												$vin, $color);
+										$result = $this -> model -> insert($id_vehicle, $id_user, $id_location, $id_vehicle_model, $vin, $color);
 
 										if($result)
 										{
@@ -106,6 +105,7 @@
 											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 											$dictionary = array(
 													'{value-id-vehicle}' => $_POST['id_vehicle'],
+													'{value-id-user}' => $_POST['id_user'],
 													'{value-id-location}' => $_POST['id_location'],
 													'{value-id-vehicle-model}' => $_POST['id_vehicle_model'],
 													'{value-vin}' => $_POST['vin'],
@@ -136,6 +136,7 @@
 											$subject = "Alta de Vehículo";
 											$body = "El vehículo con los siguientes datos se ha añadido:".
 											"\nId              : ". $id_vehicle.
+											"\nId Usuario      : ". $id_user.
 											"\nId Location     : ". $id_location.
 											"\nId Vehicle Model: ". $id_vehicle_model.
 											"\nVin             : ". $vin.
@@ -148,7 +149,9 @@
 											}
 											else
 											{
-												echo "<br>Error al enviar el correo.";
+												//echo "<br>Error al enviar el correo.";
+												$error = "Error al enviar el correo.";
+												$this -> showErrorView($error);
 											}
 										}
 										else
@@ -211,11 +214,13 @@
 										//Enviamos el correo solo a admins - 4
 										if(Mailer::sendMail($subject, $body, 4))
 										{
-											echo "Correo enviado con éxito";
+											//echo "Correo enviado con éxito";
 										}
 										else
 										{
-											echo "Error al enviar el correo";
+											//echo "Error al enviar el correo";
+											$error = "Error al enviar el correo";
+											$this -> showErrorView($error);
 										}
 									}
 									else
@@ -274,6 +279,7 @@
 										{
 											$dictionary = array(
 													'{value-id-vehicle}' => $result['idVehicle'],
+													'{value-id-user}' => $result['idUser'],
 													'{value-id-location}' => $result['idLocation'],
 													'{value-id-vehicle-model}' => $result['idVehicleModel'],
 													'{value-vin}' => $result['VIN'],
@@ -347,7 +353,8 @@
 										//var_dump($result);
 
 										//Comprobamos que las demás variables estén seteadas.
-										if(isset($_POST['id_location'])
+										if(isset($_POST['id_user'])
+											&& isset($_POST['id_location'])
 											&& isset($_POST['id_vehicle_model'])
 											&& isset($_POST['vin'])
 											&& isset($_POST['color']))
@@ -355,22 +362,23 @@
 											/*La modificación se realizará en base al vin.
 											 *Por ahora se modificarán todos los atributos.*/
 											//Limpiamos las variables.
+											$id_user      	  = $this -> cleanText($_POST['id_user']);
 											$id_location      = $this -> cleanText($_POST['id_location']);
 											$id_vehicle_model = $this -> cleanText($_POST['id_vehicle_model']);
 											$vin              = $this -> cleanText($_POST['vin']);
 											$color            = $this -> cleanText($_POST['color']);
 
 											//Si alguno de los campos es inválido.
-											if(!$id_location || !$id_vehicle_model || !$vin || !$color)
+											if(!$id_user || !$id_location || !$id_vehicle_model || !$vin || !$color)
 											{
 												$error = "Error al insertar el vehículo, alguno de los campos es inválido.";
-											$this -> showErrorView($error);
+												$this -> showErrorView($error);
 											}
 
 											//Se llama a la función de modificación.
 											//Se recoge el resultado y en base a este resultado
 											//se imprime un mensaje.
-											if($this -> model -> update($id_vehicle, $id_location, 
+											if($this -> model -> update($id_vehicle, $id_user, $id_location, 
 												$id_vehicle_model, $vin,  $color))
 											{
 												//Cargamos el formulario
@@ -382,6 +390,7 @@
 												//Despues de insertar los cmapos van con la info insertada y los input estan inactivos	
 												$dictionary = array(
 													'{value-id-vehicle}' => $id_vehicle,
+													'{value-id-user}' => $id_user,
 													'{value-id-location}' => $id_location,
 													'{value-id-vehicle-model}' => $id_vehicle_model,
 													'{value-vin}' => $vin,
@@ -412,6 +421,7 @@
 												$subject = "Modificación de Vehículo";
 												$body = "El vehículo con los siguientes datos se ha modificado:".
 												"\nId              : ". $id_vehicle.
+												"\nId Usuario      : ". $id_user.
 												"\nId Location     : ". $id_location.
 												"\nId Vehicle Model: ". $id_vehicle_model.
 												"\nVin             : ". $vin.
@@ -424,7 +434,9 @@
 												}
 												else
 												{
-													echo "<br>Error al enviar el correo.";
+													//echo "<br>Error al enviar el correo.";
+													$error = "Error al enviar el correo.";
+													$this -> showErrorView($error);
 												}
 											}
 											else
@@ -500,6 +512,7 @@
 									$new_row = $base_row;
 									$dictionary = array(
 														'{value-id-vehicle}' => $result['idVehicle'],
+													'{value-id-user}' => $result['idUser'],
 													'{value-id-location}' => $result['idLocation'],
 													'{value-id-vehicle-model}' => $result['idVehicleModel'],
 													'{value-vin}' => $result['VIN'],
