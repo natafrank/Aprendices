@@ -47,7 +47,8 @@
 								$dictionary = array(
 													'{value-id-user-type}' => '', 
 													'{value-user-type}' => '', 
-													'{active}' => ''
+													'{active}' => '', 
+													'{action}' => 'insert'
 												);
 
 								//Sustituir los valores en la plantilla
@@ -99,7 +100,8 @@
 											$dictionary = array(
 																'{value-id-user-type}' => $_POST['id_user_type'], 
 																'{value-user-type}' => $_POST['user_type'], 
-																'{active}' => 'disabled'
+																'{active}' => 'disabled', 
+																'{action}' => 'insert'
 															);
 
 											//Sustituir los valores en la plantilla
@@ -135,7 +137,9 @@
 											}
 											else
 											{
-												echo "<br>Error al enviar el correo.";
+												//echo "<br>Error al enviar el correo.";
+												$error = "Error al enviar el correo.";
+												$this -> showErrorView($error);
 											}
 										}
 									}
@@ -204,7 +208,9 @@
 										}
 										else
 										{
-											echo "Error al enviar el correo";
+											//echo "<br>Error al enviar el correo.";
+											$error = "Error al enviar el correo.";
+											$this -> showErrorView($error);
 										}
 									}
 									else
@@ -266,7 +272,8 @@
 											$dictionary = array(
 																'{value-id-user-type}' => $result['idUserType'], 
 																'{value-user-type}' => $result['UserType'], 
-																'{active}' => 'disabled'
+																'{active}' => 'disabled', 
+																'{action}' => 'select'
 														);
 										}
 
@@ -329,96 +336,114 @@
 									$id_user_type = $this -> cleanInt($_POST['id_user_type']);
 
 									//Primero mostramos el id que se quire modificar.
-									//Recogemos el resultado y si contiene información, la mostramos.
-									if(($result = $this -> model -> select($id_user_type)) != null)
+									//Comprobamos si están seteadas las variables en el POST
+									if(isset($_POST['user_type']))
 									{
-										//var_dump($result);
+										//La modificación se realizará en base al id.
+										$user_type = $this -> cleanText($_POST['user_type']);
 
-										//Comprobamos que las variables estén seteadas
-										if(isset($_POST['user_type']))
+										//Se llama a la función de modificación.
+										//Se recoge el resultado y en base a este resultado
+										//se imprime un mensaje.
+										if($this -> model -> update($id_user_type, $user_type))
 										{
-											//La modificación se realizará en base al id.
-											//Por ahora se modificarán todos los atributos.
-											$user_type = $this -> cleanText($_POST['user_type']);
+											//Cargamos el formulario
+											$view = file_get_contents("View/UserTypeForm.html");
+											$header = file_get_contents("View/header.html");
+											$footer = file_get_contents("View/footer.html");
 
-											if(!$usertype)
+											//Creamos el diccionario
+											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
+											$dictionary = array(
+																'{value-id-user-type}' => $id_user_type, 
+																'{value-user-type}' => $user_type, 
+																'{active}' => 'disabled', 
+																'{action}' => 'update'
+															);
+
+											//Sustituir los valores en la plantilla
+											$view = strtr($view,$dictionary);
+
+											//Sustituir el usuario en el header
+											$dictionary = array(
+																'{user-name}' => $_SESSION['user'],
+																'{log-link}' => 'index.php?ctl=logout',
+																'{log-type}' => 'Logout'
+															);
+											$header = strtr($header,$dictionary);
+
+											//Agregamos el header y el footer
+											$view = $header.$view.$footer;
+
+											echo $view;
+
+											//Enviamos el correo de que se ha añadido un usuario.
+											require_once("Controller/mail.php");
+
+											//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+											$subject = "Modificación de Tipo de Usuario";
+											$body = "El tipo de usuario con los siguientes datos se ha modificado:".
+											"\nId        : ". $id_user_type.
+											"\nUser Type : ". $user_type;
+
+											//Manadamos el correo solo a administradores - 4.
+											if(Mailer::sendMail($subject, $body, 4))
 											{
-												$error = "Error al insertar el tipo de usuario, alguno de los campos es inválido.";
-												$this -> showErrorView($error);
+												//echo "<br>Correo enviado con éxito.";
 											}
 											else
 											{
-												//Se llama a la función de modificación.
-												//Se recoge el resultado y en base a este resultado
-												//se imprime un mensaje.
-												if($this -> model -> update($id_user_type, $user_type))
-												{
-													//Cargamos el formulario
-													$view = file_get_contents("View/UserTypeForm.html");
-													$header = file_get_contents("View/header.html");
-													$footer = file_get_contents("View/footer.html");
-
-													//Creamos el diccionario
-													//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
-													$dictionary = array(
-																		'{value-id-user-type}' => $id_user_type, 
-																		'{value-user-type}' => $user_type, 
-																		'{active}' => 'disabled'
-																	);
-
-													//Sustituir los valores en la plantilla
-													$view = strtr($view,$dictionary);
-
-													//Sustituir el usuario en el header
-													$dictionary = array(
-																		'{user-name}' => $_SESSION['user'],
-																		'{log-link}' => 'index.php?ctl=logout',
-																		'{log-type}' => 'Logout'
-																	);
-													$header = strtr($header,$dictionary);
-
-													//Agregamos el header y el footer
-													$view = $header.$view.$footer;
-
-													echo $view;
-
-													//Enviamos el correo de que se ha añadido un usuario.
-													require_once("Controller/mail.php");
-
-													//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
-													$subject = "Modificación de Tipo de Usuario";
-													$body = "El tipo de usuario con los siguientes datos se ha modificado:".
-													"\nId        : ". $id_user_type.
-													"\nUser Type : ". $user_type;
-
-													//Manadamos el correo solo a administradores - 4.
-													if(Mailer::sendMail($subject, $body, 4))
-													{
-														//echo "<br>Correo enviado con éxito.";
-													}
-													else
-													{
-														echo "<br>Error al enviar el correo.";
-													}
-												}
-												else
-												{
-													$error = "Error al tratar de modificar el registro.";
-													$this -> showErrorView($error);
-												}
+												//echo "<br>Error al enviar el correo.";
+												$error = "Error al enviar el correo.";
+												$this -> showErrorView($error);
 											}
 										}
 										else
 										{
-											$error = "Error al tratar de modificar el registro, el tipo de usuario no está seteado.";
+											$error = "Error al tratar de modificar el registro.";
 											$this -> showErrorView($error);
 										}
 									}
-									//Si el resultado no contiene información, mostramos el error.
 									else
 									{
-										$error = "Error al tratar de mostrar el registro.";
-										$this -> showErrorView($error);
+										if(($result = $this -> model -> select($id_user_type)) != null)
+										{
+											//Cargamos el formulario
+											$view = file_get_contents("View/UserTypeForm.html");
+											$header = file_get_contents("View/header.html");
+											$footer = file_get_contents("View/footer.html");
+
+											//Creamos el diccionario
+											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
+											$dictionary = array(
+																'{value-id-user-type}' => $id_user_type, 
+																'{value-user-type}' => $user_type, 
+																'{active}' => '', 
+																'{action}' => 'update'
+															);
+
+											//Sustituir los valores en la plantilla
+											$view = strtr($view,$dictionary);
+
+											//Sustituir el usuario en el header
+											$dictionary = array(
+																'{user-name}' => $_SESSION['user'],
+																'{log-link}' => 'index.php?ctl=logout',
+																'{log-type}' => 'Logout'
+															);
+											$header = strtr($header,$dictionary);
+
+											//Agregamos el header y el footer
+											$view = $header.$view.$footer;
+
+											echo $view;
+										}
+										//Si el resultado no contiene información, mostramos el error.
+										else
+										{
+											$error = "Error al traer la información para modificar.";
+											$this -> showErrorView($error);
+										}
 									}
 								}
 								else

@@ -44,7 +44,8 @@
 									'{value-idLocation}' => '',
 									'{value-location}' => '',
 									'{value-idMasterlocation}' => '',
-									'{active}' => ''
+									'{active}' => '',
+									'{action}' => 'insert'
 									);
 
 								//Sustituir los valores en la plantilla
@@ -85,10 +86,11 @@
 									//Creamos el diccionario
 									//Despues de insertar los campos van con la info insertada y los input estan inactivos
 									$dictionary = array(
-										'{value-idLocation}' => $_POST['idLocation'],
-										'{value-location}' => $_POST['location'],
-										'{value-idMasterLocation}' => $_POST['idMasterLocation'],
-										'{active}' => 'disabled'
+											'{value-idLocation}' => $_POST['idLocation'],
+											'{value-location}' => $_POST['location'],
+											'{value-idMasterLocation}' => $_POST['idMasterLocation'],
+											'{active}' => 'disabled',
+											'{action}' => 'insert'
 										);
 									
 									//Sustituir los valores en la plantilla
@@ -165,14 +167,11 @@
 									$idLocation = $this->cleanInt($_POST['idLocation']);
 
 									//Primero mostramos el id que se quire modificar.
-									//Recogemos el resultado y si contiene información, la mostramos.
-									if(($result = $this->model->select($idLocation)) != null)
+									//Comprobamos si están seteadas las variables en el POST
+									if(isset($_POST['location']) && isset($_POST['idMasterLocation']))
 									{
-										echo var_dump($result);
-
 										//La modificación se realizará en base al id.
 										//Por ahora se modificarán todos los atributos.
-										$idLocation = $this->cleanInt($_POST['idLocation']);
 										$location = $this->cleanText($_POST['location']);
 										$idMasterLocation = $this->cleanInt($_POST['idMasterLocation']);
 
@@ -192,7 +191,8 @@
 												'{value-idLocation}' => $idLocation, 
 												'{value-location}' => $location,
 												'{value-idMasterLocation}' => $idMasterLocation,
-												'{active}' => 'disabled'
+												'{active}' => 'disabled',
+												'{action}' => 'update'
 											);
 
 											//Sustituir los valores en la plantilla
@@ -229,7 +229,7 @@
 											}
 											else
 											{
-												echo "Error al enviar el correo.";
+												$error = "Error al enviar el correo.";
 												$this -> showErrorView($error);
 											}
 										}
@@ -238,12 +238,50 @@
 											$error = "Error al modificar la ubicación.";
 											$this -> showErrorView($error);
 										}
+
 									}
-									//Si el resultado no contiene información, mostramos el error.
 									else
 									{
-										$error = "Error al tratar de mostrar el registro.";
-										$this -> showErrorView($error);
+										if(($result = $this->model->select($idLocation)) != null)
+										{
+
+											//Cargamos el formulario
+											$view = file_get_contents("View/LocationForm.html");
+											$header = file_get_contents("View/header.html");
+											$footer = file_get_contents("View/footer.html");
+
+											//Creamos el diccionario
+											//Se muestra el formulario para modificar
+											$dictionary = array(
+												'{value-idLocation}' => $result[0]['idLocation'], 
+												'{value-location}' => $result[0]['location'],
+												'{value-idMasterLocation}' => $result[0]['idMasterLocation'],
+												'{active}' => '',
+												'{action}' => 'update'
+											);
+
+											//Sustituir los valores en la plantilla
+											$view = strtr($view,$dictionary);
+
+											//Sustituir el usuario en el header
+											$dictionary = array(
+												'{user-name}' => $_SESSION['user'],
+												'{log-link}' => 'index.php?ctl=logout',
+												'{log-type}' => 'Logout'
+																);
+											$header = strtr($header,$dictionary);
+
+											//Agregamos el header y el footer
+											$view = $header.$view.$footer;
+
+											echo $view;
+										}
+										//Si el resultado no contiene información, mostramos el error.
+										else
+										{
+											$error = "Error al traer los datos para modificar.";
+											$this -> showErrorView($error);
+										}
 									}
 								}
 								//Sino está seteado, imprimimos el mensaje y se mostrará la vista con 									el formulario para actualizar la información.
@@ -298,7 +336,8 @@
 												'{value-idLocation}' => $result['idLocation'], 
 												'{value-location}' => $result['location'],
 												'{value-idMasterLocation}' => $result['idMasterLocation'],
-												'{active}' => 'disabled'
+												'{active}' => 'disabled',
+												'{action}' => 'select'
 											);
 										}
 
