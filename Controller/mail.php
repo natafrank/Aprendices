@@ -3,15 +3,28 @@
 
 	class Mailer
 	{
-		public static function sendMail($mail_subject, $mail_body, $mail_type_user)
+		/**
+		 * Envia Correo.
+		 *
+		 * Función para enviar correos a los usuarios del sistema dependiendo de su perfil.
+		 *
+		 * @param string $mail_subject   - Asunto del correo.
+		 * @param string $mail_body      - Contenido del correo.
+		 * @param int    $mail_type_user - entero utilizado para saber a que perfiles se enviara el correo.
+		 * @param int    $id_client      - id para filtrar al cliente al que se enviará el correo.
+		 *
+		 * @return bool - TRUE si el correo se envio corectamente, FALSE en casoo contrario.
+		 */
+		public static function sendMail($mail_subject, $mail_body, $mail_type_user, $id_client = 0)
 		{
 			//Querys para traer la información en base al tipo de usuario.
 			$getAdmins    = "SELECT * FROM User WHERE idUserType=1;";
 			$getEmployees = "SELECT * FROM User WHERE idUserType=2;";
-			$getClients   = "SELECT * FROM User WHERE idUserType=3;";
+			//Para los clientes se utiliza el filtro por id para enviar correos a clientes en especifico
+			$getClients   = "SELECT * FROM User WHERE idUserType=3 AND idUser=".$id_client.";";
 
 			//Comprobamos que los parámetros estén seteados
-			if(isset($mail_subject) && isset($mail_body) &&isset($mail_type_user))
+			if(isset($mail_subject) && isset($mail_body) && isset($mail_type_user))
 			{
 				//PHPMailer
 				require_once("PHPMailer/PHPMailerAutoload.php");

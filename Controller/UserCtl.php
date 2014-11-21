@@ -154,8 +154,8 @@
 											"\nTel  : ". $tel.
 											"\nType : ". $type;
 
-											//Manadamos el correo solo a administradores - 4.
-											if(Mailer::sendMail($subject, $body, 4))
+											//Manadamos el correo solo a administradores y al cliente que se agregó - 5.
+											if(Mailer::sendMail($subject, $body, 5, $id_user))
 											{
 												//echo "<br>Correo enviado con éxito.";
 											}
