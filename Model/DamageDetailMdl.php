@@ -12,11 +12,14 @@
 		 * @var int $idVehiclePart - Llave foranea a la tabla VehiclePart.
 		 * @access private
 		 * @var int $idDamage - Llave foranea a la tabla Damage.
+		 * @access private
+		 * @var int $DamageSeverity - Numero que indica la severidad del daño siendo 1 el mínimo y 5 el máximo.
 		 */
 		private $idDamageDetail;
 		private $idCheklist;
 		private $idVehiclePart;
-		private $idDamage;
+		private $idDamage;		
+		private $DamageSeverity;
 		
 		//CONEXIÓN A LA BASE DE DATOS
 		/*************************************************************/
@@ -53,23 +56,26 @@
 		 * @param int $idChecklist - Llave foranea a la tabla Checklist.
 		 * @param int $idVehiclePart - Llave foranea a la tabla VehiclePart.
 		 * @param int $idDamage - Llave foranea a la tabla Damage.
+		 * @param int $DamageSeverity - Severidad del daño.
 		 *
 		 * @return array - con el registro insertado si se inserto correctamente
 		 * @return bool - FALSE si falló la inserción
 		 */
-		public function insert($idDamageDetail,$idChecklist,$idVehiclePart,$idDamage)
+		public function insert($idDamageDetail,$idChecklist,$idVehiclePart,$idDamage,$DamageSeverity)
 		{
 			//Escapamos las variables.
 			$this -> idDamageDetail = $this -> db_driver -> escape($idDamageDetail);
 			$this -> idChecklist    = $this -> db_driver -> escape($idChecklist);
 			$this -> idVehiclePart  = $this -> db_driver -> escape($idVehiclePart);
 			$this -> idDamage       = $this -> db_driver -> escape($idDamage);
+			$this -> DamageSeverity = $this -> db_driver -> escape($DamageSeverity);
 
 			//Query a ejecutar.
 			$query = "INSERT INTO DamageDetail VALUES(".$this -> idDamageDetail.", "
 												 	   .$this -> idChecklist.", "
 												 	   .$this -> idVehiclePart.", "
-												 	   .$this -> idDamage.");";
+												 	   .$this -> idDamage.", "
+												 	   .$this -> DamageSeverity.");";
 	
 			//Ejecutamos el query y retornamos el resultado.
 		    //Retornará verdadero si se insertaron los datos correctamente.
@@ -121,11 +127,13 @@
 			$this -> idChecklist    = $this -> db_driver -> escape($idChecklist);
 			$this -> idVehiclePart  = $this -> db_driver -> escape($idVehiclePart);
 			$this -> idDamage       = $this -> db_driver -> escape($idDamage);
+			$this -> DamageSeverity = $this -> db_driver -> escape($DamageSeverity);
 
 			//Query que realizará la modificación.
 			$query = "UPDATE DamageDetail SET idChecklist=".$this -> idChecklist.", "
 									   	 ."idVehiclePart=".$this -> idVehiclePart.", "
-									   	 ."idDamage=".$this -> idDamage.   
+									   	 ."idDamage=".$this -> idDamage.", "
+									   	 ."DamageSeverity=".$this -> DamageSeverity.   
 					  " WHERE idDamageDetail=".$this -> idDamageDetail.";";
 
 		  	//Ejecutamos el query y retornamos el resultado.

@@ -61,6 +61,7 @@
 													'{value-id-checklist}' => '', 
 													'{value-id-vehicle-part}' => '', 
 													'{value-id-damage}' => '', 
+													'{value-damage-severity}' => '', 
 													'{active}' => ''
 												);
 								
@@ -89,10 +90,11 @@
 								$idChecklist    = $this -> cleanInt($_POST['idChecklist']);
 								$idVehiclePart  = $this -> cleanInt($_POST['idVehiclePart']);
 								$idDamage       = $this -> cleanInt($_POST['idDamage']);
+								$DamageSeverity = $this -> cleanInt($_POST['DamageSeverity']);
 
 								//Recogemos el resultado de la inserción e imprimimos un mensaje
 								//en base a este resultado.
-								if($result = $this -> model -> insert($idDamageDetail,$idChecklist,$idVehiclePart,$idDamage))
+								if($result = $this -> model -> insert($idDamageDetail,$idChecklist,$idVehiclePart,$idDamage,$DamageSeverity))
 								{
 									//Cargamos el formulario
 									$view = file_get_contents("View/DamageDetailForm.html");
@@ -106,6 +108,7 @@
 														'{value-id-checklist}' => $_POST['idChecklist'], 
 														'{value-id-vehicle-part}' => $_POST['idVehiclePart'], 
 														'{value-id-damage}' => $_POST['idDamage'], 
+														'{value-damage-severity}' => $_POST['DamageSeverity'], 
 														'{active}' => 'disabled'
 													);
 
@@ -171,11 +174,12 @@
 										$idChecklist    = $this -> cleanInt($_POST['idChecklist']);
 										$idVehiclePart  = $this -> cleanInt($_POST['idVehiclePart']);
 										$idDamage       = $this -> cleanInt($_POST['idDamage']);
+										$DamageSeverity = $this -> cleanInt($_POST['DamageSeverity']);
 
 										//Se llama a la función de modificación.
 										//Se recoge el resultado y en base a este resultado
 										//se imprime un mensaje.
-										if($this -> model -> update($idDamageDetail,$idChecklist,$idVehiclePart,$idDamage))
+										if($this -> model -> update($idDamageDetail,$idChecklist,$idVehiclePart,$idDamage,$DamageSeverity))
 										{
 											//Cargamos el formulario
 											$view = file_get_contents("View/DamageDetailForm.html");
@@ -189,6 +193,7 @@
 														'{value-id-checklist}' => $idChecklist, 
 														'{value-id-vehicle-part}' => $idVehiclePart, 
 														'{value-id-damage}' => $idDamage, 
+														'{value-damage-severity}' => $DamageSeverity, 
 														'{active}' => 'disabled'
 													);
 
@@ -264,6 +269,7 @@
 															'{value-id-checklist}' => $result['idChecklist'], 
 															'{value-id-vehicle-part}' => $result['idVehiclePart'], 
 															'{value-id-damage}' => $result['idDamage'], 
+															'{value-damage-severity}' => $result['DamageSeverity'], 
 															'{active}' => 'disabled'
 														);
 									}
@@ -390,6 +396,7 @@
 													'{value-id-checklist}' => $result['idChecklist'], 
 													'{value-id-vehicle-part}' => $result['idVehiclePart'], 
 													'{value-id-damage}' => $result['idDamage'], 
+													'{value-damage-severity}' => $result['DamageSeverity'], 
 													'{active}' => 'disabled'
 												);
 								$new_row = strtr($new_row,$dictionary);
