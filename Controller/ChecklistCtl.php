@@ -93,59 +93,68 @@
 								//en base a este resultado.
 								if($result = $this -> model -> insert($idChecklist,$idVehicle,$idVehicleStatus,$Date,$InOut))
 								{
-									//Cargamos el formulario
-									$view = file_get_contents("View/ChecklistForm.html");
-									$header = file_get_contents("View/header.html");
-									$footer = file_get_contents("View/footer.html");
+									if($result = $this -> model -> createEvent($_SESSION['id_user'],$idVehicle,$InOut)){
+										//Cargamos el formulario
+										$view = file_get_contents("View/ChecklistForm.html");
+										$header = file_get_contents("View/header.html");
+										$footer = file_get_contents("View/footer.html");
 
-									//Creamos el diccionario
-									//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
-									$dictionary = array(
-														'{value-id-checklist}' => $_POST['idChecklist'], 
-														'{value-id-vehicle}' => $_POST['idVehicle'], 
-														'{value-id-vehicle-status}' => $_POST['idVehicleStatus'], 
-														'{value-date}' => $_POST['Date'], 
-														'{value-inout}' => $_POST['InOut'],
-														'{active}' => 'disabled'
-													);
+										//Creamos el diccionario
+										//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
+										$dictionary = array(
+															'{value-id-checklist}' => $_POST['idChecklist'], 
+															'{value-id-vehicle}' => $_POST['idVehicle'], 
+															'{value-id-vehicle-status}' => $_POST['idVehicleStatus'], 
+															'{value-date}' => $_POST['Date'], 
+															'{value-inout}' => $_POST['InOut'],
+															'{active}' => 'disabled'
+														);
 
-									//Sustituir los valores en la plantilla
-									$view = strtr($view,$dictionary);
+										//Sustituir los valores en la plantilla
+										$view = strtr($view,$dictionary);
 
-									//Sustituir el usuario en el header
-									$dictionary = array(
-														'{user-name}' => $_SESSION['user'],
-														'{log-link}' => 'index.php?ctl=logout',
-														'{log-type}' => 'Logout'
-													);
-									$header = strtr($header,$dictionary);
+										//Sustituir el usuario en el header
+										$dictionary = array(
+															'{user-name}' => $_SESSION['user'],
+															'{log-link}' => 'index.php?ctl=logout',
+															'{log-type}' => 'Logout'
+														);
+										$header = strtr($header,$dictionary);
 
-									//Agregamos el header y el footer
-									$view = $header.$view.$footer;
+										//Agregamos el header y el footer
+										$view = $header.$view.$footer;
 
-									echo $view;
-									//require_once("View/ShowInsertChecklist.php");
+										echo $view;
+										//require_once("View/ShowInsertChecklist.php");
 
-									//Enviamos el correo de que se ha añadido un checklist.
-									require_once("Controller/mail.php");
+										//Enviamos el correo de que se ha añadido un checklist.
+										require_once("Controller/mail.php");
 
-									//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
-									$subject = "Alta de Checklist";
-									$body = "El checklist con los siguientes datos se ha añadido:".
-									"\nId   : ". $idChecklist.
-									"\nIdVehicle : ". $idVehicle.
-									"\nidVehicleStatus: ". $idVehicleStatus.
-									"\nFecha : ". $Date.
-									"\nInOut : ". $InOut;
+										//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+										$subject = "Alta de Checklist";
+										$body = "El checklist con los siguientes datos se ha añadido:".
+										"\nId   : ". $idChecklist.
+										"\nIdVehicle : ". $idVehicle.
+										"\nidVehicleStatus: ". $idVehicleStatus.
+										"\nFecha : ". $Date.
+										"\nInOut : ". $InOut;
 
-									//Manadamos el correo solo a administradores y empleados - 6
-									if(Mailer::sendMail($subject, $body, 6))
-									{
-										//echo "<br>Correo enviado con éxito.";
+										//Manadamos el correo solo a administradores y empleados - 6
+										if(Mailer::sendMail($subject, $body, 6))
+										{
+											//echo "<br>Correo enviado con éxito.";
+										}
+										else
+										{
+											//echo "<br />Error al enviar el correo.";
+											$error = "Error al enviar el correo."; 
+											$this -> showErrorView($error);
+										}
 									}
 									else
 									{
-										echo "<br />Error al enviar el correo.";
+										$error = "Error al crear el evento"; 
+										$this -> showErrorView($error);
 									}
 								}
 								else
@@ -251,7 +260,8 @@
 											}
 											else
 											{
-												echo "<br />Error al enviar el correo.";
+												$error = "Error al enviar el correo."; 
+												$this -> showErrorView($error);
 											}
 										}
 										else
@@ -392,7 +402,8 @@
 										}
 										else
 										{
-											echo "<br />Error al enviar el correo.";
+											$error = "Error al enviar el correo."; 
+											$this -> showErrorView($error);
 										}
 									}
 									//Si no pudimos eliminar, señalamos el error.

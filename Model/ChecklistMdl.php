@@ -206,5 +206,55 @@
 			}	
 		}
 
+		/**
+		 * Funcion Crear evento.
+		 *
+		 * Crea el evento de entrada o salida al crear un checklist.
+		 *
+		 * @param int $idUser - id del usuario que creo el checklist.
+		 * @param int $idVehicle - id del vehiculo al que se le hizo el checklist.
+		 * @param int $InOut - entero que indica si el checklist es de entrada o salida.
+		 *
+		 * @return bool - FALSE si falló la inserción, TRUE en caso contrario
+		 */
+		public function createEvent($idUser,$idVehicle,$InOut)
+		{
+			//Escapamos las variables.
+			$idUser    = $this -> db_driver -> escape($idUser);
+			$idVehicle = $this -> db_driver -> escape($idVehicle);
+			$InOut     = $this -> db_driver -> escape($InOut);
+
+			//Obtener el siguiente id
+			$idEventRegistry = $this -> db_driver -> execute('SELECT MAX(idEventRegistry) FROM EventRegistry;');
+			$idEventRegistry = $idEventRegistry + 1;
+
+			//Setear el id del evento dependiendo de si es entrada o salida
+			$idEvent = 1;
+			if($InOut == 1){
+				$idEvent = 3
+			}
+
+			$date_array = getdate();
+			$Date = $date_array['year']."-".$date_array['mon']."-"$date_array['mday'];
+
+			$Reason = "Entrada del vehiculo con ID: ".$idVehicle;
+
+			//Query a ejecutar.
+			$query = "INSERT INTO EventRegistry VALUES(".$idEventRegistry.", "
+												 	.$idVehicle.", "
+												 	.$idUser.", "
+												 	.$idEvent.", "
+												 	.$Date.", "
+													.$Reason.");";
+	
+			//Ejecutamos el query y retornamos el resultado.
+		    //Retornará verdadero si se insertaron los datos correctamente.
+			//Retornará falso en caso de no poder insertar.
+			if(!$this -> db_driver -> execute($query)){
+				return FALSE;
+			}
+			return TRUE;
+		}
+
 	}
 ?>

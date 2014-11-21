@@ -214,7 +214,7 @@
 		 * @return string $result - cadena de caracteres con el texto recibido.
 		 */
 		function cleanDateTime($datetime){
-			//Formato Valido = YYYY-MM-DD HH:MM:SS
+			//Formato Valido = YYYY-MM-DD (HH:MM:SS - opcional)
 		
 			$datetime_parts = explode(" ",$datetime);
 			
@@ -232,27 +232,31 @@
 			{ 
 				return result; 
 			}
+
+			//Validacion de las horas si es que las hay
+			if(count($datetime_parts) > 1){
 			
-			$time_parts = explode(":",$datetime_parts[1]);
-			
-			//El explode debe regresar solo tres elementos en el arreglo
-			if(count($time_parts) != 3){
-				return $result;
-			}
-			
-			$regex = "/(((0|1)(\d))|(2[0-3]))/";  //Validacion para las horas (00-23)
-			if (!preg_match($regex, $time_parts[0])) {
-				return $result;	
-			}
-			
-			$regex = "/([0-5](\d))/";  //Validacion para los minutos (00-59)
-			if (!preg_match($regex, $time_parts[1])) {
-				return $result;	
-			}
-			
-			$regex = "/([0-5](\d))/";  //Validacion para los segundos (00-59)
-			if (!preg_match($regex, $time_parts[2])) {
-				return $result;	
+				$time_parts = explode(":",$datetime_parts[1]);
+				
+				//El explode debe regresar solo tres elementos en el arreglo
+				if(count($time_parts) != 3){
+					return $result;
+				}
+				
+				$regex = "/(((0|1)(\d))|(2[0-3]))/";  //Validacion para las horas (00-23)
+				if (!preg_match($regex, $time_parts[0])) {
+					return $result;	
+				}
+				
+				$regex = "/([0-5](\d))/";  //Validacion para los minutos (00-59)
+				if (!preg_match($regex, $time_parts[1])) {
+					return $result;	
+				}
+				
+				$regex = "/([0-5](\d))/";  //Validacion para los segundos (00-59)
+				if (!preg_match($regex, $time_parts[2])) {
+					return $result;	
+				}
 			}
 			
 			$result = $datetime;
