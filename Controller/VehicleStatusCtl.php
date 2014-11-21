@@ -45,7 +45,8 @@
 									'{value-vehicleStatus}' => '',
 									'{value-Fuel}' => '',
 									'{value-Km}' => '',
-									'{active}' => ''
+									'{active}' => '',
+									'{action}' => 'insert'
 									);
 
 								//Sustituir los valores en la plantilla
@@ -91,7 +92,8 @@
 										'{value-vehicleStatus}' => $_POST['vehicleStatus'],
 										'{value-Fuel}' => $_POST['Fuel'],
 										'{value-Km}' => $_POST['Km'],
-										'{active}' => 'disabled'
+										'{active}' => 'disabled',
+										'{action}' => 'insert'
 										);
 									
 									//Sustituir los valores en la plantilla
@@ -169,14 +171,10 @@
 									$idVehicleStatus = $this->cleanInt($_POST['idVehicleStatus']);
 
 									//Primero mostramos el id que se quire modificar.
-									//Recogemos el resultado y si contiene información, la mostramos.
-									if(($result = $this->model->select($idVehicleStatus)) != null)
+									//Comprobamos si están seteadas las variables en el POST
+									if(isset($_POST['vehicleStatus']) && isset($_POST['Fuel']) && isset($_POST['Km']))
 									{
-										echo var_dump($result);
-
 										//La modificación se realizará en base al id.
-										//Por ahora se modificarán todos los atributos.
-										$idVehicleStatus = $this->cleanInt($_POST['idVehicleStatus']);
 										$vehicleStatus = $this->cleanText($_POST['vehicleStatus']);
 										$Fuel = $this->cleanFloat($_POST['Fuel']);
 										$Km = $this->cleanFloat($_POST['Km']);
@@ -196,9 +194,10 @@
 											$dictionary = array(
 												'{value-idVehicleStatus}' => $idVehicleStatus, 
 												'{value-vehicleStatus}' => $vehicleStatus,
-												'{value-Fuel}' => $idFuel, 
+												'{value-Fuel}' => $Fuel, 
 												'{value-Km}' => $Km,
-												'{active}' => 'disabled'
+												'{active}' => 'disabled',
+												'{action}' => 'update'
 											);
 
 											//Sustituir los valores en la plantilla
@@ -245,12 +244,51 @@
 											$error = "Error al modificar el evento.";
 											$this -> showErrorView($error);
 										}
+
 									}
-									//Si el resultado no contiene información, mostramos el error.
 									else
 									{
-										$error = "Error al tratar de mostrar el registro.";
-										$this -> showErrorView($error);
+										if(($result = $this->model->select($idVehicleStatus)) != null)
+										{
+
+											//Cargamos el formulario
+											$view = file_get_contents("View/VehicleStatusForm.html");
+											$header = file_get_contents("View/header.html");
+											$footer = file_get_contents("View/footer.html");
+
+											//Creamos el diccionario
+											//Despues de insertar los campos van con la info insertada y los input estan inactivos
+											$dictionary = array(
+												'{value-idVehicleStatus}' => $result[0]['idVehicleStatus'], 
+												'{value-vehicleStatus}' => $result[0]['vehicleStatus'],
+												'{value-Fuel}' => $result[0]['Fuel'], 
+												'{value-Km}' => $result[0]['Km'],
+												'{active}' => '',
+												'{action}' => 'update'
+											);
+
+											//Sustituir los valores en la plantilla
+											$view = strtr($view,$dictionary);
+
+											//Sustituir el usuario en el header
+											$dictionary = array(
+												'{user-name}' => $_SESSION['user'],
+												'{log-link}' => 'index.php?ctl=logout',
+												'{log-type}' => 'Logout'
+																);
+											$header = strtr($header,$dictionary);
+
+											//Agregamos el header y el footer
+											$view = $header.$view.$footer;
+
+											echo $view;
+										}
+										//Si el resultado no contiene información, mostramos el error.
+										else
+										{
+											$error = "Error al traer informacion para modificar.";
+											$this -> showErrorView($error);
+										}
 									}
 								}
 								//Sino está seteado, imprimimos el mensaje y se mostrará la vista con 									el formulario para actualizar la información.
@@ -305,7 +343,8 @@
 												'{value-vehicleStatus}' => $result['vehicleStatus'],
 												'{value-Fuel}' => $result['Fuel'], 
 												'{value-Km}' => $result['Km'],
-												'{active}' => 'disabled'
+												'{active}' => 'disabled',
+												'{action}' => 'select'
 											);
 										}
 

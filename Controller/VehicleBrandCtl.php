@@ -249,8 +249,8 @@
 											//Creamos el diccionario
 											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 											$dictionary = array(
-																'{value-id-vehicle-brand}' => $id_vehicle_brand, 
-																'{value-vehicle-brand}' => $vehicle_brand,  
+																'{value-id-vehicle-brand}' => $result[0]['idVehicleBrand'], 
+																'{value-vehicle-brand}' => $result[0]['Brand'],  
 																'{active}' => '',  
 																'{action}' => 'update'
 															);

@@ -59,7 +59,8 @@
 								$dictionary = array(
 													'{value-id-vehicle-part}' => '', 
 													'{value-vehicle-part}' => '', 
-													'{active}' => ''
+													'{active}' => '', 
+													'{action}' => 'insert'
 												);
 								
 								//Sustituir los valores en la plantilla
@@ -100,7 +101,8 @@
 									$dictionary = array(
 														'{value-id-vehicle-part}' => $_POST['idVehiclePart'], 
 														'{value-vehicle-part}' => $_POST['VehiclePart'], 
-														'{active}' => 'disabled'
+														'{active}' => 'disabled', 
+														'{action}' => 'insert'
 													);
 
 									//Sustituir los valores en la plantilla
@@ -136,7 +138,9 @@
 									}
 									else
 									{
-										echo "<br />Error al enviar el correo.";
+										//echo "<br />Error al enviar el correo.";
+										$error = "Error al enviar el correo.";
+										$this -> showErrorView($error);
 									}
 								}
 								else
@@ -175,11 +179,10 @@
 									$idVehiclePart = $this -> cleanInt($_POST['idVehiclePart']);
 							
 									//Primero mostramos el id que se quire modificar.
-									//Recogemos el resultado y si contiene información, la mostramos.
-									if(($result = $this -> model -> select($idVehiclePart)) != null)
+									//Comprobamos si están seteadas las variables en el POST
+									if(isset($_POST['VehiclePart']))
 									{
-										//La modificación se realizará en base al id.
-										//Por ahora se modificarán todos los atributos.  
+										//La modificación se realizará en base al id.  
 										$VehiclePart   = $this->cleanText($_POST['VehiclePart']);
 
 										//Se llama a la función de modificación.
@@ -197,7 +200,8 @@
 											$dictionary = array(
 														'{value-id-vehicle-part}' => $idVehiclePart, 
 														'{value-vehicle-part}' => $VehiclePart, 
-														'{active}' => 'disabled'
+														'{active}' => 'disabled', 
+														'{action}' => 'update'
 													);
 
 											//Sustituir los valores en la plantilla
@@ -232,12 +236,56 @@
 											}
 											else
 											{
-												echo "<br />Error al enviar el correo.";
+												//echo "<br />Error al enviar el correo.";
+												$error = "Error al enviar el correo.";
+												$this -> showErrorView($error);
 											}	
 										}
 										else
 										{
 											$error = "Error al modificar la parte de vehiculo.";
+											$this -> showErrorView($error);
+										}
+
+									}
+									else
+									{
+										if(($result = $this -> model -> select($idVehiclePart)) != null)
+										{
+
+											//Cargamos el formulario
+											$view = file_get_contents("View/VehiclePartForm.html");
+											$header = file_get_contents("View/header.html");
+											$footer = file_get_contents("View/footer.html");
+
+											//Creamos el diccionario
+											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
+											$dictionary = array(
+														'{value-id-vehicle-part}' => $result[0]['idVehiclePart'], 
+														'{value-vehicle-part}' => $result[0]['VehiclePart'], 
+														'{active}' => '', 
+														'{action}' => 'update'
+													);
+
+											//Sustituir los valores en la plantilla
+											$view = strtr($view,$dictionary);
+
+											//Sustituir el usuario en el header
+											$dictionary = array(
+																'{user-name}' => $_SESSION['user'],
+																'{log-link}' => 'index.php?ctl=logout',
+																'{log-type}' => 'Logout'
+															);
+											$header = strtr($header,$dictionary);
+
+											//Agregamos el header y el footer
+											$view = $header.$view.$footer;
+
+											echo $view;
+										}
+										else
+										{
+											$error = "Error al traer la información para modificar.";
 											$this -> showErrorView($error);
 										}
 									}
@@ -288,7 +336,8 @@
 										$dictionary = array(
 															'{value-id-vehicle-part}' => $result['idVehiclePart'], 
 															'{value-vehicle-part}' => $result['VehiclePart'], 
-															'{active}' => 'disabled'
+															'{active}' => 'disabled', 
+															'{action}' => 'select'
 														);
 									}
 
@@ -369,7 +418,9 @@
 										}
 										else
 										{
-											echo "<br />Error al enviar el correo.";
+											//echo "<br />Error al enviar el correo.";
+											$error = "Error al enviar el correo.";
+											$this -> showErrorView($error);
 										}
 									}
 									//Si no pudimos eliminar, señalamos el error.

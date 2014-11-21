@@ -49,7 +49,8 @@
 													'{value-id-vehicle-model}' => '', 
 													'{value-vehicle-model}' => '', 
 													'{value-id-vehicle-brand}' => '', 
-													'{active}' => ''
+													'{active}' => '',
+													'{action}' => 'insert'
 												);
 
 								//Sustituir los valores en la plantilla
@@ -104,7 +105,8 @@
 																'{value-id-vehicle-model}' => $_POST['id_vehicle_model'], 
 																'{value-vehicle-model}' => $_POST['vehicle_model'], 
 																'{value-id-vehicle-brand}' => $_POST['id_vehicle_brand'],
-																'{active}' => 'disabled'
+																'{active}' => 'disabled',
+																'{action}' => 'insert'
 															);
 
 											//Sustituir los valores en la plantilla
@@ -139,7 +141,9 @@
 											}
 											else
 											{
-												echo "<br>Error al enviar el correo.";
+												//echo "<br>Error al enviar el correo.";
+												$error = "Error al enviar el correo.";
+												$this -> showErrorView($error);
 											}
 										}
 										else
@@ -207,7 +211,9 @@
 										}
 										else
 										{
-											echo "Error al enviar el correo";
+											//echo "<br>Error al enviar el correo.";
+											$error = "Error al enviar el correo.";
+											$this -> showErrorView($error);
 										}
 									}
 									else
@@ -272,7 +278,8 @@
 																'{value-id-vehicle-model}' => $result['idVehicleModel'], 
 																'{value-vehicle-model}' => $result['Model'], 
 																'{value-id-vehicle-brand}' => $result['idVehicleBrand'],
-																'{active}' => 'disabled'
+																'{active}' => 'disabled',
+																'{action}' => 'select'
 														);
 										}
 
@@ -334,98 +341,116 @@
 									$id_vehicle_model = $this -> cleanInt($_POST['id_vehicle_model']);
 
 									//Primero mostramos el id que se quire modificar.
-									//Recogemos el resultado y si contiene información, la mostramos.
-									if(($result = $this -> model -> select($id_vehicle_model)) != null)
+									//Comprobamos si están seteadas las variables en el POST
+									if(isset($_POST['vehicle_model']) && isset($_POST['id_vehicle_brand']))
 									{
-										//var_dump($result);
+										//La modificación se realizará en base al id.
+										//Por ahora se modificarán todos los atributos.
+										$id_vehicle_brand = $this -> cleanInt($_POST['id_vehicle_brand']);
+										$vehicle_model    = $this -> cleanText($_POST['vehicle_model']);
 
-										//Comprobamos que las variables estén seteadas
-										if(isset($_POST['id_vehicle_brand']) && isset($_POST['vehicle_model']))
+										//Se llama a la función de modificación.
+										if($this -> model -> update($id_vehicle_model, $vehicle_model, $id_vehicle_brand))
 										{
-											//La modificación se realizará en base al id.
-											//Por ahora se modificarán todos los atributos.
-											$id_vehicle_brand = $this -> cleanInt($_POST['id_vehicle_brand']);
-											$vehicle_model    = $this -> cleanText($_POST['vehicle_model']);
+											//Cargamos el formulario
+											$view = file_get_contents("View/VehicleModelForm.html");
+											$header = file_get_contents("View/header.html");
+											$footer = file_get_contents("View/footer.html");
 
-											if(!$id_vehicle_brand || !$vehicle_model)
+											//Creamos el diccionario
+											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
+											$dictionary = array(
+																'{value-id-vehicle-model}' => $id_vehicle_model, 
+																'{value-vehicle-model}' => $vehicle_model, 
+																'{value-id-vehicle-brand}' => $id_vehicle_brand,
+																'{active}' => 'disabled',
+																'{action}' => 'update'
+															);
+
+											//Sustituir los valores en la plantilla
+											$view = strtr($view,$dictionary);
+
+											//Sustituir el usuario en el header
+											$dictionary = array(
+																'{user-name}' => $_SESSION['user'],
+																'{log-link}' => 'index.php?ctl=logout',
+																'{log-type}' => 'Logout'
+															);
+											$header = strtr($header,$dictionary);
+
+											//Agregamos el header y el footer
+											$view = $header.$view.$footer;
+
+											echo $view;
+
+											//Enviamos el correo de que se ha añadido un usuario.
+											require_once("Controller/mail.php");
+
+											//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+											$subject = "Modificación de Modelo de Vehículo";
+											$body = "El Modelo de Vehículo con los siguientes datos se ha modificado:".
+											"\nId            : ". $id_vehicle_model.
+											"\nVehicle Model : ". $vehicle_model;
+
+											//Manadamos el correo solo a administradores - 4.
+											if(Mailer::sendMail($subject, $body, 4))
 											{
-												$error = "Error al insertar la marca de vehículo, alguno de los campos es inválido.";
-												$this -> showErrorView($error);
+												//echo "<br>Correo enviado con éxito.";
 											}
 											else
 											{
-												//Se llama a la función de modificación.
-												//Se recoge el resultado y en base a este resultado
-												//se imprime un mensaje.
-												if($this -> model -> update($id_vehicle_model, $vehicle_model, $id_vehicle_brand))
-												{
-													//Cargamos el formulario
-													$view = file_get_contents("View/VehicleModelForm.html");
-													$header = file_get_contents("View/header.html");
-													$footer = file_get_contents("View/footer.html");
-
-													//Creamos el diccionario
-													//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
-													$dictionary = array(
-																		'{value-id-vehicle-model}' => $id_vehicle_model, 
-																		'{value-vehicle-model}' => $vehicle_model, 
-																		'{value-id-vehicle-brand}' => $id_vehicle_brand,
-																		'{active}' => 'disabled'
-																	);
-
-													//Sustituir los valores en la plantilla
-													$view = strtr($view,$dictionary);
-
-													//Sustituir el usuario en el header
-													$dictionary = array(
-																		'{user-name}' => $_SESSION['user'],
-																		'{log-link}' => 'index.php?ctl=logout',
-																		'{log-type}' => 'Logout'
-																	);
-													$header = strtr($header,$dictionary);
-
-													//Agregamos el header y el footer
-													$view = $header.$view.$footer;
-
-													echo $view;
-
-													//Enviamos el correo de que se ha añadido un usuario.
-													require_once("Controller/mail.php");
-
-													//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
-													$subject = "Modificación de Modelo de Vehículo";
-													$body = "El Modelo de Vehículo con los siguientes datos se ha modificado:".
-													"\nId            : ". $id_vehicle_model.
-													"\nVehicle Model : ". $vehicle_model;
-
-													//Manadamos el correo solo a administradores - 4.
-													if(Mailer::sendMail($subject, $body, 4))
-													{
-														//echo "<br>Correo enviado con éxito.";
-													}
-													else
-													{
-														echo "<br>Error al enviar el correo.";
-													}
-												}
-												else
-												{
-													$error = "Error al modificar el modelo de vehículo.";
-													$this -> showErrorView($error);
-												}
+												//echo "<br>Error al enviar el correo.";
+												$error = "Error al enviar el correo.";
+												$this -> showErrorView($error);
 											}
 										}
 										else
 										{
-											$error = "Error al intentar modificar el registro, faltan varibales por setear.";
+											$error = "Error al modificar el modelo de vehículo.";
 											$this -> showErrorView($error);
 										}
 									}
-									//Si el resultado no contiene información, mostramos el error.
 									else
 									{
-										$error = "Error al tratar de mostrar el registro.";
-										$this -> showErrorView($error);
+										if(($result = $this -> model -> select($id_vehicle_model)) != null)
+										{
+											//Cargamos el formulario
+											$view = file_get_contents("View/VehicleModelForm.html");
+											$header = file_get_contents("View/header.html");
+											$footer = file_get_contents("View/footer.html");
+
+											//Creamos el diccionario
+											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
+											$dictionary = array(
+																'{value-id-vehicle-model}' => $result[0]['idVehicleModel'], 
+																'{value-vehicle-model}' => $result[0]['VehicleModel'], 
+																'{value-id-vehicle-brand}' => $result[0]['idVehicleBrand'],
+																'{active}' => '',
+																'{action}' => 'update'
+															);
+
+											//Sustituir los valores en la plantilla
+											$view = strtr($view,$dictionary);
+
+											//Sustituir el usuario en el header
+											$dictionary = array(
+																'{user-name}' => $_SESSION['user'],
+																'{log-link}' => 'index.php?ctl=logout',
+																'{log-type}' => 'Logout'
+															);
+											$header = strtr($header,$dictionary);
+
+											//Agregamos el header y el footer
+											$view = $header.$view.$footer;
+
+											echo $view;
+										}
+										//Si el resultado no contiene información, mostramos el error.
+										else
+										{
+											$error = "Error al traer la información para modificar.";
+											$this -> showErrorView($error);
+										}
 									}
 								}
 								else

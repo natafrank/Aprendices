@@ -50,7 +50,8 @@
 													'{value-id-vehicle-model}' => '',
 													'{value-vin}' => '',
 													'{value-color}' => '',
-													'{active}' => ''
+													'{active}' => '',
+													'{action}' => 'insert'
 												);
 
 								//Sustituir los valores en la plantilla
@@ -110,7 +111,8 @@
 													'{value-id-vehicle-model}' => $_POST['id_vehicle_model'],
 													'{value-vin}' => $_POST['vin'],
 													'{value-color}' => $_POST['color'],
-													'{active}' => 'disabled'
+													'{active}' => 'disabled',
+													'{action}' => 'insert'
 												);
 
 											//Sustituir los valores en la plantilla
@@ -287,7 +289,8 @@
 														'{value-id-vehicle-model}' => $result['idVehicleModel'],
 														'{value-vin}' => $result['VIN'],
 														'{value-color}' => $result['Color'],
-														'{active}' => 'disabled'
+														'{active}' => 'disabled',
+														'{action}' => 'select'
 													);
 											}
 
@@ -356,40 +359,93 @@
 									$id_vehicle = $this -> cleanInt($_POST['id_vehicle']);
 
 									//Primero mostramos el id que se quire modificar.
-									//Recogemos el resultado y si contiene información, la mostramos.
-									if(($result = $this -> model -> select($id_vehicle)) != null)
+									//Comprobamos si están seteadas las variables en el POST
+									if(isset($_POST['id_user']) && isset($_POST['id_location']) && isset($_POST['id_vehicle_model']) && isset($_POST['vin']) && isset($_POST['color']))
 									{
-										//var_dump($result);
+										//La modificación se realizará en base al id.
+										//Limpiamos las variables.
+										$id_user      	  = $this -> cleanInt($_POST['id_user']);
+										$id_location      = $this -> cleanInt($_POST['id_location']);
+										$id_vehicle_model = $this -> cleanInt($_POST['id_vehicle_model']);
+										$vin              = $this -> cleanText($_POST['vin']);
+										$color            = $this -> cleanText($_POST['color']);
 
-										//Comprobamos que las demás variables estén seteadas.
-										if(isset($_POST['id_user'])
-											&& isset($_POST['id_location'])
-											&& isset($_POST['id_vehicle_model'])
-											&& isset($_POST['vin'])
-											&& isset($_POST['color']))
+										//Se llama a la función de modificación.
+										//Se recoge el resultado y en base a este resultado
+										//se imprime un mensaje.
+										if($this -> model -> update($id_vehicle, $id_user, $id_location,$id_vehicle_model, $vin,  $color))
 										{
-											/*La modificación se realizará en base al vin.
-											 *Por ahora se modificarán todos los atributos.*/
-											//Limpiamos las variables.
-											$id_user      	  = $this -> cleanInt($_POST['id_user']);
-											$id_location      = $this -> cleanInt($_POST['id_location']);
-											$id_vehicle_model = $this -> cleanInt($_POST['id_vehicle_model']);
-											$vin              = $this -> cleanText($_POST['vin']);
-											$color            = $this -> cleanText($_POST['color']);
+											//Cargamos el formulario
+											$view = file_get_contents("View/VehicleForm.html");
+											$header = file_get_contents("View/header.html");
+											$footer = file_get_contents("View/footer.html");
 
-											//Si alguno de los campos es inválido.
-											if(!$id_user || !$id_location || !$id_vehicle_model || !$vin || !$color)
+											//Creamos el diccionario
+											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos	
+											$dictionary = array(
+												'{value-id-vehicle}' => $id_vehicle,
+												'{value-id-user}' => $id_user,
+												'{value-id-location}' => $id_location,
+												'{value-id-vehicle-model}' => $id_vehicle_model,
+												'{value-vin}' => $vin,
+												'{value-color}' => $color,
+												'{active}' => 'disabled',
+												'{action}' => 'update'
+											);
+
+											//Sustituir los valores en la plantilla
+											$view = strtr($view,$dictionary);
+
+											//Sustituir el usuario en el header
+											$dictionary = array(
+																'{user-name}' => $_SESSION['user'],
+																'{log-link}' => 'index.php?ctl=logout',
+																'{log-type}' => 'Logout'
+															);
+											$header = strtr($header,$dictionary);
+
+											//Agregamos el header y el footer
+											$view = $header.$view.$footer;
+
+											echo $view;
+
+											//Enviamos el correo de que se ha añadido un usuario.
+											require_once("Controller/mail.php");
+
+											//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
+											$subject = "Modificación de Vehículo";
+											$body = "El vehículo con los siguientes datos se ha modificado:".
+											"\nId              : ". $id_vehicle.
+											"\nId Usuario      : ". $id_user.
+											"\nId Location     : ". $id_location.
+											"\nId Vehicle Model: ". $id_vehicle_model.
+											"\nVin             : ". $vin.
+											"\nColor           : ". $color;
+							
+											//Manadamos el correo solo a administradores - 4.
+											if(Mailer::sendMail($subject, $body, 4))
 											{
-												$error = "Error al insertar el vehículo, alguno de los campos es inválido.";
+												//echo "<br>Correo enviado con éxito.";
+											}
+											else
+											{
+												//echo "<br>Error al enviar el correo.";
+												$error = "Error al enviar el correo.";
 												$this -> showErrorView($error);
 											}
+										}
+										else
+										{
+											$error = "Error al tratar de modificar el registro.";
+											$this -> showErrorView($error);
+										}
 
-											//Se llama a la función de modificación.
-											//Se recoge el resultado y en base a este resultado
-											//se imprime un mensaje.
-											if($this -> model -> update($id_vehicle, $id_user, $id_location, 
-												$id_vehicle_model, $vin,  $color))
-											{
+									}
+									else
+									{
+										if(($result = $this -> model -> select($id_vehicle)) != null)
+										{
+
 												//Cargamos el formulario
 												$view = file_get_contents("View/VehicleForm.html");
 												$header = file_get_contents("View/header.html");
@@ -398,13 +454,14 @@
 												//Creamos el diccionario
 												//Despues de insertar los cmapos van con la info insertada y los input estan inactivos	
 												$dictionary = array(
-													'{value-id-vehicle}' => $id_vehicle,
-													'{value-id-user}' => $id_user,
-													'{value-id-location}' => $id_location,
-													'{value-id-vehicle-model}' => $id_vehicle_model,
-													'{value-vin}' => $vin,
-													'{value-color}' => $color,
-													'{active}' => 'disabled'
+													'{value-id-vehicle}' => $result[0]['idVehicle'],
+													'{value-id-user}' => $result[0]['idUser'],
+													'{value-id-location}' => $result[0]['idLocation'],
+													'{value-id-vehicle-model}' => $result[0]['idVehicleModel'],
+													'{value-vin}' => $result[0]['vin'],
+													'{value-color}' => $result[0]['color'],
+													'{active}' => '',
+													'{action}' => 'update'
 												);
 
 												//Sustituir los valores en la plantilla
@@ -422,49 +479,14 @@
 												$view = $header.$view.$footer;
 
 												echo $view;
-
-												//Enviamos el correo de que se ha añadido un usuario.
-												require_once("Controller/mail.php");
-
-												//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
-												$subject = "Modificación de Vehículo";
-												$body = "El vehículo con los siguientes datos se ha modificado:".
-												"\nId              : ". $id_vehicle.
-												"\nId Usuario      : ". $id_user.
-												"\nId Location     : ". $id_location.
-												"\nId Vehicle Model: ". $id_vehicle_model.
-												"\nVin             : ". $vin.
-												"\nColor           : ". $color;
-								
-												//Manadamos el correo solo a administradores - 4.
-												if(Mailer::sendMail($subject, $body, 4))
-												{
-													//echo "<br>Correo enviado con éxito.";
-												}
-												else
-												{
-													//echo "<br>Error al enviar el correo.";
-													$error = "Error al enviar el correo.";
-													$this -> showErrorView($error);
-												}
-											}
-											else
-											{
-												$error = "Error al tratar de modificar el registro.";
-												$this -> showErrorView($error);
-											}
 										}
+										//Si el resultado no contiene información, mostramos el error.
 										else
 										{
-											$error = "Error al tratar de modificar el registro, faltan variables por setear.";
+											$error = "Error al traer la información para modificar.";
 											$this -> showErrorView($error);
 										}
-									}
-									//Si el resultado no contiene información, mostramos el error.
-									else
-									{
-										$error = "Error al tratar de mostrar el registro.";
-										$this -> showErrorView($error);
+
 									}
 								}
 								else

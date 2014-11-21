@@ -416,8 +416,8 @@
 											//Creamos el diccionario
 											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 											$dictionary = array(
-																'{value-id-user-type}' => $id_user_type, 
-																'{value-user-type}' => $user_type, 
+																'{value-id-user-type}' => $result[0]['idUserType'], 
+																'{value-user-type}' => $result[0]['UserType'], 
 																'{active}' => '', 
 																'{action}' => 'update'
 															);

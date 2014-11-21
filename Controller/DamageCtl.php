@@ -411,8 +411,8 @@
 											//Creamos el diccionario
 											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 											$dictionary = array(
-														'{value-id-damage}' => $$result[0]['idDamage'], 
-														'{value-damage}' => $$result[0]['Damage'], 
+														'{value-id-damage}' => $result[0]['idDamage'], 
+														'{value-damage}' => $result[0]['Damage'], 
 														'{active}' => '', 
 														'{action}' => 'update'
 													);
