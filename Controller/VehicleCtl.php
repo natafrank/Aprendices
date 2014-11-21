@@ -195,7 +195,7 @@
 								if(isset($_POST['id_vehicle']))
 								{
 									//Limpiamos la variable.
-									$id_vehicle = $this -> cleanText($_POST['id_vehicle']);
+									$id_vehicle = $this -> cleanInt($_POST['id_vehicle']);
 
 									//Ejecutamos el query y recogemos el resultado.
 									$result = $this -> model -> delete($id_vehicle);
@@ -263,7 +263,7 @@
 								if(isset($_POST['id_vehicle']))
 								{
 									//Limpiamos el id.
-									$id_vehicle = $this -> cleanText($_POST['id_vehicle']);
+									$id_vehicle = $this -> cleanInt($_POST['id_vehicle']);
 
 									//Ejecutamos el query y recogemos el resultado.
 									$result = $this -> model -> select($id_vehicle);
@@ -353,7 +353,7 @@
 								if(isset($_POST['id_vehicle']))
 								{
 									//Limpiamos el id.
-									$id_vehicle = $this -> cleanText($_POST['id_vehicle']);
+									$id_vehicle = $this -> cleanInt($_POST['id_vehicle']);
 
 									//Primero mostramos el id que se quire modificar.
 									//Recogemos el resultado y si contiene información, la mostramos.
@@ -371,9 +371,9 @@
 											/*La modificación se realizará en base al vin.
 											 *Por ahora se modificarán todos los atributos.*/
 											//Limpiamos las variables.
-											$id_user      	  = $this -> cleanText($_POST['id_user']);
-											$id_location      = $this -> cleanText($_POST['id_location']);
-											$id_vehicle_model = $this -> cleanText($_POST['id_vehicle_model']);
+											$id_user      	  = $this -> cleanInt($_POST['id_user']);
+											$id_location      = $this -> cleanInt($_POST['id_location']);
+											$id_vehicle_model = $this -> cleanInt($_POST['id_vehicle_model']);
 											$vin              = $this -> cleanText($_POST['vin']);
 											$color            = $this -> cleanText($_POST['color']);
 

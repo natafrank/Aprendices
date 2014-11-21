@@ -73,7 +73,7 @@
 								if(isset($_POST['id_user_type']) && isset($_POST['user_type']))
 								{
 									//Obtenemos las variables y las limpiamos.
-									$id_user_type = $this -> cleanText($_POST['id_user_type']);
+									$id_user_type = $this -> cleanInt($_POST['id_user_type']);
 									$user_type    = $this -> cleanText($_POST['user_type']);
 
 									//Si alguno de los campos es inválido.

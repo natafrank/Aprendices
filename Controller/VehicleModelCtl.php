@@ -77,7 +77,7 @@
 									&& isset($_POST['id_vehicle_brand']))
 								{
 									//Limpiamos los datos.
-									$id_vehicle_model = $this -> cleanText($_POST['id_vehicle_model']);
+									$id_vehicle_model = $this -> cleanInt($_POST['id_vehicle_model']);
 									$vehicle_model    = $this -> cleanText($_POST['vehicle_model']);
 									$id_vehicle_brand = $this -> cleanInt($_POST['id_vehicle_brand']);
 
@@ -184,7 +184,7 @@
 								{
 									/*Para hacer las eliminaciones utilizaremos el id del modelo*/
 									//Limpiamos la variable.
-									$id_vehicle_model = $this -> cleanText($_POST['id_vehicle_model']);
+									$id_vehicle_model = $this -> cleanInt($_POST['id_vehicle_model']);
 
 									//Recogemos el resultado del query.
 									$result = $this -> model -> delete($id_vehicle_model);
@@ -251,7 +251,7 @@
 								{
 									/*Se mostrará el modelo en base a su id.*/
 									//Limpiamos la variable.
-									$id_vehicle_model = $this -> cleanText($_POST['id_vehicle_model']);
+									$id_vehicle_model = $this -> cleanInt($_POST['id_vehicle_model']);
 
 									//Recogemos el resultado de ejecutar el query.
 									$result  = $this -> model -> select($id_vehicle_model);
@@ -331,7 +331,7 @@
 								if(isset($_POST['id_vehicle_model']))
 								{
 									//Limpiamos el id
-									$id_vehicle_model = $this -> cleanText($_POST['id_vehicle_model']);
+									$id_vehicle_model = $this -> cleanInt($_POST['id_vehicle_model']);
 
 									//Primero mostramos el id que se quire modificar.
 									//Recogemos el resultado y si contiene información, la mostramos.
@@ -344,7 +344,7 @@
 										{
 											//La modificación se realizará en base al id.
 											//Por ahora se modificarán todos los atributos.
-											$id_vehicle_brand = $this -> cleanText($_POST['id_vehicle_brand']);
+											$id_vehicle_brand = $this -> cleanInt($_POST['id_vehicle_brand']);
 											$vehicle_model    = $this -> cleanText($_POST['vehicle_model']);
 
 											if(!$id_vehicle_brand || !$vehicle_model)

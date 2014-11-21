@@ -71,7 +71,7 @@
 								if(isset($_POST['id_vehicle_brand']) && isset($_POST['vehicle_brand']))
 								{
 									//Limpiamos los datos.
-									$id_vehicle_brand = $this->cleanText($_POST['id_vehicle_brand']);  // Para este dato se creara un Trigger en la BD
+									$id_vehicle_brand = $this->cleanInt($_POST['id_vehicle_brand']);  // Para este dato se creara un Trigger en la BD
 									$vehicle_brand   = $this->cleanText($_POST['vehicle_brand']);
 
 									//Recogemos el resultado de la inserción e imprimimos un mensaje
@@ -285,7 +285,7 @@
 								if(isset($_POST['id_vehicle_brand']))
 								{
 									//Limpiamos el id.
-									$id_vehicle_brand = $this -> cleanText($_POST['id_vehicle_brand']);
+									$id_vehicle_brand = $this -> cleanInt($_POST['id_vehicle_brand']);
 
 									//Recogemos el resultado y si contiene información, la mostramos.
 									if(($result = $this -> model -> select($id_vehicle_brand)) != null)
@@ -364,7 +364,7 @@
 								if(isset($_POST['id_vehicle_brand']))
 								{
 									//Limpiamos el id.
-									$id_vehicle_brand = $this -> cleanText($_POST['id_vehicle_brand']);
+									$id_vehicle_brand = $this -> cleanInt($_POST['id_vehicle_brand']);
 
 									//Recogemos el resultado de la eliminación.
 									$result = $this -> model -> delete($id_vehicle_brand);

@@ -91,7 +91,7 @@
 									$pass    = $this -> cleanPassword($_POST['pass']);
 									$email   = $this -> cleanEmail($_POST['email']);
 									$tel     = $this -> cleanTel($_POST['tel']);  
-									$type    = $this -> cleanText($_POST['type']);
+									$type    = $this -> cleanInt($_POST['type']);
 
 									//Si alguno de los campos es inválido.
 									if(!$name || !$login || !$pass || !$type || !$email || !$tel )
@@ -208,7 +208,7 @@
 								if(isset($_POST['id_user']))
 								{
 									//Limpiamos el id.
-									$id_user = $this -> cleanText($_POST['id_user']);
+									$id_user = $this -> cleanInt($_POST['id_user']);
 
 									//Ejecutamos el query y guardamos el resultado.
 									$result = $this -> model -> delete($id_user);
@@ -372,7 +372,7 @@
 										$pass    = $this -> cleanPassword($_POST['pass']);
 										$email   = $this -> cleanEmail($_POST['email']);
 										$tel     = $this -> cleanTel($_POST['tel']);
-										$type    = $this -> cleanText($_POST['type']);
+										$type    = $this -> cleanInt($_POST['type']);
 
 										//Si alguno de los campos es inválido.
 										if(!$name || !$login || !$pass || !$email || !$tel )
