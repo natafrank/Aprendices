@@ -507,83 +507,80 @@
 
 					case "list":
 					{
-						//Solo si es empleado o administrados puede consultar la lista de vehículos
-						if(!$this -> isClient())
+						//Revisar si hay un filtro, sino hay se queda el filtro po default
+						$filter = "0=0";
+						if(isset($_POST['filter_condition'])){
+							//Creamos la condicion con el campo seleccionadoo y el filtro
+							$filter = $_POST['filter_select']." = ".$_POST['filter_condition']; 
+						}
+
+						//Si es cliente se le agrega al filtro la condicion para que solo vea sus propios vehiculos
+						if($this -> isClient())
 						{
-							//Revisar si hay un filtro, sino hay se queda el filtro po default
-							$filter = "0=0";
-							if(isset($_POST['filter_condition'])){
-								//Creamos la condicion con el campo seleccionadoo y el filtro
-								$filter = $_POST['filter_select']." = ".$_POST['filter_condition']; 
-							}
+							$filter = $filter." AND idUser = ".$_SESSION['id_user'];
+						}
 
-							//Ejecutamos el query y guardamos el resultado.
-							$result = $this -> model -> getList($filter);
+						//Ejecutamos el query y guardamos el resultado.
+						$result = $this -> model -> getList($filter);
 
-							if($result !== FALSE)
+						if($result !== FALSE)
+						{
+							//Cargamos el formulario
+							$view = file_get_contents("View/VehicleTable.html");
+							$header = file_get_contents("View/header.html");
+							$footer = file_get_contents("View/footer.html");
+
+							//Obtengo la posicion donde va a insertar los registros
+							$row_start = strrpos($view,'{row-start}') + 11;
+							$row_end = strrpos($view,'{row-end}');
+
+							//Hacer copia de la fila donde se va a reemplazar el contenido
+							$base_row = substr($view,$row_start,$row_end-$row_start);
+
+							//Acceder al resultado y crear el diccionario
+							//Revisar que el nombre de los campos coincida con los de la base de datos
+							$rows = '';
+
+							foreach ($result as $row) 
 							{
-								//Cargamos el formulario
-								$view = file_get_contents("View/VehicleTable.html");
-								$header = file_get_contents("View/header.html");
-								$footer = file_get_contents("View/footer.html");
-
-								//Obtengo la posicion donde va a insertar los registros
-								$row_start = strrpos($view,'{row-start}') + 11;
-								$row_end = strrpos($view,'{row-end}');
-
-								//Hacer copia de la fila donde se va a reemplazar el contenido
-								$base_row = substr($view,$row_start,$row_end-$row_start);
-
-								//Acceder al resultado y crear el diccionario
-								//Revisar que el nombre de los campos coincida con los de la base de datos
-								$rows = '';
-
-								foreach ($result as $row) 
-								{
-									$new_row = $base_row;
-									$dictionary = array(
-														'{value-id-vehicle}' => $result['idVehicle'],
-													'{value-user}' => $result['User'],
-													'{value-location}' => $result['Location'],
-													'{value-vehicle-model}' => $result['VehicleModel'],
-													'{value-vehicle-brand}' => $result['Brand'],
-													'{value-vin}' => $result['VIN'],
-													'{value-color}' => $result['Color'],
-													'{active}' => 'disabled'
-													);
-
-									$new_row = strtr($new_row,$dictionary);
-									$rows .= $new_row;
-								}
-
-								//Reemplazar en la vista la fila base por las filas creadas
-								$view = str_replace($base_row, $rows, $view);
-								$view = str_replace('{row-start}', '', $view);
-								$view = str_replace('{row-end}', '', $view);
-
-								//Sustituir el usuario en el header
+								$new_row = $base_row;
 								$dictionary = array(
-													'{user-name}' => $_SESSION['user'],
-													'{log-link}' => 'index.php?ctl=logout',
-													'{log-type}' => 'Logout'
+													'{value-id-vehicle}' => $result['idVehicle'],
+												'{value-user}' => $result['User'],
+												'{value-location}' => $result['Location'],
+												'{value-vehicle-model}' => $result['VehicleModel'],
+												'{value-vehicle-brand}' => $result['Brand'],
+												'{value-vin}' => $result['VIN'],
+												'{value-color}' => $result['Color'],
+												'{active}' => 'disabled'
 												);
-								$header = strtr($header,$dictionary);
 
-								//Agregamos el header y el footer
-								$view = $header.$view.$footer;
+								$new_row = strtr($new_row,$dictionary);
+								$rows .= $new_row;
+							}
 
-								echo $view;
-							}
-							else
-							{
-								$error = "Error al listar vehículos.";
-										$this -> showErrorView($error);
-							}
+							//Reemplazar en la vista la fila base por las filas creadas
+							$view = str_replace($base_row, $rows, $view);
+							$view = str_replace('{row-start}', '', $view);
+							$view = str_replace('{row-end}', '', $view);
+
+							//Sustituir el usuario en el header
+							$dictionary = array(
+												'{user-name}' => $_SESSION['user'],
+												'{log-link}' => 'index.php?ctl=logout',
+												'{log-type}' => 'Logout'
+											);
+							$header = strtr($header,$dictionary);
+
+							//Agregamos el header y el footer
+							$view = $header.$view.$footer;
+
+							echo $view;
 						}
 						else
 						{
-							$error = "No tiene permisos para realizar esta acción";
-							$this -> showErrorView($error);
+							$error = "Error al listar vehículos.";
+									$this -> showErrorView($error);
 						}
 
 						break;

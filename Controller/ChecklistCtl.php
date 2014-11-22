@@ -509,70 +509,79 @@
 					}
 					case "list" :
 					{
-						//Revisar si hay un filtro, sino hay se queda el filtro po default
-						$filter = "0=0";
-						if(isset($_POST['filter_condition'])){
-							//Creamos la condicion con el campo seleccionadoo y el filtro
-							$filter = $_POST['filter_select']." = ".$_POST['filter_condition']; 
-						}
-
-
-						//Ejecutamos el query y guardamos el resultado.
-						$result = $this -> model -> getList($filter);
-
-						if($result !== FALSE)
+						//Solo empleados y administradores pueden ver la lista
+						if( $this -> isEmployee() || $this -> isAdmin() )
 						{
-							//Cargamos el formulario
-							$view = file_get_contents("View/ChecklistTable.html");
-							$header = file_get_contents("View/header.html");
-							$footer = file_get_contents("View/footer.html");
-
-							//Obtengo la posicion donde va a insertar los registros
-							$row_start = strrpos($view,'{row-start}') + 11;
-							$row_end = strrpos($view,'{row-end}');
-
-							//Hacer copia de la fila donde se va a reemplazar el contenido
-							$base_row = substr($view,$row_start,$row_end-$row_start);
-
-							//Acceder al resultado y crear el diccionario
-							//Revisar que el nombre de los campos coincida con los de la base de datos
-							$rows = '';
-							foreach ($result as $row) {
-								$new_row = $base_row;
-								$dictionary = array(
-													'{value-id-checklist}' => $result['idChecklist'], 
-													'{value-id-vehicle}' => $result['idVehicle'], 
-													'{value-id-vehicle-status}' => $result['idVehicleStatus'], 
-													'{value-date}' => $result['Date'], 
-													'{value-inout}' => $result['InOut'],  
-													'{active}' => 'disabled'
-												);
-								$new_row = strtr($new_row,$dictionary);
-								$rows .= $new_row;
+							//Revisar si hay un filtro, sino hay se queda el filtro po default
+							$filter = "0=0";
+							if(isset($_POST['filter_condition'])){
+								//Creamos la condicion con el campo seleccionadoo y el filtro
+								$filter = $_POST['filter_select']." = ".$_POST['filter_condition']; 
 							}
 
-							//Reemplazar en la vista la fila base por las filas creadas
-							$view = str_replace($base_row, $rows, $view);
-							$view = str_replace('{row-start}', '', $view);
-							$view = str_replace('{row-end}', '', $view);
 
-							//Sustituir el usuario en el header
-							$dictionary = array(
-												'{user-name}' => $_SESSION['user'],
-												'{log-link}' => 'index.php?ctl=logout',
-												'{log-type}' => 'Logout'
-											);
-							$header = strtr($header,$dictionary);
+							//Ejecutamos el query y guardamos el resultado.
+							$result = $this -> model -> getList($filter);
 
-							//Agregamos el header y el footer
-							$view = $header.$view.$footer;
+							if($result !== FALSE)
+							{
+								//Cargamos el formulario
+								$view = file_get_contents("View/ChecklistTable.html");
+								$header = file_get_contents("View/header.html");
+								$footer = file_get_contents("View/footer.html");
 
-							echo $view;
+								//Obtengo la posicion donde va a insertar los registros
+								$row_start = strrpos($view,'{row-start}') + 11;
+								$row_end = strrpos($view,'{row-end}');
+
+								//Hacer copia de la fila donde se va a reemplazar el contenido
+								$base_row = substr($view,$row_start,$row_end-$row_start);
+
+								//Acceder al resultado y crear el diccionario
+								//Revisar que el nombre de los campos coincida con los de la base de datos
+								$rows = '';
+								foreach ($result as $row) {
+									$new_row = $base_row;
+									$dictionary = array(
+														'{value-id-checklist}' => $result['idChecklist'], 
+														'{value-id-vehicle}' => $result['idVehicle'], 
+														'{value-id-vehicle-status}' => $result['idVehicleStatus'], 
+														'{value-date}' => $result['Date'], 
+														'{value-inout}' => $result['InOut'],  
+														'{active}' => 'disabled'
+													);
+									$new_row = strtr($new_row,$dictionary);
+									$rows .= $new_row;
+								}
+
+								//Reemplazar en la vista la fila base por las filas creadas
+								$view = str_replace($base_row, $rows, $view);
+								$view = str_replace('{row-start}', '', $view);
+								$view = str_replace('{row-end}', '', $view);
+
+								//Sustituir el usuario en el header
+								$dictionary = array(
+													'{user-name}' => $_SESSION['user'],
+													'{log-link}' => 'index.php?ctl=logout',
+													'{log-type}' => 'Logout'
+												);
+								$header = strtr($header,$dictionary);
+
+								//Agregamos el header y el footer
+								$view = $header.$view.$footer;
+
+								echo $view;
+							}
+							else
+							{
+								$error = "Error al listar checklists.";
+								$this -> showErrorView($error);
+							}
 						}
 						else
 						{
-							$error = "Error al listar checklists.";
-							$this -> showErrorView($error);
+							$error = "No tiene permisos para ver esta lista.";
+							$this -> showErrorView($error);	
 						}
 
 						break;
