@@ -93,7 +93,7 @@ function changeFilterChecklist(){
 	}
 }
 
-function changeFilterDamagDetail(){
+function changeFilterDamageDetail(){
 	// Obtener la referencia a la lista 
 	var select = document.getElementById('filter_select');
 	// Obtener el índice de la opción que se ha seleccionado 
