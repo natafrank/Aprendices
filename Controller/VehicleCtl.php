@@ -543,9 +543,10 @@
 									$new_row = $base_row;
 									$dictionary = array(
 														'{value-id-vehicle}' => $result['idVehicle'],
-													'{value-id-user}' => $result['idUser'],
-													'{value-id-location}' => $result['idLocation'],
-													'{value-id-vehicle-model}' => $result['idVehicleModel'],
+													'{value-user}' => $result['User'],
+													'{value-location}' => $result['Location'],
+													'{value-vehicle-model}' => $result['VehicleModel'],
+													'{value-vehicle-brand}' => $result['Brand'],
 													'{value-vin}' => $result['VIN'],
 													'{value-color}' => $result['Color'],
 													'{active}' => 'disabled'

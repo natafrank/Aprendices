@@ -519,8 +519,8 @@
 									$dictionary = array(
 										'{value-idEventRegistry}' => $result['idEventRegistry'], 
 										'{value-idVehicle}' => $result['idVehicle'],
-										'{value-idUser}' => $result['idUser'], 
-										'{value-idEvent}' => $result['idEvent'],
+										'{value-idUser}' => $result['User'], 
+										'{value-idEvent}' => $result['Event'],
 										'{value-Date}' => $result['Date'], 
 										'{value-Reason}' => $result['Reason'],
 										'{active}' => 'disabled'

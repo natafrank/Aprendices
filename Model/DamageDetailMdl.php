@@ -187,7 +187,7 @@
 		public function getList($filter)
 		{
 			//Query a ejecutar
-			$query = "SELECT * FROM DamageDetail WHERE ".$filter.";";
+			$query = "SELECT * FROM VDamageDetail WHERE ".$filter.";";
 
 			//Ejecutamos el query y recogemos el resultado.
 			$result = $this -> db_driver -> execute($query);

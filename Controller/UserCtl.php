@@ -557,7 +557,7 @@
 														'{value-pass}' => $result['Password'], 
 														'{value-email}' => $result['Email'], 
 														'{value-tel}' => $result['Tel'], 
-														'{value-type}' => $result['idUserType'], 
+														'{value-type}' => $result['UserType'], 
 														'{active}' => 'disabled'
 													);
 									$new_row = strtr($new_row,$dictionary);

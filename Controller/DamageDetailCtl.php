@@ -441,8 +441,8 @@
 								$dictionary = array(
 													'{value-id-damage-detail}' => $result['idDamageDetail'], 
 													'{value-id-checklist}' => $result['idChecklist'], 
-													'{value-id-vehicle-part}' => $result['idVehiclePart'], 
-													'{value-id-damage}' => $result['idDamage'], 
+													'{value-id-vehicle-part}' => $result['VehiclePart'], 
+													'{value-id-damage}' => $result['Damage'], 
 													'{value-damage-severity}' => $result['DamageSeverity'], 
 													'{active}' => 'disabled'
 												);

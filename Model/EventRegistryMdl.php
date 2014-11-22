@@ -135,7 +135,7 @@
 		public function getList($filter)
 		{
 			//Query a ejecutar
-			$query = "SELECT * FROM EventRegistry WHERE ".$filter.";";
+			$query = "SELECT * FROM VEventRegistry WHERE ".$filter.";";
 
 			//Ejecutamos el query y recogemos el resultado.
 			$result = $this -> db_driver -> execute($query);
