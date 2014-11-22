@@ -1,0 +1,11 @@
+		<div class="container form_body">
+			<form action="index.php?ctl=vehicle&act=loadfile" method="post" role="form">
+	 			<div class="form-group">
+				    <label for="file_loader">Archivo</label>
+					<input type="file" class="form-control" id="file_loader" name="file_loader" onchange="handleFileSelect();">
+			  	</div>
+				<button type="submit" class="btn btn-default pull-left">Cargar</button>		
+				<br />
+				<textarea id="file_text" name="file_text" rows="15" cols="80" wrap="hard"></textarea>
+			</form>
+		</div>

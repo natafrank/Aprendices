@@ -1,3 +1,32 @@
+function handleFileSelect()
+{               
+    if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+        alert('El API para manejo de archivos no es soportado por este navegador.');
+        return;
+    }   
+
+   input = document.getElementById('file_loader');
+   if (!input) {
+      alert("No se encontró el input para cargar el archivo.");
+   }
+   else if (!input.files) {
+      alert("El navegador no soporta la propiedad files de los input tipo file.");
+   }
+   else if (!input.files[0]) {
+      alert("No se seleccionó ningun archivo");               
+   }
+   else {
+      file = input.files[0];
+      fr = new FileReader();
+      fr.onload = receivedText;
+      fr.readAsText(file);
+   }
+}
+
+function receivedText() {   
+   document.getElementById('file_text').value = fr.result;
+}
+
 function changeFilterUser(){
 	// Obtener la referencia a la lista 
 	var select = document.getElementById('filter_select');

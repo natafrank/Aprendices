@@ -587,6 +587,56 @@
 
 						break;
 					}
+
+					case "loadfile" :
+					{
+						//Solo los admins pueden cargar archivos
+						if($this -> isAdmin())
+						{
+							//Si el Post está vacio cargamos la vista para cargar el archivo
+							if(empty($_POST))
+							{
+								//Cargamos el formulario
+								$view = file_get_contents("View/LoadFileVehicle.html");
+								$header = file_get_contents("View/header.html");
+								$footer = file_get_contents("View/footer.html");
+
+								$view = $header.$view.$footer;
+
+								echo $view;
+							}
+							//Si no esta vacio tomamos el texto del archivo para hacer las inserciones de los vehiculos
+							else
+							{
+								//Comprobamos que el id esté seteado.
+								if(isset($_POST['file_text']))
+								{
+									//Separamos el archivo en filas
+									$array = explode("\n",$_POST['file_text']);
+
+									//Por cada linea hacemos la inserción de vehiculo
+									foreach($array as $row){
+										$data = explode("|",$row);
+										//Mandar a insertar el vehiculo
+										$result = $this -> model -> insert($data[0],$data[1],$data[2],$data[3],$data[4],$data[5]);
+									}
+									$error = "Los vehiculos fueron insertados";
+									$this -> showErrorView($error);
+								}
+								else
+								{
+									$error = "No hay información en el archivo";
+									$this -> showErrorView($error);	
+								}
+						}
+						else
+						{
+							$error = "No tiene permisos para realizar esta accion";
+							$this -> showErrorView($error);
+						}
+
+						break;
+					}
 				}
 			}
 			else

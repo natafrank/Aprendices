@@ -1,6 +1,7 @@
 *{
     margin : 0;
     padding : 0;
+    font-family: 'Droid Serif', serif;
 }
 
 /* MENU STYLE */
@@ -136,4 +137,12 @@
 .filter_control{
     width : 20%;
     margin : 0 1%;
+}
+
+#file_text{
+    display : none;
+}
+
+h1{    
+    font-family: 'Play', sans-serif;
 }
