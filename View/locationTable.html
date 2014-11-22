@@ -3,10 +3,11 @@
 			<form action="index.php?ctl=location&act=list" method="post" role="form">
 	 			<div class="form-group">
 					<label class="pull-left" for="filter_select" id="filter_label">Filtro: </label>
-					<select class="form-control pull-left filter_control" name="filter_select" id="filter_select">
+					<select class="form-control pull-left filter_control" name="filter_select" id="filter_select" onchange="changeFilterLocation();">
 						<!-- En value va el nombre como vienen el campo en la BDD -->
 						<option value="idLocation">IdUbicación</option>
-					   	<option value="location">Ubicación</option>
+					   <option value="location">Ubicación</option>					   	
+					   	<option value="idMasterLocation">Ubicación Maestra</option>
 					</select>
 					<input type="text" class="form-control pull-left filter_control" id="filter_condition" name="filter_condition" required>
 			  	</div>
@@ -20,6 +21,7 @@
 					<tr>
 						<th>IdUbicación</th>
 						<th>Ubicación</th>
+						<th>Ubicación Maestra</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -27,6 +29,7 @@
 					<tr>
 						<td>{value-idLocation}</td>
 						<td>{value-locaiton}</td>
+						<td>{value-idMasterLocaiton}</td>
 					</tr>
 					{row-end}
 				</tbody>

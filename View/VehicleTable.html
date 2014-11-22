@@ -3,14 +3,14 @@
 			<form action="index.php?ctl=vehicle&act=list" method="post" role="form">
 	 			<div class="form-group">
 				    <label class="pull-left" for="filter_select" id="filter_label">Filtro: </label>
-				    <select class="form-control pull-left filter_control" name="filter_select" id="filter_select">
+				    <select class="form-control pull-left filter_control" name="filter_select" id="filter_select" onchange="changeFilterVehicle();">
 						<!-- En value va el nombre como vienen el campo en la BDD -->
 						<option value="idVehicle">Id Vehículo</option>
 					    <option value="idUser">Id Usuario</option>
 					    <option value="idLocation">Id Ubicación</option>
 					    <option value="idVehicleModel">Id Modelo de Vehículo</option>
-					    <option value="VIN">VIN</option>
-					    <option value="Color">Color</option>
+					    <option value="vin">VIN</option>
+					    <option value="color">Color</option>
 					</select>
 					<input type="text" class="form-control pull-left filter_control" id="filter_condition" name="filter_condition" required>
 			  	</div>

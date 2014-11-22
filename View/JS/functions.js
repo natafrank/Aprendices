@@ -219,3 +219,290 @@ function changeFilterVehiclePart(){
 				break;
 	}
 }
+
+function changeFilterEventRegistry(){
+	// Obtener la referencia a la lista 
+	var select = document.getElementById('filter_select');
+	// Obtener el índice de la opción que se ha seleccionado 
+	var index = select.selectedIndex; 
+	// Con el índice y el array "options", obtener la opción seleccionada 
+	var selectedOption = select.options[index];
+	// Obtener el valor y el texto de la opción seleccionada 
+	var value = selectedOption.value;
+	
+	//Obtener el input
+	var input = document.getElementById('filter_condition');
+	
+	//Borrar contenido actual del input
+	input.value = "";
+
+	//Cambiar el tipo de input de acuerdo al campo seleccionado
+	switch(value){
+		case "idEventRegistry" : 
+				input.type = "number";
+				input.min = "1";
+				break;
+
+		case "idUser" : 
+				input.type = "number";
+				input.min = "1";
+				break;
+
+		case "idEvent" : 
+				input.type = "number";
+				input.min = "1";
+				break;
+
+		case "Date" : 
+				input.type = "date";
+				break;
+
+		case "Reason" : 
+				input.type = "text";
+				break;
+	}
+}
+
+function changeFilterEvent(){
+	// Obtener la referencia a la lista 
+	var select = document.getElementById('filter_select');
+	// Obtener el índice de la opción que se ha seleccionado 
+	var index = select.selectedIndex; 
+	// Con el índice y el array "options", obtener la opción seleccionada 
+	var selectedOption = select.options[index];
+	// Obtener el valor y el texto de la opción seleccionada 
+	var value = selectedOption.value;
+	
+	//Obtener el input
+	var input = document.getElementById('filter_condition');
+	
+	//Borrar contenido actual del input
+	input.value = "";
+
+	//Cambiar el tipo de input de acuerdo al campo seleccionado
+	switch(value){
+		case "idEvent" : 
+				input.type = "number";
+				input.min = "1";
+				break;
+
+		case "Event" : 
+				input.type = "text";
+				break;
+	}
+}
+
+function changeFilterLocation(){
+	// Obtener la referencia a la lista 
+	var select = document.getElementById('filter_select');
+	// Obtener el índice de la opción que se ha seleccionado 
+	var index = select.selectedIndex; 
+	// Con el índice y el array "options", obtener la opción seleccionada 
+	var selectedOption = select.options[index];
+	// Obtener el valor y el texto de la opción seleccionada 
+	var value = selectedOption.value;
+	
+	//Obtener el input
+	var input = document.getElementById('filter_condition');
+	
+	//Borrar contenido actual del input
+	input.value = "";
+
+	//Cambiar el tipo de input de acuerdo al campo seleccionado
+	switch(value){
+		case "idLocation" : 
+				input.type = "number";
+				input.min = "1";
+				break;
+
+		case "location" : 
+				input.type = "text";
+				break;
+
+		case "idMasterLocation" : 
+				input.type = "number";
+				input.min = "1";
+				break;
+	}
+}
+
+function changeFilterVehicleStatus(){
+	// Obtener la referencia a la lista 
+	var select = document.getElementById('filter_select');
+	// Obtener el índice de la opción que se ha seleccionado 
+	var index = select.selectedIndex; 
+	// Con el índice y el array "options", obtener la opción seleccionada 
+	var selectedOption = select.options[index];
+	// Obtener el valor y el texto de la opción seleccionada 
+	var value = selectedOption.value;
+	
+	//Obtener el input
+	var input = document.getElementById('filter_condition');
+	
+	//Borrar contenido actual del input
+	input.value = "";
+
+	//Cambiar el tipo de input de acuerdo al campo seleccionado
+	switch(value){
+		case "idVehicleStatus" : 
+				input.type = "number";
+				input.min = "1";
+				break;
+
+		case "vehicleStatus" : 
+				input.type = "text";
+				break;
+		
+
+		case "Fuel" : 
+				input.type = "number";
+				input.step = ".1";
+				break;
+
+
+		case "Km" : 
+				input.type = "number";
+				input.step = ".1";
+				break;
+	}
+}
+
+function changeFilterVehicleModel(){
+	// Obtener la referencia a la lista 
+	var select = document.getElementById('filter_select');
+	// Obtener el índice de la opción que se ha seleccionado 
+	var index = select.selectedIndex; 
+	// Con el índice y el array "options", obtener la opción seleccionada 
+	var selectedOption = select.options[index];
+	// Obtener el valor y el texto de la opción seleccionada 
+	var value = selectedOption.value;
+	
+	//Obtener el input
+	var input = document.getElementById('filter_condition');
+	
+	//Borrar contenido actual del input
+	input.value = "";
+
+	//Cambiar el tipo de input de acuerdo al campo seleccionado
+	switch(value){
+		case "idVehicleModel" : 
+				input.type = "number";
+				input.min = "1";
+				break;
+
+		case "VehicleModel" : 
+				input.type = "text";
+				break;
+
+		case "idVehicleBrand" : 
+				input.type = "number";
+				input.min = "1";
+				break;
+	}
+}
+
+function changeFilterVehicleBrand(){
+	// Obtener la referencia a la lista 
+	var select = document.getElementById('filter_select');
+	// Obtener el índice de la opción que se ha seleccionado 
+	var index = select.selectedIndex; 
+	// Con el índice y el array "options", obtener la opción seleccionada 
+	var selectedOption = select.options[index];
+	// Obtener el valor y el texto de la opción seleccionada 
+	var value = selectedOption.value;
+	
+	//Obtener el input
+	var input = document.getElementById('filter_condition');
+	
+	//Borrar contenido actual del input
+	input.value = "";
+
+	//Cambiar el tipo de input de acuerdo al campo seleccionado
+	switch(value){
+		case "idVehicleBrand" : 
+				input.type = "number";
+				input.min = "1";
+				break;
+
+		case "Brand" : 
+				input.type = "text";
+				break;
+	}
+}
+
+function changeFilterUserType(){
+	// Obtener la referencia a la lista 
+	var select = document.getElementById('filter_select');
+	// Obtener el índice de la opción que se ha seleccionado 
+	var index = select.selectedIndex; 
+	// Con el índice y el array "options", obtener la opción seleccionada 
+	var selectedOption = select.options[index];
+	// Obtener el valor y el texto de la opción seleccionada 
+	var value = selectedOption.value;
+	
+	//Obtener el input
+	var input = document.getElementById('filter_condition');
+	
+	//Borrar contenido actual del input
+	input.value = "";
+
+	//Cambiar el tipo de input de acuerdo al campo seleccionado
+	switch(value){
+		case "idUserType" : 
+				input.type = "number";
+				input.min = "1";
+				break;
+
+		case "UserType" : 
+				input.type = "text";
+				break;
+	}
+}
+
+function changeFilterVehicle(){
+	// Obtener la referencia a la lista 
+	var select = document.getElementById('filter_select');
+	// Obtener el índice de la opción que se ha seleccionado 
+	var index = select.selectedIndex; 
+	// Con el índice y el array "options", obtener la opción seleccionada 
+	var selectedOption = select.options[index];
+	// Obtener el valor y el texto de la opción seleccionada 
+	var value = selectedOption.value;
+	
+	//Obtener el input
+	var input = document.getElementById('filter_condition');
+	
+	//Borrar contenido actual del input
+	input.value = "";
+
+	//Cambiar el tipo de input de acuerdo al campo seleccionado
+	switch(value){
+		case "idVehicle" : 
+				input.type = "number";
+				input.min = "1";
+				break;
+
+		case "idUser" : 
+				input.type = "number";
+				input.min = "1";
+				break;
+
+		case "idLocation" : 
+				input.type = "number";
+				input.min = "1";
+				break;
+
+		case "idVehicleModel" : 
+				input.type = "number";
+				input.min = "1";
+				break;
+
+		case "vin" : 
+				input.type = "text";
+				break;
+
+		case "color" : 
+				input.type = "text";
+				break;
+	}
+}
