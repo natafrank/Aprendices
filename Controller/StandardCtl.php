@@ -338,6 +338,35 @@
 				return false;
 			}
 		}
+		
+		/**
+		 * Valida Email.
+		 *
+		 * Función que se encarga de verificar si existe un usuario con el email ingresado.
+		 *
+		 * @return string $result - arreglo con la información del usuario que relaciona el email ingresado.
+		 * @return bool - TRUE si existe un usuario con el email.
+		 */
+		function checkEmail($Email){
+			//Importamos la capa de la base de datos.
+			require_once("Model/Database Motor/DatabaseLayer.php");
+			
+			//Creamos la conexión.
+			$db_driver = DatabaseLayer::getConnection("MySqlProvider");
+
+			$query = "SELECT * FROM User WHERE Email='".$Email."';";
+
+			//Ejecutamos la consulta
+			$result = $db_driver -> execute($query);
+
+			if($result != null){
+				return $result;
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
 
 		/**
 		 * Muestra la vista GetId.

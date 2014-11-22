@@ -96,6 +96,12 @@
 				$ctl -> showLoginView('user','select');
 				break;
 			}
+			case "forgotpassword":
+			{
+				require_once("Controller/ForgotPasswordCtl.php");
+				$ctl = new ForgotPasswordCtl();
+				break;
+			}
 			default:
 			{
 				//Si no se especifico ctl mostramos la pestaña de login
