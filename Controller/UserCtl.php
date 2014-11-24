@@ -257,7 +257,7 @@
 					{
 						//Si es empleado o administrador podra consultar cualquier perfil
 						//Si es cliente puede consultar unicamente su propio perfil
-						
+					
 						//Comprobamos que el POST no esté vacío cuando el usuario no sea cliente
 						if(!$this -> isClient() && empty($_POST))
 						{
@@ -268,12 +268,12 @@
 						else
 						{
 							//Comprobamos que el id esté seteado si el usuario no es cliente.
-							if( $this -> isClient() || isset($_POST['id_user']))
+							if( $this -> isClient() || isset($_SESSION['id_user']))
 							{
 								//Si es cliente tomamos el id de la session
 								if( $this -> isClient() )
 								{
-									$id_user = $_SESSION['id_user'];
+									$id_user = $_POST['id_user'];
 								}
 								//Limpiamos el id en caso contrario.
 								else
@@ -290,22 +290,22 @@
 									$view = file_get_contents("View/UserForm.html");
 									$header = file_get_contents("View/header.html");
 									$footer = file_get_contents("View/footer.html");
-
+								
 									//Acceder al resultado y crear el diccionario
 									//Revisar que el nombre de los campos coincida con los de la base de datos
-									foreach ($result as $row) {
+									//foreach ($result as $row) {
 										$dictionary = array(
-															'{value-id-user}' => $result['idUser'], 
-															'{value-name}' => $result['User'], 
-															'{value-login}' => $result['Login'], 
-															'{value-pass}' => $result['Password'], 
-															'{value-email}' => $result['Email'], 
-															'{value-tel}' => $result['Tel'], 
-															'{value-type}' => $result['idUserType'], 
+															'{value-id-user}' => $result[0]['idUser'], 
+															'{value-name}' => $result[0]['User'], 
+															'{value-login}' => $result[0]['Login'], 
+															'{value-pass}' => $result[0]['Password'], 
+															'{value-email}' => $result[0]['Email'], 
+															'{value-tel}' => $result[0]['Tel'], 
+															'{value-type}' => $result[0]['idUserType'], 
 															'{active}' => 'disabled',
 															'{action}' => 'select'
 														);
-									}
+									//}
 
 									//Sustituir los valores en la plantilla
 									$view = strtr($view,$dictionary);
@@ -524,7 +524,7 @@
 							$filter = "0=0";
 							if(isset($_POST['filter_condition'])){
 								//Creamos la condicion con el campo seleccionadoo y el filtro
-								$filter = $_POST['filter_select']." = ".$_POST['filter_condition']; 
+								$filter = $_POST['filter_select']." = '".$_POST['filter_condition']."'"; 
 							}
 
 
@@ -551,13 +551,13 @@
 								foreach ($result as $row) {
 									$new_row = $base_row;
 									$dictionary = array(
-														'{value-id-user}' => $result['idUser'], 
-														'{value-name}' => $result['User'], 
-														'{value-login}' => $result['Login'], 
-														'{value-pass}' => $result['Password'], 
-														'{value-email}' => $result['Email'], 
-														'{value-tel}' => $result['Tel'], 
-														'{value-type}' => $result['UserType'], 
+														'{value-id-user}' => $row['idUser'], 
+														'{value-name}' => $row['User'], 
+														'{value-login}' => $row['Login'], 
+														'{value-pass}' => $row['Password'], 
+														'{value-email}' => $row['Email'], 
+														'{value-tel}' => $row['Tel'], 
+														'{value-type}' => $row['idUserType'], 
 														'{active}' => 'disabled'
 													);
 									$new_row = strtr($new_row,$dictionary);
