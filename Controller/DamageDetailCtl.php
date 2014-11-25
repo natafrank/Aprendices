@@ -87,7 +87,9 @@
 							else
 							{
 								//Limpiamos los datos.
-								$idDamageDetail = $this -> cleanInt($_POST['idDamageDetail']);  // Para este dato se creara un Trigger en la BD
+								//Obtenemos la llave primaria
+								require_once("Model/PKGenerator.php");									
+								$idDamageDetail = PKGenerator::getPK('DamageDetail','idDamageDetail');
 								$idChecklist    = $this -> cleanInt($_POST['idChecklist']);
 								$idVehiclePart  = $this -> cleanInt($_POST['idVehiclePart']);
 								$idDamage       = $this -> cleanInt($_POST['idDamage']);
@@ -105,7 +107,7 @@
 									//Creamos el diccionario
 									//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 									$dictionary = array(
-														'{value-id-damage-detail}' => $_POST['idDamageDetail'], 
+														'{value-id-damage-detail}' => $idDamageDetail, 
 														'{value-id-checklist}' => $_POST['idChecklist'], 
 														'{value-id-vehicle-part}' => $_POST['idVehiclePart'], 
 														'{value-id-damage}' => $_POST['idDamage'], 

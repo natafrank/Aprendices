@@ -70,7 +70,9 @@
 							else
 							{
 								//Limpiamos los datos.
-								$idEvent = $this->cleanInt($_POST['idEvent']); // Para este dato se creara un Trigger en la BD
+								//Obtenemos la llave primaria
+								require_once("Model/PKGenerator.php");									
+								$idEvent = PKGenerator::getPK('Event','idEvent');
 								$Event   = $this->cleanText($_POST['Event']);
 						
 								//Recogemos el resultado de la inserción e imprimimos un mensaje
@@ -85,7 +87,7 @@
 									//Creamos el diccionario
 									//Despues de insertar los campos van con la info insertada y los input estan inactivos
 									$dictionary = array(
-										'{value-idEvent}' => $_POST['idEvent'],
+										'{value-idEvent}' => $idEvent,
 										'{value-Event}' => $_POST['Event'],
 										'{active}' => 'disabled',
 										'{action}' => 'insert'

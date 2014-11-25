@@ -84,7 +84,9 @@
 							else
 							{
 								//Limpiamos los datos.
-								$idVehiclePart = $this->cleanText($_POST['idVehiclePart']);  // Para este dato se creara un Trigger en la BD
+								//Obtenemos la llave primaria
+								require_once("Model/PKGenerator.php");									
+								$idVehiclePart = PKGenerator::getPK('VehiclePart','idVehiclePart');
 								$VehiclePart   = $this->cleanText($_POST['VehiclePart']);
 
 								//Recogemos el resultado de la inserción e imprimimos un mensaje
@@ -99,7 +101,7 @@
 									//Creamos el diccionario
 									//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 									$dictionary = array(
-														'{value-id-vehicle-part}' => $_POST['idVehiclePart'], 
+														'{value-id-vehicle-part}' => $idVehiclePart, 
 														'{value-vehicle-part}' => $_POST['VehiclePart'], 
 														'{active}' => 'disabled', 
 														'{action}' => 'insert'

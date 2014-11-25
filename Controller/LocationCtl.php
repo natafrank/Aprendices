@@ -70,7 +70,9 @@
 							else
 							{
 								//Limpiamos los datos.
-								$idLocation = $this->cleanInt($_POST['idLocation']);
+								//Obtenemos la llave primaria
+								require_once("Model/PKGenerator.php");									
+								$idLocation = PKGenerator::getPK('Location','idLocation');
 								$location = $this->cleanText($_POST['location']);
 								$idMasterLocation = $this->cleanInt($_POST['idMasterLocation']);
 						
@@ -86,7 +88,7 @@
 									//Creamos el diccionario
 									//Despues de insertar los campos van con la info insertada y los input estan inactivos
 									$dictionary = array(
-											'{value-idLocation}' => $_POST['idLocation'],
+											'{value-idLocation}' => $idLocation,
 											'{value-location}' => $_POST['location'],
 											'{value-idMasterLocation}' => $_POST['idMasterLocation'],
 											'{active}' => 'disabled',

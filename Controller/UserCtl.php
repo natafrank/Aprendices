@@ -79,13 +79,15 @@
 							else
 							{
 								//Comprobamos que las variables estén seteadas.
-								if(isset($_POST['id_user']) && isset($_POST['name'])
+								if(isset($_POST['name'])
 									&& isset($_POST['login']) && isset($_POST['pass'])
 									&& isset($_POST['email']) && isset($_POST['tel'])
 									&& isset($_POST['type']))
 								{
 									//Limpiamos las variables.
-									$id_user = $this -> cleanInt($_POST['id_user']);
+									//Obtenemos la llave primaria
+									require_once("Model/PKGenerator.php");									
+									$id_user = PKGenerator::getPK('User','idUser');
 									$name    = $this -> cleanName($_POST['name']);
 									$login   = $this -> cleanLogin($_POST['login']);
 									$pass    = $this -> cleanPassword($_POST['pass']);
@@ -114,7 +116,7 @@
 											//Creamos el diccionario
 											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 											$dictionary = array(
-																'{value-id-user}' => $_POST['id_user'], 
+																'{value-id-user}' => $id_user, 
 																'{value-name}' => $_POST['name'], 
 																'{value-login}' => $_POST['login'], 
 																'{value-pass}' => $_POST['pass'], 

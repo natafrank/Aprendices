@@ -71,7 +71,9 @@
 							else
 							{
 								//Limpiamos los datos.
-								$idVehicleStatus = $this->cleanInt($_POST['idVehicleStatus']);
+								//Obtenemos la llave primaria
+								require_once("Model/PKGenerator.php");									
+								$idVehicleStatus= PKGenerator::getPK('VehicleStatus','idVehicleStatus');
 								$vehicleStatus = $this->cleanText($_POST['vehicleStatus']);
 								$Fuel = $this->cleanFloat($_POST['Fuel']);
 								$Km = $this->cleanFloat($_POST['Km']);
@@ -88,7 +90,7 @@
 									//Creamos el diccionario
 									//Despues de insertar los campos van con la info insertada y los input estan inactivos
 									$dictionary = array(
-										'{value-idVehicleStatus}' => $_POST['idVehicleStatus'],
+										'{value-idVehicleStatus}' => $idVehicleStatus,
 										'{value-vehicleStatus}' => $_POST['vehicleStatus'],
 										'{value-Fuel}' => $_POST['Fuel'],
 										'{value-Km}' => $_POST['Km'],

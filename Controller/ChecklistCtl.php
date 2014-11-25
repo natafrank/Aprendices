@@ -83,7 +83,9 @@
 							else
 							{
 								//Limpiamos los datos.
-								$idChecklist 	 = $this -> cleanInt($_POST['idChecklist']);  // Para este dato se creara un Trigger en la BD
+								//Obtenemos la llave primaria
+								require_once("Model/PKGenerator.php");									
+								$idChecklist	 = PKGenerator::getPK('CheckList','idCheckList');
 								$idVehicle   	 = $this -> cleanInt($_POST['idVehicle']);
 								$idVehicleStatus = $this -> cleanInt($_POST['idVehicleStatus']);
 								//La fecha se toma de dia que se inserta
@@ -105,7 +107,7 @@
 										//Creamos el diccionario
 										//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 										$dictionary = array(
-															'{value-id-checklist}' => $_POST['idChecklist'], 
+															'{value-id-checklist}' => $idChecklist, 
 															'{value-id-vehicle}' => $_POST['idVehicle'], 
 															'{value-id-vehicle-status}' => $_POST['idVehicleStatus'], 
 															'{value-inout}' => $_POST['InOut'],

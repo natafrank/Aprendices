@@ -72,7 +72,9 @@
 							else
 							{
 								//Limpiamos los datos.
-								$idEventRegistry = $this->cleanInt($_POST['idEventRegistry']);
+								//Obtenemos la llave primaria
+								require_once("Model/PKGenerator.php");									
+								$idEventRegistry = PKGenerator::getPK('EventRegistry','idEventRegistry');
 								$idVehicle = $this->cleanInt($_POST['idVehicle']);
 								$idUser = $this->cleanInt($_POST['idUser']);
 								$idEvent = $this->cleanInt($_POST['idEvent']);
@@ -92,7 +94,7 @@
 									//Creamos el diccionario
 									//Despues de insertar los campos van con la info insertada y los input estan inactivos
 									$dictionary = array(
-											'{value-idEventRegistry}' => $_POST['idEventRegistry'],
+											'{value-idEventRegistry}' => $idEventRegistry,
 											'{value-idVehicle}' => $_POST['idVehicle'],
 											'{value-idUser}' => $_POST['idUser'],
 											'{value-idEvent}' => $_POST['idEvent'],

@@ -74,10 +74,12 @@
 							else
 							{
 								//Comprobamos que las variables estén seteadas.
-								if(isset($_POST['id_vehicle']) && isset($_POST['id_user']) && isset($_POST['vin']) && isset($_POST['id_location']) && isset($_POST['id_vehicle_model']) && isset($_POST['color']))
+								if(isset($_POST['id_user']) && isset($_POST['vin']) && isset($_POST['id_location']) && isset($_POST['id_vehicle_model']) && isset($_POST['color']))
 								{
 									//Obtenemos las variables por la alta y las limpiamos.
-									$id_vehicle        = $this -> cleanInt($_POST['id_vehicle']);
+									//Obtenemos la llave primaria
+									require_once("Model/PKGenerator.php");									
+									$id_vehicle		   = PKGenerator::getPK('Vehicle','idVehicle');
 									$id_user           = $this -> cleanInt($_POST['id_user']);
 									$id_location       = $this -> cleanInt($_POST['id_location']);
 									$id_vehicle_model  = $this -> cleanInt($_POST['id_vehicle_model']);
@@ -105,7 +107,7 @@
 											//Creamos el diccionario
 											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 											$dictionary = array(
-													'{value-id-vehicle}' => $_POST['id_vehicle'],
+													'{value-id-vehicle}' => $id_vehicle,
 													'{value-id-user}' => $_POST['id_user'],
 													'{value-id-location}' => $_POST['id_location'],
 													'{value-id-vehicle-model}' => $_POST['id_vehicle_model'],
