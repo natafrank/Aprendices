@@ -490,7 +490,7 @@
 							$filter = "0=0";
 							if(isset($_POST['filter_condition'])){
 								//Creamos la condicion con el campo seleccionadoo y el filtro
-								$filter = $_POST['filter_select']." = ".$_POST['filter_condition']; 
+								$filter = $_POST['filter_select']." = '".$_POST['filter_condition']."';"; 
 							}
 
 
