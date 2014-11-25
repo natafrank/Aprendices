@@ -4,9 +4,9 @@
 
 	if(count($_GET) > 0)
 	{
+		$is_standard = FALSE;
 		switch($_GET["ctl"])
 		{
-			$is_standard = FALSE;
 			case "vehicle":
 			{
 				require_once("Controller/VehicleCtl.php");
