@@ -107,8 +107,7 @@
 			$this -> VehiclePart    = $this -> db_driver -> escape($VehiclePart);
 
 			//Query que realizará la modificación.
-			$query = "UPDATE VehiclePart SET VehiclePart='".$this -> VehiclePart."', " 
-					  " WHERE idVehiclePart=".$this -> idVehiclePart.";";
+			$query = "UPDATE VehiclePart SET VehiclePart='".$this -> VehiclePart."',  WHERE idVehiclePart=".$this -> idVehiclePart.";";
 
 		  	//Ejecutamos el query y retornamos el resultado.
 			//Retornará verdadero si se modificó el registro correctamente.
