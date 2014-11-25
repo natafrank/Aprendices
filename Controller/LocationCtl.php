@@ -489,9 +489,9 @@
 								foreach ($result as $row) {
 									$new_row = $base_row;
 									$dictionary = array(
-										'{value-idLocation}' => $result['idLocation'], 
-										'{value-location}' => $result['location'],
-										'{value-idMasterLocation}' => $result['idMasterLocation'],
+										'{value-idLocation}' => $row['idLocation'], 
+										'{value-location}' => $row['Location'],
+										'{value-idMasterLocation}' => $row['idMasterLocation'],
 										'{active}' => 'disabled'
 									);
 									$new_row = strtr($new_row,$dictionary);

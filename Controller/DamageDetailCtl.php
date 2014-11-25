@@ -442,11 +442,11 @@
 								foreach ($result as $row) {
 									$new_row = $base_row;
 									$dictionary = array(
-														'{value-id-damage-detail}' => $result['idDamageDetail'], 
-														'{value-id-checklist}' => $result['idChecklist'], 
-														'{value-id-vehicle-part}' => $result['VehiclePart'], 
-														'{value-id-damage}' => $result['Damage'], 
-														'{value-damage-severity}' => $result['DamageSeverity'], 
+														'{value-id-damage-detail}' => $row['idDamageDetail'], 
+														'{value-id-checklist}' => $row['idChecklist'], 
+														'{value-id-vehicle-part}' => $row['VehiclePart'], 
+														'{value-id-damage}' => $row['Damage'], 
+														'{value-damage-severity}' => $row['DamageSeverity'], 
 														'{active}' => 'disabled'
 													);
 									$new_row = strtr($new_row,$dictionary);

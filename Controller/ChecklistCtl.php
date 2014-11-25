@@ -543,11 +543,11 @@
 								foreach ($result as $row) {
 									$new_row = $base_row;
 									$dictionary = array(
-														'{value-id-checklist}' => $result['idChecklist'], 
-														'{value-id-vehicle}' => $result['idVehicle'], 
-														'{value-id-vehicle-status}' => $result['idVehicleStatus'], 
-														'{value-date}' => $result['Date'], 
-														'{value-inout}' => $result['InOut'],  
+														'{value-id-checklist}' => $row['idChecklist'], 
+														'{value-id-vehicle}' => $row['idVehicle'], 
+														'{value-id-vehicle-status}' => $row['idVehicleStatus'], 
+														'{value-date}' => $row['Date'], 
+														'{value-inout}' => $row['InOut'],  
 														'{active}' => 'disabled'
 													);
 									$new_row = strtr($new_row,$dictionary);

@@ -493,8 +493,8 @@
 								foreach ($result as $row) {
 									$new_row = $base_row;
 									$dictionary = array(
-														'{value-id-damage}' => $result['idDamage'], 
-														'{value-damage}' => $result['Damage'], 
+														'{value-id-damage}' => $row['idDamage'], 
+														'{value-damage}' => $row['Damage'], 
 														'{active}' => 'disabled'
 													);
 									$new_row = strtr($new_row,$dictionary);

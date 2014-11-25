@@ -517,12 +517,12 @@
 								foreach ($result as $row) {
 									$new_row = $base_row;
 									$dictionary = array(
-										'{value-idEventRegistry}' => $result['idEventRegistry'], 
-										'{value-idVehicle}' => $result['idVehicle'],
-										'{value-idUser}' => $result['User'], 
-										'{value-idEvent}' => $result['Event'],
-										'{value-Date}' => $result['Date'], 
-										'{value-Reason}' => $result['Reason'],
+										'{value-idEventRegistry}' => $row['idEventRegistry'], 
+										'{value-idVehicle}' => $row['idVehicle'],
+										'{value-idUser}' => $row['User'], 
+										'{value-idEvent}' => $row['Event'],
+										'{value-Date}' => $row['Date'], 
+										'{value-Reason}' => $row['Reason'],
 										'{active}' => 'disabled'
 									);
 									$new_row = strtr($new_row,$dictionary);
