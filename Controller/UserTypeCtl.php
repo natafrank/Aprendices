@@ -261,15 +261,12 @@
 
 										//Acceder al resultado y crear el diccionario
 										//Revisar que el nombre de los campos coincida con los de la base de datos
-										foreach ($result as $row) 
-										{
-											$dictionary = array(
-																'{value-id-user-type}' => $result[0]['idUserType'], 
-																'{value-user-type}' => $result[0]['UserType'], 
-																'{active}' => 'disabled', 
-																'{action}' => 'select'
-														);
-										}
+										$dictionary = array(
+															'{value-id-user-type}' => $result[0]['idUserType'], 
+															'{value-user-type}' => $result[0]['UserType'], 
+															'{active}' => 'disabled', 
+															'{action}' => 'select'
+													);
 
 										//Sustituir los valores en la plantilla
 										$view = strtr($view,$dictionary);

@@ -260,7 +260,7 @@
 											//Despues de insertar los campos van con la info insertada y los input estan inactivos
 											$dictionary = array(
 												'{value-idVehicleStatus}' => $result[0]['idVehicleStatus'], 
-												'{value-vehicleStatus}' => $result[0]['vehicleStatus'],
+												'{value-vehicleStatus}' => $result[0]['VehicleStatus'],
 												'{value-Fuel}' => $result[0]['Fuel'], 
 												'{value-Km}' => $result[0]['Km'],
 												'{active}' => '',
@@ -337,16 +337,14 @@
 
 										//Acceder al resultado y crear el diccionario
 										//Revisar que el nombre de los campos coincida con los de la base de datos
-										foreach ($result as $row) {
-											$dictionary = array(
-												'{value-idVehicleStatus}' => $result['idVehicleStatus'], 
-												'{value-vehicleStatus}' => $result['vehicleStatus'],
-												'{value-Fuel}' => $result['Fuel'], 
-												'{value-Km}' => $result['Km'],
-												'{active}' => 'disabled',
-												'{action}' => 'select'
-											);
-										}
+										$dictionary = array(
+											'{value-idVehicleStatus}' => $result[0]['idVehicleStatus'], 
+											'{value-vehicleStatus}' => $result[0]['VehicleStatus'],
+											'{value-Fuel}' => $result[0]['Fuel'], 
+											'{value-Km}' => $result[0]['Km'],
+											'{active}' => 'disabled',
+											'{action}' => 'select'
+										);
 
 										//Sustituir los valores en la plantilla
 										$view = strtr($view,$dictionary);
@@ -499,7 +497,7 @@
 									$new_row = $base_row;
 									$dictionary = array(
 										'{value-idVehicleStatus}' => $row['idVehicleStatus'], 
-										'{value-vehicleStatus}' => $row['vehicleStatus'],
+										'{value-vehicleStatus}' => $row['VehicleStatus'],
 										'{value-Fuel}' => $row['Fuel'], 
 										'{value-Km}' => $row['Km'],
 										'{active}' => 'disabled'

@@ -297,17 +297,17 @@
 									//Acceder al resultado y crear el diccionario
 									//Revisar que el nombre de los campos coincida con los de la base de datos
 									//foreach ($result as $row) {
-										$dictionary = array(
-															'{value-id-user}' => $result[0]['idUser'], 
-															'{value-name}' => $result[0]['User'], 
-															'{value-login}' => $result[0]['Login'], 
-															'{value-pass}' => $result[0]['Password'], 
-															'{value-email}' => $result[0]['Email'], 
-															'{value-tel}' => $result[0]['Tel'], 
-															'{value-type}' => $result[0]['idUserType'], 
-															'{active}' => 'disabled',
-															'{action}' => 'select'
-														);
+									$dictionary = array(
+														'{value-id-user}' => $result[0]['idUser'], 
+														'{value-name}' => $result[0]['User'], 
+														'{value-login}' => $result[0]['Login'], 
+														'{value-pass}' => $result[0]['Password'], 
+														'{value-email}' => $result[0]['Email'], 
+														'{value-tel}' => $result[0]['Tel'], 
+														'{value-type}' => $result[0]['idUserType'], 
+														'{active}' => 'disabled',
+														'{action}' => 'select'
+													);
 									//}
 
 									//Sustituir los valores en la plantilla

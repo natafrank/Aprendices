@@ -31,8 +31,8 @@
 			$this->Km 				= $this->db_driver->escape($Km);
 			
 			//Query a ejecutar.
-			$query = "INSERT INTO VehicleStatus VALUES(".$this -> idVehicleStatus.", "
-												 	.$this -> vehicleStatus.", "
+			$query = "INSERT INTO VehicleStatus VALUES(".$this -> idVehicleStatus.", '"
+												 	.$this -> vehicleStatus."', "
 												 	.$this -> Fuel.", "
 													.$this -> Km.");";
 	

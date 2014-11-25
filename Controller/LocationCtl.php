@@ -254,7 +254,7 @@
 											//Se muestra el formulario para modificar
 											$dictionary = array(
 												'{value-idLocation}' => $result[0]['idLocation'], 
-												'{value-location}' => $result[0]['location'],
+												'{value-location}' => $result[0]['Location'],
 												'{value-idMasterLocation}' => $result[0]['idMasterLocation'],
 												'{active}' => '',
 												'{action}' => 'update'
@@ -333,9 +333,9 @@
 										//Revisar que el nombre de los campos coincida con los de la base de datos
 										foreach ($result as $row) {
 											$dictionary = array(
-												'{value-idLocation}' => $result['idLocation'], 
-												'{value-location}' => $result['location'],
-												'{value-idMasterLocation}' => $result['idMasterLocation'],
+												'{value-idLocation}' => $result[0]['idLocation'], 
+												'{value-location}' => $result[0]['Location'],
+												'{value-idMasterLocation}' => $result[0]['idMasterLocation'],
 												'{active}' => 'disabled',
 												'{action}' => 'select'
 											);

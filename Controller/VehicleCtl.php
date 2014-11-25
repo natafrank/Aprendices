@@ -280,19 +280,16 @@
 											$header = file_get_contents("View/header.html");
 											$footer = file_get_contents("View/footer.html");
 
-											foreach($result as $row)
-											{
-												$dictionary = array(
-														'{value-id-vehicle}' => $result[0]['idVehicle'],
-														'{value-id-user}' => $result[0]['idUser'],
-														'{value-id-location}' => $result[0]['idLocation'],
-														'{value-id-vehicle-model}' => $result[0]['idVehicleModel'],
-														'{value-vin}' => $result[0]['VIN'],
-														'{value-color}' => $result[0]['Color'],
-														'{active}' => 'disabled',
-														'{action}' => 'select'
-													);
-											}
+											$dictionary = array(
+													'{value-id-vehicle}' => $result[0]['idVehicle'],
+													'{value-id-user}' => $result[0]['idUser'],
+													'{value-id-location}' => $result[0]['idLocation'],
+													'{value-id-vehicle-model}' => $result[0]['idVehicleModel'],
+													'{value-vin}' => $result[0]['VIN'],
+													'{value-color}' => $result[0]['Color'],
+													'{active}' => 'disabled',
+													'{action}' => 'select'
+												);
 
 											//Sustituir los valores en la plantilla
 											$view = strtr($view,$dictionary);

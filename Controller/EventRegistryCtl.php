@@ -353,18 +353,16 @@
 
 										//Acceder al resultado y crear el diccionario
 										//Revisar que el nombre de los campos coincida con los de la base de datos
-										foreach ($result as $row) {
-											$dictionary = array(
-												'{value-idEventRegistry}' => $result['idEventRegistry'], 
-												'{value-idVehicle}' => $result['idVehicle'],
-												'{value-idUser}' => $result['idUser'],
-												'{value-idEvent}' => $result['idEvent'],
-												'{value-Date}' => $result['Date'],
-												'{value-Reason}' => $result['Reason'],
-												'{active}' => 'disabled',
-												'{active}' => 'select'
-											);
-										}
+										$dictionary = array(
+											'{value-idEventRegistry}' => $result[0]['idEventRegistry'], 
+											'{value-idVehicle}' => $result[0]['idVehicle'],
+											'{value-idUser}' => $result[0]['idUser'],
+											'{value-idEvent}' => $result[0]['idEvent'],
+											'{value-Date}' => $result[0]['Date'],
+											'{value-Reason}' => $result[0]['Reason'],
+											'{active}' => 'disabled',
+											'{active}' => 'select'
+										);
 
 										//Sustituir los valores en la plantilla
 										$view = strtr($view,$dictionary);

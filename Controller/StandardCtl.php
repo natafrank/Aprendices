@@ -55,7 +55,7 @@
 		 * @return float $result - el valor flotante que venía en $number.
 		 */
 		function cleanFloat($number){
-			if(is_float($number)){
+			if(is_numeric($number)){
 				$result = $number;
 				return $result;
 			}
