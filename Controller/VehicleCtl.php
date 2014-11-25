@@ -458,8 +458,8 @@
 													'{value-id-user}' => $result[0]['idUser'],
 													'{value-id-location}' => $result[0]['idLocation'],
 													'{value-id-vehicle-model}' => $result[0]['idVehicleModel'],
-													'{value-vin}' => $result[0]['vin'],
-													'{value-color}' => $result[0]['color'],
+													'{value-vin}' => $result[0]['VIN'],
+													'{value-color}' => $result[0]['Color'],
 													'{active}' => '',
 													'{action}' => 'update'
 												);
@@ -548,7 +548,7 @@
 													'{value-id-vehicle}' => $row['idVehicle'],
 												'{value-user}' => $row['User'],
 												'{value-location}' => $row['Location'],
-												'{value-vehicle-model}' => $row['VehicleModel'],
+												'{value-vehicle-model}' => $row['Model'],
 												'{value-vehicle-brand}' => $row['Brand'],
 												'{value-vin}' => $row['VIN'],
 												'{value-color}' => $row['Color'],
