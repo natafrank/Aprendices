@@ -71,10 +71,12 @@
 							else
 							{
 								//Comprobamos que las variables estén seteadas en el POST.
-								if(isset($_POST['id_user_type']) && isset($_POST['user_type']))
+								if(isset($_POST['user_type']))
 								{
 									//Obtenemos las variables y las limpiamos.
-									$id_user_type = $this -> cleanInt($_POST['id_user_type']);
+									//Obtenemos la llave primaria
+									require_once("Model/PKGenerator.php");									
+									$id_user_type = PKGenerator::getPK('UserType','idUserType');
 									$user_type    = $this -> cleanText($_POST['user_type']);
 
 									//Si alguno de los campos es inválido.
@@ -98,7 +100,7 @@
 											//Creamos el diccionario
 											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 											$dictionary = array(
-																'{value-id-user-type}' => $_POST['id_user_type'], 
+																'{value-id-user-type}' => $id_user_type, 
 																'{value-user-type}' => $_POST['user_type'], 
 																'{active}' => 'disabled', 
 																'{action}' => 'insert'
