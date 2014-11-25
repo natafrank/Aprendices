@@ -72,9 +72,9 @@
 
 			//Query a ejecutar.
 			$query = "INSERT INTO CheckList VALUES(".$this -> idChecklist.", "
-												 	.$this -> idVehicle.", "
-												 	.$this -> Date.", '"
-												 	.$this -> InOut."', "
+												 	.$this -> idVehicle.", '"
+												 	.$this -> Date."', "
+												 	.$this -> InOut.", "
 												 	.$this -> idVehicleStatus.");";
 	
 			//Ejecutamos el query y retornamos el resultado.
