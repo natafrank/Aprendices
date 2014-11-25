@@ -71,7 +71,7 @@
 			$this -> InOut           = $this -> db_driver -> escape($InOut);
 
 			//Query a ejecutar.
-			$query = "INSERT INTO Checklist VALUES(".$this -> idChecklist.", "
+			$query = "INSERT INTO CheckList VALUES(".$this -> idChecklist.", "
 												 	.$this -> idVehicle.", "
 												 	.$this -> idVehicleStatus.", '"
 												 	.$this -> Date."', "
@@ -99,7 +99,7 @@
 			$this -> idChecklist = $this -> db_driver -> escape($idChecklist);
 
 			//Query a ejecutar
-			$query = "DELETE FROM Checklist WHERE idChecklist=".$this -> idChecklist.";";
+			$query = "DELETE FROM CheckList WHERE idCheckList=".$this -> idChecklist.";";
 
 			//Ejecutamos el query y retornamos el resultado.
 		    //Retornará verdadero si se eliminó el registro correctamente.
@@ -131,11 +131,11 @@
 			$this -> InOut           = $this -> db_driver -> escape($InOut);
 
 			//Query que realizará la modificación.
-			$query = "UPDATE Checklist SET idVehicle=".$this -> idVehicle.", "
+			$query = "UPDATE CheckList SET idVehicle=".$this -> idVehicle.", "
 									   	 ."idVehicleStatus=".$this -> idVehicleStatus.", "
 									   	 ."Date='".$this -> Date."', "
 									   	 ."InOut=".$this -> InOut.   
-					  " WHERE idChecklist = ".$this -> idChecklist.";";
+					  " WHERE idCheckList = ".$this -> idChecklist.";";
 
 		  	//Ejecutamos el query y retornamos el resultado.
 			//Retornará verdadero si se modificó el registro correctamente.
@@ -159,7 +159,7 @@
 			$this -> idChecklist = $this -> db_driver -> escape($idChecklist);
 
 			//Para el primer ejemplo se ejecutará un SELECT * con el id deseado.
-			$query = "SELECT * FROM Checklist WHERE idChecklist=".$this -> idChecklist.";";
+			$query = "SELECT * FROM CheckList WHERE idCheckList=".$this -> idChecklist.";";
 
 			//Ejecutamos el query y recogemos el resultado.
 			$result = $this -> db_driver -> execute($query);
@@ -188,7 +188,7 @@
 		public function getList($filter)
 		{
 			//Query a ejecutar
-			$query = "SELECT * FROM Checklist WHERE ".$filter.";";
+			$query = "SELECT * FROM CheckList WHERE ".$filter.";";
 
 			//Ejecutamos el query y recogemos el resultado.
 			$result = $this -> db_driver -> execute($query);

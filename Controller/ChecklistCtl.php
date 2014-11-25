@@ -213,7 +213,7 @@
 							{
 								//Si el post está vacio cargamos la vista para solicitar el id a consultar
 								//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
-								$this -> showGetIdView("checklist","update","idChecklist","Id Checklist:");
+								$this -> showGetIdView("checklist","update","idCheckList","Id Checklist:");
 							}
 							else
 							{
@@ -316,7 +316,7 @@
 											//Creamos el diccionario
 											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 											$dictionary = array(
-																'{value-id-checklist}' => $result[0]['idChecklist'], 
+																'{value-id-checklist}' => $result[0]['idCheckList'], 
 																'{value-id-vehicle}' => $result[0]['idVehicle'], 
 																'{value-id-vehicle-status}' => $result[0]['idVehicleStatus'], 
 																'{value-date}' => $result[0]['Date'], 
@@ -370,7 +370,7 @@
 						{
 							//Si el post está vacio cargamos la vista para solicitar el id a consultar
 							//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
-							$this -> showGetIdView("checklist","select","idChecklist","Id Checklist:");
+							$this -> showGetIdView("checklist","select","idCheckList","Id Checklist:");
 						}
 						else
 						{
@@ -391,7 +391,7 @@
 									//Acceder al resultado y crear el diccionario
 									//Revisar que el nombre de los campos coincida con los de la base de datos
 									$dictionary = array(
-															'{value-id-user}' => $result[0]['idChecklist'], 
+															'{value-id-user}' => $result[0]['idCheckList'], 
 															'{value-id-vehicle}' => $result[0]['idVehicle'], 
 															'{value-id-vehicle-status}' => $result[0]['idVehicleStatus'], 
 															'{value-date}' => $result[0]['Date'], 
@@ -444,7 +444,7 @@
 							{
 								//Si el post está vacio cargamos la vista para solicitar el id a consultar
 								//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
-								$this -> showGetIdView("checklist","delete","idChecklist","Id Checklist:");
+								$this -> showGetIdView("checklist","delete","idCheckList","Id Checklist:");
 							}
 
 							else
@@ -540,7 +540,7 @@
 								foreach ($result as $row) {
 									$new_row = $base_row;
 									$dictionary = array(
-														'{value-id-checklist}' => $row['idChecklist'], 
+														'{value-id-checklist}' => $row['idCheckList'], 
 														'{value-id-vehicle}' => $row['idVehicle'], 
 														'{value-id-vehicle-status}' => $row['idVehicleStatus'], 
 														'{value-date}' => $row['Date'], 
