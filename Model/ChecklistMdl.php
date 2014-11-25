@@ -73,9 +73,9 @@
 			//Query a ejecutar.
 			$query = "INSERT INTO CheckList VALUES(".$this -> idChecklist.", "
 												 	.$this -> idVehicle.", "
-												 	.$this -> idVehicleStatus.", '"
-												 	.$this -> Date."', "
-												 	.$this -> InOut.");";
+												 	.$this -> Date.", '"
+												 	.$this -> InOut."', "
+												 	.$this -> idVehicleStatus.");";
 	
 			//Ejecutamos el query y retornamos el resultado.
 		    //Retornará verdadero si se insertaron los datos correctamente.
@@ -227,9 +227,6 @@
 			$idEventRegistry = $this -> db_driver -> execute('SELECT MAX(idEventRegistry) ID FROM EventRegistry;');
 			$idEventRegistry = $idEventRegistry[0]['ID'] + 1;
 
-			echo $idEventRegistry;
-			echo "<br>";
-
 			//Setear el id del evento dependiendo de si es entrada o salida
 			$idEvent = 1;
 			if($InOut == 1){
@@ -248,9 +245,6 @@
 												 	.$idEvent.", '"
 												 	.$Date."', '"
 													.$Reason."');";
-												
-
-			echo $query;
 	
 			//Ejecutamos el query y retornamos el resultado.
 		    //Retornará verdadero si se insertaron los datos correctamente.
