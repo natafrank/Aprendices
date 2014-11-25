@@ -279,7 +279,14 @@
 			return false;
 		}
 
-		//Valida que el usuario de la sesion actual sea de tipo administrador
+		/**
+		* Valida Admin.
+		* 
+		* Función que verifica si el usuario que tiene la sesión iniciada es Admin.
+		*
+		* @return bool - FALSE si el usuario no es Admin.
+		* @return bool - TRUE si el usuario es Admin. 
+		*/
 		function isAdmin()
 		{
 			if( isset($_SESSION['user_type']) && $_SESSION['user_type'] == 1 )
@@ -287,7 +294,14 @@
 			return false;
 		}
 		
-		//Valida que el usuario de la sesion actual sea de tipo empleado
+		/**
+		* Valida Empleado.
+		* 
+		* Función que verifica si el usuario que tiene la sesión iniciada es Empleado.
+		*
+		* @return bool - FALSE si el usuario no es Empleado.
+		* @return bool - TRUE si el usuario es Empleado. 
+		*/
 		function isEmployee()
 		{
 			if( isset($_SESSION['user_type']) && $_SESSION['user_type'] == 2 )
@@ -295,7 +309,14 @@
 			return false;
 		}
 		
-		//Valida que el usuario de la sesion actual sea de tipo cliente
+		/**
+		* Valida Cliente.
+		* 
+		* Función que verifica si el usuario que tiene la sesión iniciada es Cliente.
+		*
+		* @return bool - FALSE si el usuario no es Cliente.
+		* @return bool - TRUE si el usuario es Cliente. 
+		*/
 		function isClient()
 		{
 			if( isset($_SESSION['user_type']) && $_SESSION['user_type'] == 3 )
@@ -303,7 +324,11 @@
 			return false;
 		}
 
-		//Termina la sesion actual
+		/**
+		* Logout.
+		*
+		* Función que se encarga de cerrar y detruir los datos de sesión de un usuario.
+		*/
 		function logout()
 		{
 			session_unset();
@@ -311,7 +336,15 @@
 			setcookie(session_name(), '', time()-3600);
 		}
 
-		//Inicia una sesion en base al login y contraseña del usuario
+		/**
+		* Logout.
+		*
+		* Función que se encarga de iniciar una sesión de un usuario en base a su login y contraseña.
+		*
+		* @return bool - TRUE si los datos del usuario se encontraron en la base de datos.
+		* @return bool - FALSE si los datos del usuario no se encontraron en la base de datos.
+		*
+		*/
 		function login($login, $pass)
 		{
 			//Importamos la capa de la base de datos.
