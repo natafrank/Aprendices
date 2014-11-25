@@ -6,7 +6,7 @@
 	{
 		switch($_GET["ctl"])
 		{
-
+			$is_standard = FALSE;
 			case "vehicle":
 			{
 				require_once("Controller/VehicleCtl.php");
@@ -87,40 +87,64 @@
 			}
 			case "logout":
 			{
+				$is_standard = TRUE;
 				//Si no se especifico ctl mostramos la pestaña de login
 				require_once("Controller/StandardCtl.php");
 				$ctl = new StandardCtl();
 				//Terminamos la sesion
 				$ctl -> logout();
-				//Por default nos envia a la consulta de un usuario después del login
-				$ctl -> showLoginView('user','select');
+				$ctl -> showLoginView('welcome','none');
 				break;
 			}
 			case "forgotpassword":
 			{
+				$is_standard = TRUE;
 				require_once("Controller/ForgotPasswordCtl.php");
 				$ctl = new ForgotPasswordCtl();
 				break;
 			}
-			default:
+			case "welcome":
+			{
+				$is_standard = TRUE;
+				//Si esta seteada la info para hacer login
+				if(isset($_POST['session_login']) && isset($_POST['session_pass']))
+				{					
+					require_once("Controller/StandardCtl.php");
+					$ctl = new StandardCtl();
+
+					//Si el login se hace correctamente mostramos un mensaje de bienvenida
+					if($ctl -> login($_POST['session_login'],$_POST['session_pass']) )
+					{
+						$message = "Bienvenido ".$_SESSION['user'];
+						$ctl -> showErrorView($message);	
+					}
+					//Si no mostramos nuevamente la vista de login
+					else
+					{
+						$ctl -> showLoginView('welcome','none');							
+					}					
+				}
+			}
+			/*default:
 			{
 				//Si no se especifico ctl mostramos la pestaña de login
 				require_once("Controller/StandardCtl.php");
 				$ctl = new StandardCtl();
-				//Por default nos envia a la consulta de un usuario despues del login
-				$ctl -> showLoginView('user','select');
-			}
+				$ctl -> showLoginView('none','none');
+			}*/
 		}
 
-		$ctl->run();
+		if(!$is_standard)
+		{
+			$ctl->run();
+		}
 	}
 	else
 	{
 		//Si no se especifico ctl mostramos la pestaña de login
 		require_once("Controller/StandardCtl.php");
 		$ctl = new StandardCtl();
-		//Por default nos envia a la consulta de un usuario despues del login
-		$ctl -> showLoginView('user','select');
+		$ctl -> showLoginView('welcome','none');
 	}
 
 ?>
