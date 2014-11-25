@@ -124,6 +124,10 @@
 						$ctl -> showLoginView('welcome','none');							
 					}					
 				}
+				else
+				{
+					$ctl -> showLoginView('welcome','none');							
+				}
 			}
 			/*default:
 			{
@@ -144,7 +148,16 @@
 		//Si no se especifico ctl mostramos la pestaña de login
 		require_once("Controller/StandardCtl.php");
 		$ctl = new StandardCtl();
-		$ctl -> showLoginView('welcome','none');
+		//Si no esta logeado mostramos el login, si si mostramos mensaje de bienvenida
+		if( !$ctl -> isLogged() )
+		{
+			$message = "Bienvenido ".$_SESSION['user'];
+			$ctl -> showErrorView($message);	
+		}
+		else
+		{
+			$ctl -> showLoginView('welcome','none');			
+		}
 	}
 
 ?>
