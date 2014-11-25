@@ -268,12 +268,12 @@
 						else
 						{
 							//Comprobamos que el id esté seteado si el usuario no es cliente.
-							if( $this -> isClient() || isset($_SESSION['id_user']))
+							if( $this -> isClient() || isset($_POST['id_user']))
 							{
 								//Si es cliente tomamos el id de la session
 								if( $this -> isClient() )
 								{
-									$id_user = $_POST['id_user'];
+									$id_user = $_SESSION['id_user'];
 								}
 								//Limpiamos el id en caso contrario.
 								else
@@ -514,6 +514,11 @@
 									$this -> showErrorView($error);
 								}
 							}
+						}
+						else
+						{
+							$error = "No tiene permisos para realizar esta acción";
+							$this -> showErrorView($error);
 						}
 
 						break;

@@ -144,7 +144,7 @@
 						else
 						{
 							$error = "No tiene permisos para realizar esta accion";
-							require_once("View/Error.php");
+							$this -> showErrorView($error);
 						}
 						
 						break;

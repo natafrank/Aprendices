@@ -522,6 +522,11 @@
 								$this -> showErrorView($error);
 							}
 						}
+						else
+						{
+							$error = "No tiene permisos para ver esta lista";
+							$this -> showErrorView($error);
+						}
 
 						break;
 					}
