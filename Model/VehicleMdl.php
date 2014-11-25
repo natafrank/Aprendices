@@ -120,7 +120,7 @@
 		public function getList($filter)
 		{
 			//Query a ejecutar
-			$query = "SELECT * FROM VVehicle WHERE ".$filter.";";
+			$query = "SELECT * FROM Vehicle WHERE ".$filter.";";
 
 			//Ejecutamos el query y recogemos el resultado.
 			$result = $this -> db_driver -> execute($query);

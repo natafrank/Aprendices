@@ -326,8 +326,8 @@
 										//Revisar que el nombre de los campos coincida con los de la base de datos
 										foreach ($result as $row) {
 											$dictionary = array(
-																'{value-id-vehicle-brand}' => $result['idVehicleBrand'], 
-																'{value-vehicle-brand}' => $result['Brand'], 	
+																'{value-id-vehicle-brand}' => $result[0]['idVehicleBrand'], 
+																'{value-vehicle-brand}' => $result[0]['Brand'], 	
 																'{active}' => 'disabled',  
 																'{action}' => 'select'
 															);
@@ -449,7 +449,7 @@
 						$filter = "0=0";
 						if(isset($_POST['filter_condition'])){
 							//Creamos la condicion con el campo seleccionadoo y el filtro
-							$filter = $_POST['filter_select']." = ".$_POST['filter_condition']; 
+							$filter = $_POST['filter_select']." = '".$_POST['filter_condition']."'"; 
 						}
 
 
@@ -476,8 +476,8 @@
 							foreach ($result as $row) {
 								$new_row = $base_row;
 								$dictionary = array(
-													'{value-id-vehicle-brand}' => $result['idVehicleBrand'], 
-													'{value-vehicle-brand}' => $result['Brand'], 
+													'{value-id-vehicle-brand}' => $row['idVehicleBrand'], 
+													'{value-vehicle-brand}' => $row['Brand'], 
 													'{active}' => 'disabled'
 												);
 								$new_row = strtr($new_row,$dictionary);

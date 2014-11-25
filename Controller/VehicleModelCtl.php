@@ -423,7 +423,7 @@
 											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 											$dictionary = array(
 																'{value-id-vehicle-model}' => $result[0]['idVehicleModel'], 
-																'{value-vehicle-model}' => $result[0]['VehicleModel'], 
+																'{value-vehicle-model}' => $result[0]['Model'], 
 																'{value-id-vehicle-brand}' => $result[0]['idVehicleBrand'],
 																'{active}' => '',
 																'{action}' => 'update'
@@ -475,7 +475,7 @@
 						$filter = "0=0";
 						if(isset($_POST['filter_condition'])){
 							//Creamos la condicion con el campo seleccionadoo y el filtro
-							$filter = $_POST['filter_select']." = ".$_POST['filter_condition']; 
+							$filter = $_POST['filter_select']." = '".$_POST['filter_condition']."'"; 
 						}
 
 
@@ -502,9 +502,9 @@
 							foreach ($result as $row) {
 								$new_row = $base_row;
 								$dictionary = array(
-													'{value-id-vehicle-model}' => $result['idVehicleModel'], 
-													'{value-vehicle-model}' => $result['Model'], 
-													'{value-id-vehicle-brand}' => $result['idVehicleBrand'],
+													'{value-id-vehicle-model}' => $row['idVehicleModel'], 
+													'{value-vehicle-model}' => $row['Model'], 
+													'{value-id-vehicle-brand}' => $row['idVehicleBrand'],
 													'{active}' => 'disabled'
 												);
 								$new_row = strtr($new_row,$dictionary);

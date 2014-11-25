@@ -143,12 +143,6 @@
 											}
 										}
 									}
-
-									else
-									{
-										$error = "Error al insertar el tipo de usuario.";
-										$this -> showErrorView($error);
-									}
 								}
 								else
 								{
@@ -270,8 +264,8 @@
 										foreach ($result as $row) 
 										{
 											$dictionary = array(
-																'{value-id-user-type}' => $result['idUserType'], 
-																'{value-user-type}' => $result['UserType'], 
+																'{value-id-user-type}' => $result[0]['idUserType'], 
+																'{value-user-type}' => $result[0]['UserType'], 
 																'{active}' => 'disabled', 
 																'{action}' => 'select'
 														);
@@ -471,7 +465,7 @@
 							$filter = "0=0";
 							if(isset($_POST['filter_condition'])){
 								//Creamos la condicion con el campo seleccionadoo y el filtro
-								$filter = $_POST['filter_select']." = ".$_POST['filter_condition']; 
+								$filter = $_POST['filter_select']." = '".$_POST['filter_condition']."'"; 
 							}
 
 
@@ -498,8 +492,8 @@
 								foreach ($result as $row) {
 									$new_row = $base_row;
 									$dictionary = array(
-														'{value-id-user-type}' => $result['idUserType'], 
-														'{value-user-type}' => $result['UserType'], 
+														'{value-id-user-type}' => $row['idUserType'], 
+														'{value-user-type}' => $row['UserType'], 
 														'{active}' => 'disabled'
 													);
 									$new_row = strtr($new_row,$dictionary);

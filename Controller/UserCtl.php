@@ -278,7 +278,10 @@
 								//Limpiamos el id en caso contrario.
 								else
 								{
-									$id_user = $this -> cleanInt($_POST['id_user']);
+									if(isset($_POST['id_user']))
+										$id_user = $this -> cleanInt($_POST['id_user']);
+									else
+										$id_user = $_SESSION['id_user'];
 								}
 
 								//Ejecutamos el query y guardamos el resultado.

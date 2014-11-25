@@ -283,12 +283,12 @@
 											foreach($result as $row)
 											{
 												$dictionary = array(
-														'{value-id-vehicle}' => $result['idVehicle'],
-														'{value-id-user}' => $result['idUser'],
-														'{value-id-location}' => $result['idLocation'],
-														'{value-id-vehicle-model}' => $result['idVehicleModel'],
-														'{value-vin}' => $result['VIN'],
-														'{value-color}' => $result['Color'],
+														'{value-id-vehicle}' => $result[0]['idVehicle'],
+														'{value-id-user}' => $result[0]['idUser'],
+														'{value-id-location}' => $result[0]['idLocation'],
+														'{value-id-vehicle-model}' => $result[0]['idVehicleModel'],
+														'{value-vin}' => $result[0]['VIN'],
+														'{value-color}' => $result[0]['Color'],
 														'{active}' => 'disabled',
 														'{action}' => 'select'
 													);
@@ -511,7 +511,7 @@
 						$filter = "0=0";
 						if(isset($_POST['filter_condition'])){
 							//Creamos la condicion con el campo seleccionadoo y el filtro
-							$filter = $_POST['filter_select']." = ".$_POST['filter_condition']; 
+							$filter = $_POST['filter_select']." = '".$_POST['filter_condition']."'"; 
 						}
 
 						//Si es cliente se le agrega al filtro la condicion para que solo vea sus propios vehiculos
@@ -545,13 +545,13 @@
 							{
 								$new_row = $base_row;
 								$dictionary = array(
-													'{value-id-vehicle}' => $result['idVehicle'],
-												'{value-user}' => $result['User'],
-												'{value-location}' => $result['Location'],
-												'{value-vehicle-model}' => $result['VehicleModel'],
-												'{value-vehicle-brand}' => $result['Brand'],
-												'{value-vin}' => $result['VIN'],
-												'{value-color}' => $result['Color'],
+													'{value-id-vehicle}' => $row['idVehicle'],
+												'{value-user}' => $row['User'],
+												'{value-location}' => $row['idLocation'],
+												'{value-vehicle-model}' => $row['idVehicleModel'],
+												'{value-vehicle-brand}' => $row['Brand'],
+												'{value-vin}' => $row['VIN'],
+												'{value-color}' => $row['Color'],
 												'{active}' => 'disabled'
 												);
 
@@ -626,6 +626,7 @@
 									$error = "No hay información en el archivo";
 									$this -> showErrorView($error);	
 								}
+							}
 						}
 						else
 						{
