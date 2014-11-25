@@ -57,7 +57,6 @@
 													'{value-id-checklist}' => '', 
 													'{value-id-vehicle}' => '', 
 													'{value-id-vehicle-status}' => '', 
-													'{value-date}' => '', 
 													'{value-inout}' => '', 
 													'{active}' => '', 
 													'{action}' => 'insert'
@@ -87,14 +86,17 @@
 								$idChecklist 	 = $this -> cleanInt($_POST['idChecklist']);  // Para este dato se creara un Trigger en la BD
 								$idVehicle   	 = $this -> cleanInt($_POST['idVehicle']);
 								$idVehicleStatus = $this -> cleanInt($_POST['idVehicleStatus']);
-								$Date        	 = $this -> cleanDateTime($_POST['Date']);
+								//La fecha se toma de dia que se inserta
+								$date_array      = getdate();
+								$Date            = $date_array['year']."-".$date_array['mon']."-".$date_array['mday'];
 								$InOut       	 = $this -> cleanBit($_POST['InOut']);
 
 								//Recogemos el resultado de la inserción e imprimimos un mensaje
 								//en base a este resultado.
 								if($result = $this -> model -> insert($idChecklist,$idVehicle,$idVehicleStatus,$Date,$InOut))
 								{
-									if($result = $this -> model -> createEvent($_SESSION['id_user'],$idVehicle,$InOut)){
+									if($result = $this -> model -> createEvent($_SESSION['id_user'],$idVehicle,$InOut))
+									{
 										//Cargamos el formulario
 										$view = file_get_contents("View/ChecklistForm.html");
 										$header = file_get_contents("View/header.html");
@@ -106,7 +108,6 @@
 															'{value-id-checklist}' => $_POST['idChecklist'], 
 															'{value-id-vehicle}' => $_POST['idVehicle'], 
 															'{value-id-vehicle-status}' => $_POST['idVehicleStatus'], 
-															'{value-date}' => $_POST['Date'], 
 															'{value-inout}' => $_POST['InOut'],
 															'{active}' => 'disabled', 
 															'{action}' => 'insert'
@@ -213,7 +214,7 @@
 							{
 								//Si el post está vacio cargamos la vista para solicitar el id a consultar
 								//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
-								$this -> showGetIdView("checklist","update","idCheckList","Id Checklist:");
+								$this -> showGetIdView("checklist","update","idChecklist","Id Checklist:");
 							}
 							else
 							{
@@ -225,17 +226,16 @@
 							
 									//Primero mostramos el id que se quire modificar.
 									//Comprobamos si estan seteadas las variables en el POST
-									if(isset($_POST['idVehicle']) && isset($_POST['idVehicleStatus']) && isset($_POST['Date']) && isset($_POST['InOut']))
+									if(isset($_POST['idVehicle']) && isset($_POST['idVehicleStatus']) && isset($_POST['InOut']))
 									{
 										//La modificación se realizará en base al id.
 										$idVehicle   	 = $this -> cleanInt($_POST['idVehicle']);
 										$idVehicleStatus = $this -> cleanInt($_POST['idVehicleStatus']);
-										$Date        	 = $this -> cleanDateTime($_POST['Date']);
 										$InOut       	 = $this -> cleanBit($_POST['InOut']);
 
 										//Se llama a la función de modificación.
 										//Se recoge el resultado y se muestra
-										if($this -> model -> update($idChecklist, $idVehicle, $idVehicleStatus, $Date, $InOut))
+										if($this -> model -> update($idChecklist, $idVehicle, $idVehicleStatus, $InOut))
 										{
 											//Cargamos el formulario
 											$view = file_get_contents("View/ChecklistForm.html");
@@ -248,7 +248,6 @@
 																'{value-id-checklist}' => $idChecklist, 
 																'{value-id-vehicle}' => $idVehicle, 
 																'{value-id-vehicle-status}' => $idVehicleStatus, 
-																'{value-date}' => $Date, 
 																'{value-inout}' => $InOut, 
 																'{active}' => 'disabled', 
 																'{action}' => 'update'
@@ -319,7 +318,6 @@
 																'{value-id-checklist}' => $result[0]['idCheckList'], 
 																'{value-id-vehicle}' => $result[0]['idVehicle'], 
 																'{value-id-vehicle-status}' => $result[0]['idVehicleStatus'], 
-																'{value-date}' => $result[0]['Date'], 
 																'{value-inout}' => $result[0]['InOut'], 
 																'{active}' => '', 
 																'{action}' => 'update'
@@ -343,7 +341,7 @@
 										}
 										else
 										{
-											$error = 'Error al traer la ind¿formación para modificar';
+											$error = 'Error al traer la información para modificar';
 											$this -> showErrorView($error);	
 										}
 									}
@@ -370,7 +368,7 @@
 						{
 							//Si el post está vacio cargamos la vista para solicitar el id a consultar
 							//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
-							$this -> showGetIdView("checklist","select","idCheckList","Id Checklist:");
+							$this -> showGetIdView("checklist","select","idChecklist","Id Checklist:");
 						}
 						else
 						{
@@ -394,7 +392,6 @@
 															'{value-id-user}' => $result[0]['idCheckList'], 
 															'{value-id-vehicle}' => $result[0]['idVehicle'], 
 															'{value-id-vehicle-status}' => $result[0]['idVehicleStatus'], 
-															'{value-date}' => $result[0]['Date'], 
 															'{value-inout}' => $result[0]['InOut'], 
 															'{active}' => 'disabled', 
 															'{action}' => 'select'
@@ -444,7 +441,7 @@
 							{
 								//Si el post está vacio cargamos la vista para solicitar el id a consultar
 								//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
-								$this -> showGetIdView("checklist","delete","idCheckList","Id Checklist:");
+								$this -> showGetIdView("checklist","delete","idChecklist","Id Checklist:");
 							}
 
 							else
@@ -542,8 +539,8 @@
 									$dictionary = array(
 														'{value-id-checklist}' => $row['idCheckList'], 
 														'{value-id-vehicle}' => $row['idVehicle'], 
-														'{value-id-vehicle-status}' => $row['idVehicleStatus'], 
-														'{value-date}' => $row['Date'], 
+														'{value-id-vehicle-status}' => $row['idVehicleStatus'],
+														'{value-date}' => $row['Date'],   
 														'{value-inout}' => $row['InOut'],  
 														'{active}' => 'disabled'
 													);

@@ -76,7 +76,7 @@
 			}	
 		}
 		
-		public function update($idEventRegistry, $idVehicle, $idUser, $idEvent, $Date, $Reason)
+		public function update($idEventRegistry, $idVehicle, $idUser, $idEvent, $Reason)
 		{
 			//Escapamos las variables.
 			$this->idEventRegistry = $this->db_driver->escape($idEventRegistry);
@@ -90,7 +90,6 @@
 			$query = "UPDATE EventRegistry SET idVehicle=".$this -> idVehicle." "
 										."idUser=".$this -> idUser." "
 										."idEvent=".$this -> idEvent." "
-										."Date=".$this -> Date." "
 										."Reason=".$this -> Reason.
 					  " WHERE idEventRegistry=".$this -> idEventRegistry.";";
 

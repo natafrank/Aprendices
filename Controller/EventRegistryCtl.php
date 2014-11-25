@@ -45,7 +45,6 @@
 									'{value-idVehicle}' => '',
 									'{value-idUser}' => '',
 									'{value-idEvent}' => '',
-									'{value-Date}' => '',
 									'{value-Reason}' => '',
 									'{active}' => '',
 									'{acti}' => 'insert'
@@ -77,7 +76,8 @@
 								$idVehicle = $this->cleanInt($_POST['idVehicle']);
 								$idUser = $this->cleanInt($_POST['idUser']);
 								$idEvent = $this->cleanInt($_POST['idEvent']);
-								$Date= $this->cleanDateTime($_POST['Date']);
+								$date_array = getdate();
+								$Date = $date_array['year']."-".$date_array['mon']."-".$date_array['mday'];
 								$Reason = $this->cleanText($_POST['Reason']);
 						
 								//Recogemos el resultado de la inserción e imprimimos un mensaje
@@ -96,7 +96,6 @@
 											'{value-idVehicle}' => $_POST['idVehicle'],
 											'{value-idUser}' => $_POST['idUser'],
 											'{value-idEvent}' => $_POST['idEvent'],
-											'{value-Date}' => $_POST['Date'],
 											'{value-Reason}' => $_POST['Reason'],
 											'{active}' => 'disabled',
 											'{active}' => 'insert'
@@ -130,7 +129,7 @@
 									"\nIdVehicle : ". $idVehicle.
 									"\nIdUser : ". $idUser.
 									"\nIdEvent : ". $idEvent.
-									"\nDate: ". $Date.
+									"\nFecha: ". $Date.
 									"\nReason : ". $Reason;
 
 									//Manadamos el correo solo a administradores y empleados - 6
@@ -180,13 +179,14 @@
 
 									//Primero mostramos el id que se quire modificar.
 									//Comprobamos si están seteadas las variables en el POST
-									if(isset($_POST['idVehicle']) && isset($_POST['idUser']) && isset($_POST['idEvent']) && isset($_POST['Date']) && isset($_POST['Reason']))
+									if(isset($_POST['idVehicle']) && isset($_POST['idUser']) && isset($_POST['idEvent']) && isset($_POST['Reason']))
 									{
 										//La modificación se realizará en base al id.
 										$idVehicle = $this->cleanInt($_POST['idVehicle']);
 										$idUser = $this->cleanInt($_POST['idUser']);
 										$idEvent = $this->cleanInt($_POST['idEvent']);
-										$Date= $this->cleanDateTime($_POST['Date']);
+										$date_array = getdate();
+										$Date = $date_array['year']."-".$date_array['mon']."-".$date_array['mday'];
 										$Reason = $this->cleanText($_POST['Reason']);
 
 										//Se llama a la función de modificación.
@@ -206,7 +206,6 @@
 												'{value-idVehicle}' => $idVehicle,
 												'{value-idUser}' => $idUser, 
 												'{value-idEvent}' => $idEvent,
-												'{value-Date}' => $Date, 
 												'{value-Reason}' => $Reason,
 												'{active}' => 'disabled',
 												'{action}' => 'update'
@@ -277,7 +276,6 @@
 												'{value-idVehicle}' => $result[0]['idVehicle'],
 												'{value-idUser}' => $result[0]['idUser'], 
 												'{value-idEvent}' => $result[0]['idEvent'],
-												'{value-Date}' => $result[0]['Date'], 
 												'{value-Reason}' => $result[0]['Reason'],
 												'{active}' => '',
 												'{active}' => 'update'
@@ -358,7 +356,6 @@
 											'{value-idVehicle}' => $result[0]['idVehicle'],
 											'{value-idUser}' => $result[0]['idUser'],
 											'{value-idEvent}' => $result[0]['idEvent'],
-											'{value-Date}' => $result[0]['Date'],
 											'{value-Reason}' => $result[0]['Reason'],
 											'{active}' => 'disabled',
 											'{active}' => 'select'

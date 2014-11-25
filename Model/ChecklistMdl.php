@@ -121,7 +121,7 @@
 		 * @return array - Arreglo con los datos actualizados si se actualizaron correctamente.
 		 * @return bool FALSE - Si no se actualizó el registro correctamente en la base de datos.
 		 */
-		public function update($idChecklist,$idVehicle,$idVehicleStatus,$Date,$InOut)
+		public function update($idChecklist,$idVehicle,$idVehicleStatus,$InOut)
 		{
 			//Escapamos las variables.
 			$this -> idChecklist     = $this -> db_driver -> escape($idChecklist);
@@ -133,7 +133,6 @@
 			//Query que realizará la modificación.
 			$query = "UPDATE CheckList SET idVehicle=".$this -> idVehicle.", "
 									   	 ."idVehicleStatus=".$this -> idVehicleStatus.", "
-									   	 ."Date='".$this -> Date."', "
 									   	 ."InOut=".$this -> InOut.   
 					  " WHERE idCheckList = ".$this -> idChecklist.";";
 
@@ -225,8 +224,11 @@
 			$InOut     = $this -> db_driver -> escape($InOut);
 
 			//Obtener el siguiente id
-			$idEventRegistry = $this -> db_driver -> execute('SELECT MAX(idEventRegistry) FROM EventRegistry;');
-			$idEventRegistry = $idEventRegistry + 1;
+			$idEventRegistry = $this -> db_driver -> execute('SELECT MAX(idEventRegistry) ID FROM EventRegistry;');
+			$idEventRegistry = $idEventRegistry[0]['ID'] + 1;
+
+			echo $idEventRegistry;
+			echo "<br>";
 
 			//Setear el id del evento dependiendo de si es entrada o salida
 			$idEvent = 1;
@@ -243,9 +245,12 @@
 			$query = "INSERT INTO EventRegistry VALUES(".$idEventRegistry.", "
 												 	.$idVehicle.", "
 												 	.$idUser.", "
-												 	.$idEvent.", "
-												 	.$Date.", "
-													.$Reason.");";
+												 	.$idEvent.", '"
+												 	.$Date."', '"
+													.$Reason."');";
+												
+
+			echo $query;
 	
 			//Ejecutamos el query y retornamos el resultado.
 		    //Retornará verdadero si se insertaron los datos correctamente.
