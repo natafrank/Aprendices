@@ -1,6 +1,3 @@
-<!--DatabaseLayer.php-->
-<!--Capa principal de más alto nivel.-->
-
 <?php
 	
 	#Agregamos todos los archivos con los proveedores

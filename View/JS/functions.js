@@ -506,3 +506,63 @@ function changeFilterVehicle(){
 				break;
 	}
 }
+
+/* Crea el objeto AJAX. Funcion generica para cualquier utilidad de este tipo*/
+function newAjax()
+{
+	var xmlhttp = false;
+	try
+	{
+		// Creacion del objeto AJAX para navegadores no IE
+		xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+	}
+	catch(e)
+	{
+		try
+		{
+			// Creacion del objeto AJAX para IE
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		catch(E)
+		{
+			if (!xmlhttp && typeof XMLHttpRequest!='undefined') xmlhttp=new XMLHttpRequest();
+		}
+	}
+	return xmlhttp; 
+}
+
+function loadSelects(){
+	var button = document.getElementsByClassName("loaderButton");
+
+	for(i=0; i<button.length;i++){
+		button[i].click();
+	}
+}
+
+function loadUserTypes(){
+	//Creamos el objeto AJAX
+	var myajax = newAjax();
+
+	//Hago la petición a mi server
+	myajax.open('post','Model/LoadUserTypesForAJAX.php',true);
+
+	//Función para cuando cambie el status
+	myajax.onreadystatechange = function(){
+		if(myajax.readyState == 4){
+			//Proceso el texto como JS
+			var json = JSON.parse(myajax.responseText);
+			//Obtengo el select
+			var select = document.getElementById("type");
+			for(i in json){
+				var text   = document.createTextNode(json[i].UserType);
+				var option = document.createElement('option');
+				option.setAttribute('value',json[i].idUserType);
+				option.appendChild(texto);
+				select.appendChild(option);
+			}
+			
+		}
+	}
+
+	myajax.send(null);
+}

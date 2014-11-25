@@ -1,6 +1,3 @@
-<!--MySqlProvider.php-->
-<!--Implementación del motor de bases de datos MySql-->
-
 <?php
 
 	require("AbstractDatabase.php");

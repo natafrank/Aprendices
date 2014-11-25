@@ -146,3 +146,7 @@
 h1{    
     font-family: 'Play', sans-serif;
 }
+
+.loaderButton{
+    display: none;
+}

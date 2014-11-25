@@ -1,5 +1,3 @@
-<!--AbstractDatabase.php-->
-
 <?php
 
 	abstract class AbstractDatabase
