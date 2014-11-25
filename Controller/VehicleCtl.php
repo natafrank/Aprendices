@@ -271,7 +271,7 @@
 									$result = $this -> model -> select($id_vehicle);
 
 									//Si es cliente y el id de usuario obtenido no corresponde, mostramos un error
-									if($this -> isClient() && $result[0]['idUser'] != $_SESSION['id_user'])
+									if(!$this -> isClient() || $result[0]['idUser'] == $_SESSION['id_user'])
 									{
 										if($result != null)
 										{
