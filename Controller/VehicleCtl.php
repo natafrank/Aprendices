@@ -547,8 +547,8 @@
 								$dictionary = array(
 													'{value-id-vehicle}' => $row['idVehicle'],
 												'{value-user}' => $row['User'],
-												'{value-location}' => $row['idLocation'],
-												'{value-vehicle-model}' => $row['idVehicleModel'],
+												'{value-location}' => $row['Location'],
+												'{value-vehicle-model}' => $row['VehicleModel'],
 												'{value-vehicle-brand}' => $row['Brand'],
 												'{value-vin}' => $row['VIN'],
 												'{value-color}' => $row['Color'],
