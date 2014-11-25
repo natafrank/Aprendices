@@ -102,7 +102,7 @@
 				", idVehicleModel=".$this -> id_vehicle_model.
 				", vin='".$this -> vin.
 				"', color='".$this -> color.
-				"'' WHERE idVehicle = ".$id_vehicle.";";
+				"' WHERE idVehicle = ".$id_vehicle.";";
 
 			//Ejecutamos el query y retornamos el resultado.
 			//Retornará verdadero si se modificó el registro correctamente.
