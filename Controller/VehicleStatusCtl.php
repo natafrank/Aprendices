@@ -132,8 +132,8 @@
 									}
 									else
 									{
-										$error =  "Error al enviar el correo.";
-										$this -> showErrorView($error);
+										/*$error =  "Error al enviar el correo.";
+										$this -> showErrorView($error);*/
 									}
 								}
 								else
@@ -235,8 +235,8 @@
 											}
 											else
 											{
-												$error =  "Error al enviar el correo.";
-												$this -> showErrorView($error);
+												/*$error =  "Error al enviar el correo.";
+												$this -> showErrorView($error);*/
 											}
 										}
 										else
@@ -435,8 +435,8 @@
 										}
 										else
 										{
-											$error =  "Error al enviar el correo.";
-											$this -> showErrorView($error);
+											/*$error =  "Error al enviar el correo.";
+											$this -> showErrorView($error);*/
 										}
 									}
 									//Si no pudimos eliminar, señalamos el error.

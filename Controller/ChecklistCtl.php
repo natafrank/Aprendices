@@ -149,8 +149,6 @@
 										else
 										{
 											//echo "<br />Error al enviar el correo.";
-											$error = "Error al enviar el correo."; 
-											$this -> showErrorView($error);
 										}
 
 										//Si es salida, enviamos correo al usuario de que ya se dió salida a su vehiculo
@@ -173,8 +171,8 @@
 												}
 												else
 												{
-													$error = "Error al enviar el correo."; 
-													$this -> showErrorView($error);
+													/*$error = "Error al enviar el correo."; 
+													$this -> showErrorView($error);*/
 												}
 											}
 											else
@@ -292,8 +290,9 @@
 											}
 											else
 											{
-												$error = "Error al enviar el correo."; 
-												$this -> showErrorView($error);
+												//echo "<br> Error al enviar el correo.";
+												//$error = "Error al enviar el correo."; 
+												//$this -> showErrorView($error);
 											}
 										}
 										else
@@ -481,8 +480,8 @@
 										}
 										else
 										{
-											$error = "Error al enviar el correo."; 
-											$this -> showErrorView($error);
+											/*$error = "Error al enviar el correo."; 
+											$this -> showErrorView($error);*/
 										}
 									}
 									//Si no pudimos eliminar, señalamos el error.

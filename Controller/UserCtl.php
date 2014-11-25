@@ -163,7 +163,7 @@
 											}
 											else
 											{
-												echo "<br />Error al enviar el correo.";
+												//echo "<br />Error al enviar el correo.";
 											}
 										}
 										else
@@ -230,7 +230,7 @@
 										}
 										else
 										{
-											echo "<br />Error al enviar el correo";
+											//echo "<br />Error al enviar el correo";
 										}
 									}
 									else
@@ -447,8 +447,8 @@
 												else
 												{
 													//echo "<br />Error al enviar el correo.";
-													$error = "<br />Error al enviar el correo.";
-													$this -> showErrorView($error);
+													/*$error = "<br />Error al enviar el correo.";
+													$this -> showErrorView($error);*/
 												}
 											}
 											else

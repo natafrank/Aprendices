@@ -125,7 +125,7 @@
 										}
 										else
 										{
-											echo "<br>Error al enviar el correo.";
+											//echo "<br>Error al enviar el correo.";
 										}
 									}
 									else
@@ -228,7 +228,7 @@
 											}
 											else
 											{
-												echo "<br>Error al enviar el correo.";
+												//echo "<br>Error al enviar el correo.";
 											}
 										}
 										else
@@ -416,7 +416,7 @@
 										}
 										else
 										{
-											echo "Error al enviar el correo";
+											//echo "Error al enviar el correo";
 										}
 									}
 									//Si no pudimos eliminar, señalamos el error.
