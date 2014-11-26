@@ -19,7 +19,14 @@
 			  	</div>
 			  	<div class="form-group">
 				    <label for="DamageSeverity">Severidad del Daño:</label>
-				    <input type="number" class="form-control" id="DamageSeverity" name="DamageSeverity" value="{value-damage-severity}" min="1" max="5" {active} required>
+				    <select class="form-control" id="DamageSeverity" name="DamageSeverity" {active} required>
+						<option value="1" {selected-1}>Ninguno</option>
+						<option value="2" {selected-2}>Mínimo</option>
+						<option value="3" {selected-3}>Regular</option>
+						<option value="4" {selected-4}>Grave</option>
+						<option value="5" {selected-5}>Pérdida Total</option>
+					</select>
+				    <!-- <input type="number" class="form-control" id="DamageSeverity" name="DamageSeverity" value="{value-damage-severity}" min="1" max="5" {active} required> -->
 			  	</div>
 				<button type="submit" class="btn btn-default" {active}>Guardar</button>
 			</form>

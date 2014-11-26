@@ -61,13 +61,19 @@
 													'{value-id-checklist}' => '', 
 													'{value-id-vehicle-part}' => '', 
 													'{value-id-damage}' => '', 
-													'{value-damage-severity}' => '', 
 													'{active}' => '', 
 													'{action}' => 'insert'
 												);
 								
 								//Sustituir los valores en la plantilla
 								$view = strtr($view,$dictionary);
+
+								//Para obtener los datos de inserción se muetran todas las opciones de severidad
+								$view = str_replace("{selected-1}", "", $view);
+								$view = str_replace("{selected-2}", "", $view);
+								$view = str_replace("{selected-3}", "", $view);
+								$view = str_replace("{selected-4}", "", $view);
+								$view = str_replace("{selected-5}", "", $view);
 
 								//Sustituir el usuario en el header
 								$dictionary = array(
@@ -111,13 +117,51 @@
 														'{value-id-checklist}' => $_POST['idChecklist'], 
 														'{value-id-vehicle-part}' => $_POST['idVehiclePart'], 
 														'{value-id-damage}' => $_POST['idDamage'], 
-														'{value-damage-severity}' => $_POST['DamageSeverity'], 
 														'{active}' => 'disabled', 
 														'{action}' => 'insert'
 													);
 
 									//Sustituir los valores en la plantilla
 									$view = strtr($view,$dictionary);
+
+									//Para mostrar los datos de insercion se pone seleccionado lo que se insertó
+									switch($_POST['DamageSeverity'])
+									{
+										case 1: $view = str_replace("{selected-1}", "selected", $view);
+												$view = str_replace("{selected-2}", "", $view);
+												$view = str_replace("{selected-3}", "", $view);
+												$view = str_replace("{selected-4}", "", $view);
+												$view = str_replace("{selected-5}", "", $view);
+												break;
+
+										case 2: $view = str_replace("{selected-1}", "", $view);
+												$view = str_replace("{selected-2}", "selected", $view);
+												$view = str_replace("{selected-3}", "", $view);
+												$view = str_replace("{selected-4}", "", $view);
+												$view = str_replace("{selected-5}", "", $view);
+												break;
+
+										case 3: $view = str_replace("{selected-1}", "", $view);
+												$view = str_replace("{selected-2}", "", $view);
+												$view = str_replace("{selected-3}", "selected", $view);
+												$view = str_replace("{selected-4}", "", $view);
+												$view = str_replace("{selected-5}", "", $view);
+												break;
+
+										case 4: $view = str_replace("{selected-1}", "", $view);
+												$view = str_replace("{selected-2}", "", $view);
+												$view = str_replace("{selected-3}", "", $view);
+												$view = str_replace("{selected-4}", "selected", $view);
+												$view = str_replace("{selected-5}", "", $view);
+												break;
+
+										case 5: $view = str_replace("{selected-1}", "", $view);
+												$view = str_replace("{selected-2}", "", $view);
+												$view = str_replace("{selected-3}", "", $view);
+												$view = str_replace("{selected-4}", "", $view);
+												$view = str_replace("{selected-5}", "selected", $view);
+												break;
+									}
 
 									//Sustituir el usuario en el header
 									$dictionary = array(
@@ -196,13 +240,51 @@
 														'{value-id-checklist}' => $idChecklist, 
 														'{value-id-vehicle-part}' => $idVehiclePart, 
 														'{value-id-damage}' => $idDamage, 
-														'{value-damage-severity}' => $DamageSeverity, 
 														'{active}' => 'disabled', 
 														'{action}' => 'update'
 													);
 
 											//Sustituir los valores en la plantilla
 											$view = strtr($view,$dictionary);
+
+											//Para mostrar los datos de modificación se pone seleccionado lo que se insertó
+											switch($DamageSeverity)
+											{
+												case 1: $view = str_replace("{selected-1}", "selected", $view);
+														$view = str_replace("{selected-2}", "", $view);
+														$view = str_replace("{selected-3}", "", $view);
+														$view = str_replace("{selected-4}", "", $view);
+														$view = str_replace("{selected-5}", "", $view);
+														break;
+
+												case 2: $view = str_replace("{selected-1}", "", $view);
+														$view = str_replace("{selected-2}", "selected", $view);
+														$view = str_replace("{selected-3}", "", $view);
+														$view = str_replace("{selected-4}", "", $view);
+														$view = str_replace("{selected-5}", "", $view);
+														break;
+
+												case 3: $view = str_replace("{selected-1}", "", $view);
+														$view = str_replace("{selected-2}", "", $view);
+														$view = str_replace("{selected-3}", "selected", $view);
+														$view = str_replace("{selected-4}", "", $view);
+														$view = str_replace("{selected-5}", "", $view);
+														break;
+
+												case 4: $view = str_replace("{selected-1}", "", $view);
+														$view = str_replace("{selected-2}", "", $view);
+														$view = str_replace("{selected-3}", "", $view);
+														$view = str_replace("{selected-4}", "selected", $view);
+														$view = str_replace("{selected-5}", "", $view);
+														break;
+
+												case 5: $view = str_replace("{selected-1}", "", $view);
+														$view = str_replace("{selected-2}", "", $view);
+														$view = str_replace("{selected-3}", "", $view);
+														$view = str_replace("{selected-4}", "", $view);
+														$view = str_replace("{selected-5}", "selected", $view);
+														break;
+											}
 
 											//Sustituir el usuario en el header
 											$dictionary = array(
@@ -239,14 +321,52 @@
 														'{value-id-damage-detail}' => $result[0]['idDamageDetail'], 
 														'{value-id-checklist}' => $result[0]['idChecklist'], 
 														'{value-id-vehicle-part}' => $result[0]['idVehiclePart'], 
-														'{value-id-damage}' => $result[0]['idDamage'], 
-														'{value-damage-severity}' => $result[0]['DamageSeverity'], 
+														'{value-id-damage}' => $result[0]['idDamage'],  
 														'{active}' => '', 
 														'{action}' => 'update'
 													);
 
 											//Sustituir los valores en la plantilla
 											$view = strtr($view,$dictionary);
+
+											//Para mostrar para modificar se pone la opcion que traemos de la consulta
+											switch($result[0]['DamageSeverity'])
+											{
+												case 1: $view = str_replace("{selected-1}", "selected", $view);
+														$view = str_replace("{selected-2}", "", $view);
+														$view = str_replace("{selected-3}", "", $view);
+														$view = str_replace("{selected-4}", "", $view);
+														$view = str_replace("{selected-5}", "", $view);
+														break;
+
+												case 2: $view = str_replace("{selected-1}", "", $view);
+														$view = str_replace("{selected-2}", "selected", $view);
+														$view = str_replace("{selected-3}", "", $view);
+														$view = str_replace("{selected-4}", "", $view);
+														$view = str_replace("{selected-5}", "", $view);
+														break;
+
+												case 3: $view = str_replace("{selected-1}", "", $view);
+														$view = str_replace("{selected-2}", "", $view);
+														$view = str_replace("{selected-3}", "selected", $view);
+														$view = str_replace("{selected-4}", "", $view);
+														$view = str_replace("{selected-5}", "", $view);
+														break;
+
+												case 4: $view = str_replace("{selected-1}", "", $view);
+														$view = str_replace("{selected-2}", "", $view);
+														$view = str_replace("{selected-3}", "", $view);
+														$view = str_replace("{selected-4}", "selected", $view);
+														$view = str_replace("{selected-5}", "", $view);
+														break;
+
+												case 5: $view = str_replace("{selected-1}", "", $view);
+														$view = str_replace("{selected-2}", "", $view);
+														$view = str_replace("{selected-3}", "", $view);
+														$view = str_replace("{selected-4}", "", $view);
+														$view = str_replace("{selected-5}", "selected", $view);
+														break;
+											}
 
 											//Sustituir el usuario en el header
 											$dictionary = array(
@@ -316,13 +436,51 @@
 														'{value-id-checklist}' => $result[0]['idChecklist'], 
 														'{value-id-vehicle-part}' => $result[0]['idVehiclePart'], 
 														'{value-id-damage}' => $result[0]['idDamage'], 
-														'{value-damage-severity}' => $result[0]['DamageSeverity'], 
 														'{active}' => 'disabled', 
 														'{action}' => 'select'
 													);
 
 									//Sustituir los valores en la plantilla
 									$view = strtr($view,$dictionary);
+
+									//Para mostrar los datos de consulta se pone seleccionada la opcion obtenida de la consulta
+									switch($result[0]['DamageSeverity'])
+									{
+										case 1: $view = str_replace("{selected-1}", "selected", $view);
+												$view = str_replace("{selected-2}", "", $view);
+												$view = str_replace("{selected-3}", "", $view);
+												$view = str_replace("{selected-4}", "", $view);
+												$view = str_replace("{selected-5}", "", $view);
+												break;
+
+										case 2: $view = str_replace("{selected-1}", "", $view);
+												$view = str_replace("{selected-2}", "selected", $view);
+												$view = str_replace("{selected-3}", "", $view);
+												$view = str_replace("{selected-4}", "", $view);
+												$view = str_replace("{selected-5}", "", $view);
+												break;
+
+										case 3: $view = str_replace("{selected-1}", "", $view);
+												$view = str_replace("{selected-2}", "", $view);
+												$view = str_replace("{selected-3}", "selected", $view);
+												$view = str_replace("{selected-4}", "", $view);
+												$view = str_replace("{selected-5}", "", $view);
+												break;
+
+										case 4: $view = str_replace("{selected-1}", "", $view);
+												$view = str_replace("{selected-2}", "", $view);
+												$view = str_replace("{selected-3}", "", $view);
+												$view = str_replace("{selected-4}", "selected", $view);
+												$view = str_replace("{selected-5}", "", $view);
+												break;
+
+										case 5: $view = str_replace("{selected-1}", "", $view);
+												$view = str_replace("{selected-2}", "", $view);
+												$view = str_replace("{selected-3}", "", $view);
+												$view = str_replace("{selected-4}", "", $view);
+												$view = str_replace("{selected-5}", "selected", $view);
+												break;
+									}
 
 									//Sustituir el usuario en el header
 									$dictionary = array(
