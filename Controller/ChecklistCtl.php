@@ -57,13 +57,16 @@
 													'{value-id-checklist}' => '', 
 													'{value-id-vehicle}' => '', 
 													'{value-id-vehicle-status}' => '', 
-													'{value-inout}' => '', 
 													'{active}' => '', 
 													'{action}' => 'insert'
 												);
 								
 								//Sustituir los valores en la plantilla
 								$view = strtr($view,$dictionary);
+
+								//Para obtener los datos de inserción se muetran las 2 opciones de entrada y salida
+								$view = str_replace("{selected-0}", "", $view);
+								$view = str_replace("{selected-1}", "", $view);
 
 								//Sustituir el usuario en el header
 								$dictionary = array(
@@ -110,10 +113,21 @@
 															'{value-id-checklist}' => $idChecklist, 
 															'{value-id-vehicle}' => $_POST['idVehicle'], 
 															'{value-id-vehicle-status}' => $_POST['idVehicleStatus'], 
-															'{value-inout}' => $_POST['InOut'],
 															'{active}' => 'disabled', 
 															'{action}' => 'insert'
 														);
+
+										//Al mostrar los datos se pone la opcion de acuerdo a lo insertado
+										if($_POST['InOut'] == 0)
+										{
+											$view = str_replace("{selected-0}", "selected", $view);
+											$view = str_replace("{selected-1}", "", $view);	
+										}
+										else
+										{
+											$view = str_replace("{selected-0}", "", $view);
+											$view = str_replace("{selected-1}", "selected", $view);											
+										}
 
 										//Sustituir los valores en la plantilla
 										$view = strtr($view,$dictionary);
@@ -249,14 +263,25 @@
 											$dictionary = array(
 																'{value-id-checklist}' => $idChecklist, 
 																'{value-id-vehicle}' => $idVehicle, 
-																'{value-id-vehicle-status}' => $idVehicleStatus, 
-																'{value-inout}' => $InOut, 
+																'{value-id-vehicle-status}' => $idVehicleStatus,
 																'{active}' => 'disabled', 
 																'{action}' => 'update'
 															);
 
 											//Sustituir los valores en la plantilla
 											$view = strtr($view,$dictionary);
+
+											//Al mostrar los datos se pone la opcion de acuerdo a lo insertado
+											if($InOut == 0)
+											{
+												$view = str_replace("{selected-0}", "selected", $view);
+												$view = str_replace("{selected-1}", "", $view);	
+											}
+											else
+											{
+												$view = str_replace("{selected-0}", "", $view);
+												$view = str_replace("{selected-1}", "selected", $view);											
+											}
 
 											//Sustituir el usuario en el header
 											$dictionary = array(
@@ -320,13 +345,24 @@
 																'{value-id-checklist}' => $result[0]['idCheckList'], 
 																'{value-id-vehicle}' => $result[0]['idVehicle'], 
 																'{value-id-vehicle-status}' => $result[0]['idVehicleStatus'], 
-																'{value-inout}' => $result[0]['InOut'], 
 																'{active}' => '', 
 																'{action}' => 'update'
 															);
 
 											//Sustituir los valores en la plantilla
 											$view = strtr($view,$dictionary);
+
+											//Al mostrar los datos se pone la opcion de acuerdo a lo insertado
+											if($result[0]['InOut'] == 0)
+											{
+												$view = str_replace("{selected-0}", "selected", $view);
+												$view = str_replace("{selected-1}", "", $view);	
+											}
+											else
+											{
+												$view = str_replace("{selected-0}", "", $view);
+												$view = str_replace("{selected-1}", "selected", $view);											
+											}
 
 											//Sustituir el usuario en el header
 											$dictionary = array(
@@ -394,13 +430,24 @@
 															'{value-id-user}' => $result[0]['idCheckList'], 
 															'{value-id-vehicle}' => $result[0]['idVehicle'], 
 															'{value-id-vehicle-status}' => $result[0]['idVehicleStatus'], 
-															'{value-inout}' => $result[0]['InOut'], 
 															'{active}' => 'disabled', 
 															'{action}' => 'select'
 													);
 
 									//Sustituir los valores en la plantilla
 									$view = strtr($view,$dictionary);
+
+									//Al mostrar los datos se pone la opcion de acuerdo a lo insertado
+									if($result[0]['InOut'] == 0)
+									{
+										$view = str_replace("{selected-0}", "selected", $view);
+										$view = str_replace("{selected-1}", "", $view);	
+									}
+									else
+									{
+										$view = str_replace("{selected-0}", "", $view);
+										$view = str_replace("{selected-1}", "selected", $view);											
+									}
 
 									//Sustituir el usuario en el header
 									$dictionary = array(

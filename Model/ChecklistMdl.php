@@ -229,14 +229,14 @@
 
 			//Setear el id del evento dependiendo de si es entrada o salida
 			$idEvent = 1;
+			$Reason = "Entrada del vehiculo con ID: ".$idVehicle;
 			if($InOut == 1){
 				$idEvent = 3;
+				$Reason = "Salida del vehiculo con ID: ".$idVehicle;
 			}
 
 			$date_array = getdate();
 			$Date = $date_array['year']."-".$date_array['mon']."-".$date_array['mday'];
-
-			$Reason = "Entrada del vehiculo con ID: ".$idVehicle;
 
 			//Query a ejecutar.
 			$query = "INSERT INTO EventRegistry VALUES(".$idEventRegistry.", "
