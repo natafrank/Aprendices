@@ -507,31 +507,8 @@ function changeFilterVehicle(){
 	}
 }
 
-/* Crea el objeto AJAX. Funcion generica para cualquier utilidad de este tipo*/
-function newAjax()
-{
-	var xmlhttp = false;
-	try
-	{
-		// Creacion del objeto AJAX para navegadores no IE
-		xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-	}
-	catch(e)
-	{
-		try
-		{
-			// Creacion del objeto AJAX para IE
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		catch(E)
-		{
-			if (!xmlhttp && typeof XMLHttpRequest!='undefined') xmlhttp=new XMLHttpRequest();
-		}
-	}
-	return xmlhttp; 
-}
 
-function loadSelects(){
+/*function loadSelects(){
 	var button = document.getElementsByClassName("loaderButton");
 
 	for(i=0; i<button.length;i++){
@@ -540,29 +517,25 @@ function loadSelects(){
 }
 
 function loadUserTypes(){
-	//Creamos el objeto AJAX
-	var myajax = newAjax();
-
-	//Hago la petición a mi server
-	myajax.open('post','Model/LoadUserTypesForAJAX.php',true);
-
-	//Función para cuando cambie el status
-	myajax.onreadystatechange = function(){
-		if(myajax.readyState == 4){
-			//Proceso el texto como JS
-			var json = JSON.parse(myajax.responseText);
-			//Obtengo el select
+	console.log("entro");
+	$.ajax({
+		type: 'GET',
+		data: 'ctl=usertype&act=json',
+		url:'../index.php',
+		dataType: 'json',
+		success: function(json){
+			console.log(json);
 			var select = document.getElementById("type");
 			for(i in json){
-				var text   = document.createTextNode(json[i].UserType);
+				var text = document.createTextNode(json[i].UserType);
 				var option = document.createElement('option');
 				option.setAttribute('value',json[i].idUserType);
-				option.appendChild(texto);
+				option.appendChild(text);
 				select.appendChild(option);
 			}
-			
+		},
+		error: function(e) {
+			console.log(e.message);
 		}
-	}
-
-	myajax.send(null);
-}
+	});
+}*/
