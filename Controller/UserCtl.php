@@ -44,6 +44,32 @@
 								$header = file_get_contents("View/header.html");
 								$footer = file_get_contents("View/footer.html");
 
+
+								//Traer los usertype, la condicion es 0=0 para que los traiga todos (crear funcion en modelo)
+								$result = $this -> model -> getUserTypes("0=0");
+								//Obtengo la posicion donde se van a insertar los option
+								$row_start = strrpos($view,'{user-type-options-start}') + 25;
+								$row_end= strrpos($view,'{user-type-options-end}');
+								//Hacer copia de la fila donde se va a reemplazar el contenido
+								$base_row = substr($view,$row_start,$row_end-$row_start);
+								//Acceder al resultado y crear el diccionario
+								//Revisar que el nombre de los campos coincida con los de la base de datos
+								$rows = '';
+								foreach ($result as $row) {
+									$new_row = $base_row;
+									$dictionary = array(
+														'{id-user-type}' => $row['idUserType'], 
+														'{user-type}' => $row['UserType']
+													);
+									$new_row = strtr($new_row,$dictionary);
+									$rows .= $new_row;
+								}
+								//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+								$view = str_replace($base_row, $rows, $view);
+								$view = str_replace('{user-type-options-start}', '', $view);
+								$view = str_replace('{user-type-options-end}', '', $view);
+
+
 								//Creamos el diccionario
 								//Para el insert los cmapos van vacios y los input estan activos
 								$dictionary = array(
@@ -53,7 +79,7 @@
 													'{value-pass}' => '', 
 													'{value-email}' => '', 
 													'{value-tel}' => '', 
-													'{value-type}' => '', 
+													//'{value-type}' => '',  //El value en type ya no es necesario
 													'{active}' => '',
 													'{action}' => 'insert'
 												);
@@ -113,6 +139,31 @@
 											$header = file_get_contents("View/header.html");
 											$footer = file_get_contents("View/footer.html");
 
+											//Traer el usertype insertado, ahora si se pone condicion en el comando
+											$result = $this -> model -> getUserTypes("idUserType=".$type);
+											//Obtengo la posicion donde se va a insertar el option
+											$row_start = strrpos($view,'{user-type-options-start}') + 25;
+											$row_end= strrpos($view,'{user-type-options-end}');
+											//Hacer copia de la fila donde se va a reemplazar el contenido
+											$base_row = substr($view,$row_start,$row_end-$row_start);
+											//Acceder al resultado y crear el diccionario
+											//Revisar que el nombre de los campos coincida con los de la base de datos
+											$rows = '';
+											foreach ($result as $row) {
+												$new_row = $base_row;
+												$dictionary = array(
+																	'{id-user-type}' => $row['idUserType'], 
+																	'{user-type}' => $row['UserType']
+																);
+												$new_row = strtr($new_row,$dictionary);
+												$rows .= $new_row;
+											}
+											//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+											$view = str_replace($base_row, $rows, $view);
+											$view = str_replace('{user-type-options-start}', '', $view);
+											$view = str_replace('{user-type-options-end}', '', $view);
+
+
 											//Creamos el diccionario
 											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 											$dictionary = array(
@@ -122,7 +173,7 @@
 																'{value-pass}' => $_POST['pass'], 
 																'{value-email}' => $_POST['email'], 
 																'{value-tel}' => $_POST['tel'], 
-																'{value-type}' => $_POST['type'], 
+																//'{value-type}' => $_POST['type'], 
 																'{active}' => 'disabled',
 																'{action}' => 'insert'
 															);
@@ -306,7 +357,7 @@
 														'{value-pass}' => $result[0]['Password'], 
 														'{value-email}' => $result[0]['Email'], 
 														'{value-tel}' => $result[0]['Tel'], 
-														'{value-type}' => $result[0]['idUserType'], 
+														//'{value-type}' => $result[0]['idUserType'], 
 														'{active}' => 'disabled',
 														'{action}' => 'select'
 													);
@@ -314,6 +365,31 @@
 
 									//Sustituir los valores en la plantilla
 									$view = strtr($view,$dictionary);
+
+									//poner despues de sustituir los demás valores para no perder los datos traidos del select
+									//Traer el usertype insertado, ahora si se pone condicion en el comando
+									$result = $this -> model -> getUserTypes("idUserType=".$result[0]['idUserType']);
+									//Obtengo la posicion donde se va a insertar el option
+									$row_start = strrpos($view,'{user-type-options-start}') + 25;
+									$row_end= strrpos($view,'{user-type-options-end}');
+									//Hacer copia de la fila donde se va a reemplazar el contenido
+									$base_row = substr($view,$row_start,$row_end-$row_start);
+									//Acceder al resultado y crear el diccionario
+									//Revisar que el nombre de los campos coincida con los de la base de datos
+									$rows = '';
+									foreach ($result as $row) {
+										$new_row = $base_row;
+										$dictionary = array(
+															'{id-user-type}' => $row['idUserType'], 
+															'{user-type}' => $row['UserType']
+														);
+										$new_row = strtr($new_row,$dictionary);
+										$rows .= $new_row;
+									}
+									//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+									$view = str_replace($base_row, $rows, $view);
+									$view = str_replace('{user-type-options-start}', '', $view);
+									$view = str_replace('{user-type-options-end}', '', $view);
 
 									//Sustituir el usuario en el header
 									$dictionary = array(
@@ -397,6 +473,30 @@
 												$header = file_get_contents("View/header.html");
 												$footer = file_get_contents("View/footer.html");
 
+												//Traer el usertype insertado, ahora si se pone condicion en el comando
+												$result = $this -> model -> getUserTypes("idUserType=".$type);
+												//Obtengo la posicion donde se va a insertar el option
+												$row_start = strrpos($view,'{user-type-options-start}') + 25;
+												$row_end= strrpos($view,'{user-type-options-end}');
+												//Hacer copia de la fila donde se va a reemplazar el contenido
+												$base_row = substr($view,$row_start,$row_end-$row_start);
+												//Acceder al resultado y crear el diccionario
+												//Revisar que el nombre de los campos coincida con los de la base de datos
+												$rows = '';
+												foreach ($result as $row) {
+													$new_row = $base_row;
+													$dictionary = array(
+																		'{id-user-type}' => $row['idUserType'], 
+																		'{user-type}' => $row['UserType']
+																	);
+													$new_row = strtr($new_row,$dictionary);
+													$rows .= $new_row;
+												}
+												//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+												$view = str_replace($base_row, $rows, $view);
+												$view = str_replace('{user-type-options-start}', '', $view);
+												$view = str_replace('{user-type-options-end}', '', $view);
+
 												//Creamos el diccionario
 												//Despues de actualizar los cmapos van con la info nueva y los input estan inactivos
 												$dictionary = array(
@@ -406,7 +506,7 @@
 																	'{value-pass}' => $pass, 
 																	'{value-email}' => $email, 
 																	'{value-tel}' => $tel, 
-																	'{value-type}' => $type, 
+																	//'{value-type}' => $type, 
 																	'{active}' => 'disabled',
 																	'{action}' => 'update'
 																);
@@ -481,13 +581,38 @@
 																'{value-pass}' => $result[0]['Password'], 
 																'{value-email}' => $result[0]['Email'], 
 																'{value-tel}' => $result[0]['Tel'], 
-																'{value-type}' => $result[0]['idUserType'], 
+																//'{value-type}' => $result[0]['idUserType'], 
 																'{active}' => '',
 																'{action}' => 'update'
 															);
 
 											//Sustituir los valores en la plantilla
 											$view = strtr($view,$dictionary);
+
+											//Poner despues de sustituir los demas datos para no perder la información del select
+											//Para actualizar no se pone condicion, para que esten todas las opciones disponibles
+											$result = $this -> model -> getUserTypes("0=0");
+											//Obtengo la posicion donde se va a insertar el option
+											$row_start = strrpos($view,'{user-type-options-start}') + 25;
+											$row_end= strrpos($view,'{user-type-options-end}');
+											//Hacer copia de la fila donde se va a reemplazar el contenido
+											$base_row = substr($view,$row_start,$row_end-$row_start);
+											//Acceder al resultado y crear el diccionario
+											//Revisar que el nombre de los campos coincida con los de la base de datos
+											$rows = '';
+											foreach ($result as $row) {
+												$new_row = $base_row;
+												$dictionary = array(
+																	'{id-user-type}' => $row['idUserType'], 
+																	'{user-type}' => $row['UserType']
+																);
+												$new_row = strtr($new_row,$dictionary);
+												$rows .= $new_row;
+											}
+											//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+											$view = str_replace($base_row, $rows, $view);
+											$view = str_replace('{user-type-options-start}', '', $view);
+											$view = str_replace('{user-type-options-end}', '', $view);
 
 											//Sustituir el usuario en el header
 											$dictionary = array(
