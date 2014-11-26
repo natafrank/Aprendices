@@ -79,8 +79,8 @@
 			$this->Km 				= $this->db_driver->escape($Km);
 			
 			//Query que realizará la modificación.
-			$query = "UPDATE VehicleStatus SET vehicleStatus=".$this -> vehicleStatus." "
-										."Fuel=".$this -> Fuel." "
+			$query = "UPDATE VehicleStatus SET VehicleStatus='".$this -> vehicleStatus."' ,"
+										."Fuel=".$this -> Fuel.", "
 										."Km=".$this -> Km.
 					  " WHERE idVehicleStatus=".$this -> idVehicleStatus.";";
 

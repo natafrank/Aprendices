@@ -158,7 +158,7 @@
 						//Solo administradores y empleados pueden actualizar los Estatus de Vehiculos.
 						if( !$this -> isClient() )
 						{
-							//Comprobamos que el $_POST no esté vacío, si lo está se mostrará la vista con el 								formulario para actualizar la información.
+							//Comprobamos que el $_POST no esté vacío, si lo está se mostrará la vista con el formulario para actualizar la información.
 							if(empty($_POST))
 							{
 								//Se envia como parametro el controlador, la accion, el campo como nos lo va a regresar ne $_POST y el texto a mostrar en ellabel del input
@@ -243,7 +243,7 @@
 										}
 										else
 										{
-											$error = "Error al modificar el evento.";
+											$error = "Error al modificar el Estatus de Vehículo.";
 											$this -> showErrorView($error);
 										}
 
@@ -296,7 +296,7 @@
 								//Sino está seteado, imprimimos el mensaje y se mostrará la vista con 									el formulario para actualizar la información.
 								else
 								{
-									$error = "Error al tratar de modificar el registro, el id no está seteado.";
+									$error = "Error al tratar de modificar el registro, el id no está seteados.";
 									$this -> showErrorView($error);
 								}
 							}
