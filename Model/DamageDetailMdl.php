@@ -205,5 +205,63 @@
 			}	
 		}
 
+		/**
+		 * Funcion para obtener las partes de vehículo.
+		 *
+		 * Obtiene todos los registros de la tabla VehiclePart.
+		 *
+		 * @return array - con los registros obtenidos si la consulta fue exitosa
+		 * @return bool - FALSE si hubo un error
+		 */
+		public function getVehicleParts($condition)
+		{
+			//Query a ejecutar
+			$query = "SELECT * FROM VehiclePart WHERE ".$condition.";";
+
+			//Ejecutamos el query y recogemos el resultado.
+			$result = $this -> db_driver -> execute($query);
+
+			//Si el resultado no es null, procesamos la información.
+			if($result != null)
+			{
+				//Si el resultado contiene información retornamos el resultado.
+				return $result;
+			}
+			else
+			{
+				//Si el resultado es null, retornamos FALSE.
+				return FALSE;
+			}	
+		}
+
+		/**
+		 * Funcion para obtener los daños de vehículo.
+		 *
+		 * Obtiene todos los registros de la tabla Damage.
+		 *
+		 * @return array - con los registros obtenidos si la consulta fue exitosa
+		 * @return bool - FALSE si hubo un error
+		 */
+		public function getidDamages($condition)
+		{
+			//Query a ejecutar
+			$query = "SELECT * FROM Damage WHERE ".$condition.";";
+
+			//Ejecutamos el query y recogemos el resultado.
+			$result = $this -> db_driver -> execute($query);
+
+			//Si el resultado no es null, procesamos la información.
+			if($result != null)
+			{
+				//Si el resultado contiene información retornamos el resultado.
+				return $result;
+			}
+			else
+			{
+				//Si el resultado es null, retornamos FALSE.
+				return FALSE;
+			}	
+		}
+
 	}
 ?>

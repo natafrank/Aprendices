@@ -54,13 +54,54 @@
 								$header = file_get_contents("View/header.html");
 								$footer = file_get_contents("View/footer.html");
 
+								//Traer el los VehiclePart y Damage, la condicion es 0=0 para que los traiga todos
+								$result = $this -> model -> getVehicleParts("0=0");
+								$result2 = $this -> model -> getidDamages("0=0");
+								//Obtengo la posicion donde se van a insertar los option
+								$row_start = strrpos($view,'{vehicle-part-options-start}') + 28;
+								$row_end= strrpos($view,'{vehicle-part-options-end}');
+								$row_start2 = strrpos($view,'{damage-options-start}') + 22;
+								$row_end2= strrpos($view,'{damage-options-end}');
+								//Hacer copia de la fila donde se va a reemplazar el contenido
+								$base_row = substr($view,$row_start,$row_end-$row_start);
+								$base_row2 = substr($view,$row_start2,$row_end2-$row_start2);
+								//Acceder al resultado y crear el diccionario
+								//Revisar que el nombre de los campos coincida con los de la base de datos
+								$rows = '';
+								foreach ($result as $row) {
+									$new_row = $base_row;
+									$dictionary = array(
+										'{id-vehicle-part}' => $row['idVehiclePart'], 
+										'{vehicle-part}' => $row['VehiclePart']
+									);
+									$new_row = strtr($new_row,$dictionary);
+									$rows .= $new_row;
+								}
+								$rows2 = '';
+								foreach ($result2 as $row2) {
+									$new_row2 = $base_row2;
+									$dictionary2 = array(
+										'{id-damage}' => $row2['idDamage'], 
+										'{damage}' => $row2['Damage']
+									);
+									$new_row2 = strtr($new_row2,$dictionary2);
+									$rows2 .= $new_row2;
+								}
+								//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+								$view = str_replace($base_row, $rows, $view);
+								$view = str_replace('{vehicle-part-options-start}', '', $view);
+								$view = str_replace('{vehicle-part-options-end}', '', $view);
+								$view = str_replace($base_row2, $rows2, $view);
+								$view = str_replace('{damage-options-start}', '', $view);
+								$view = str_replace('{damage-options-end}', '', $view);
+
 								//Creamos el diccionario
 								//Para el insert los cmapos van vacios y los input estan activos
 								$dictionary = array(
 													'{value-id-damage-detail}' => '', 
 													'{value-id-checklist}' => '', 
-													'{value-id-vehicle-part}' => '', 
-													'{value-id-damage}' => '', 
+													//'{value-id-vehicle-part}' => '', 
+													//'{value-id-damage}' => '', 
 													'{active}' => '', 
 													'{action}' => 'insert'
 												);
@@ -110,13 +151,54 @@
 									$header = file_get_contents("View/header.html");
 									$footer = file_get_contents("View/footer.html");
 
+									//Traer los VehiclePart y Damage insertados, ahora si se pone condicion en el comando
+									$result = $this -> model -> getVehicleParts("idVehiclePart=".$idVehiclePart);
+									$result2 = $this -> model -> getidDamages("idDamage=".$idDamage);
+									//Obtengo la posicion donde se van a insertar los option
+									$row_start = strrpos($view,'{vehicle-part-options-start}') + 28;
+									$row_end= strrpos($view,'{vehicle-part-options-end}');
+									$row_start2 = strrpos($view,'{damage-options-start}') + 22;
+									$row_end2= strrpos($view,'{damage-options-end}');
+									//Hacer copia de la fila donde se va a reemplazar el contenido
+									$base_row = substr($view,$row_start,$row_end-$row_start);
+									$base_row2 = substr($view,$row_start2,$row_end2-$row_start2);
+									//Acceder al resultado y crear el diccionario
+									//Revisar que el nombre de los campos coincida con los de la base de datos
+									$rows = '';
+									foreach ($result as $row) {
+										$new_row = $base_row;
+										$dictionary = array(
+											'{id-vehicle-part}' => $row['idVehiclePart'], 
+											'{vehicle-part}' => $row['VehiclePart']
+										);
+										$new_row = strtr($new_row,$dictionary);
+										$rows .= $new_row;
+									}
+									$rows2 = '';
+									foreach ($result2 as $row2) {
+										$new_row2 = $base_row2;
+										$dictionary2 = array(
+											'{id-damage}' => $row2['idDamage'], 
+											'{damage}' => $row2['Damage']
+										);
+										$new_row2 = strtr($new_row2,$dictionary2);
+										$rows2 .= $new_row2;
+									}
+									//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+									$view = str_replace($base_row, $rows, $view);
+									$view = str_replace('{vehicle-part-options-start}', '', $view);
+									$view = str_replace('{vehicle-part-options-end}', '', $view);
+									$view = str_replace($base_row2, $rows2, $view);
+									$view = str_replace('{damage-options-start}', '', $view);
+									$view = str_replace('{damage-options-end}', '', $view);
+
 									//Creamos el diccionario
 									//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 									$dictionary = array(
 														'{value-id-damage-detail}' => $idDamageDetail, 
 														'{value-id-checklist}' => $_POST['idChecklist'], 
-														'{value-id-vehicle-part}' => $_POST['idVehiclePart'], 
-														'{value-id-damage}' => $_POST['idDamage'], 
+														//'{value-id-vehicle-part}' => $_POST['idVehiclePart'], 
+														//'{value-id-damage}' => $_POST['idDamage'], 
 														'{active}' => 'disabled', 
 														'{action}' => 'insert'
 													);
@@ -233,13 +315,54 @@
 											$header = file_get_contents("View/header.html");
 											$footer = file_get_contents("View/footer.html");
 
+											//Traer los VehiclePart y Damage insertados, ahora si se pone condicion en el comando
+											$result = $this -> model -> getVehicleParts("idVehiclePart=".$idVehiclePart);
+											$result2 = $this -> model -> getidDamages("idDamage=".$idDamage);
+											//Obtengo la posicion donde se van a insertar los option
+											$row_start = strrpos($view,'{vehicle-part-options-start}') + 28;
+											$row_end= strrpos($view,'{vehicle-part-options-end}');
+											$row_start2 = strrpos($view,'{damage-options-start}') + 22;
+											$row_end2= strrpos($view,'{damage-options-end}');
+											//Hacer copia de la fila donde se va a reemplazar el contenido
+											$base_row = substr($view,$row_start,$row_end-$row_start);
+											$base_row2 = substr($view,$row_start2,$row_end2-$row_start2);
+											//Acceder al resultado y crear el diccionario
+											//Revisar que el nombre de los campos coincida con los de la base de datos
+											$rows = '';
+											foreach ($result as $row) {
+												$new_row = $base_row;
+												$dictionary = array(
+													'{id-vehicle-part}' => $row['idVehiclePart'], 
+													'{vehicle-part}' => $row['VehiclePart']
+												);
+												$new_row = strtr($new_row,$dictionary);
+												$rows .= $new_row;
+											}
+											$rows2 = '';
+											foreach ($result2 as $row2) {
+												$new_row2 = $base_row2;
+												$dictionary2 = array(
+													'{id-damage}' => $row2['idDamage'], 
+													'{damage}' => $row2['Damage']
+												);
+												$new_row2 = strtr($new_row2,$dictionary2);
+												$rows2 .= $new_row2;
+											}
+											//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+											$view = str_replace($base_row, $rows, $view);
+											$view = str_replace('{vehicle-part-options-start}', '', $view);
+											$view = str_replace('{vehicle-part-options-end}', '', $view);
+											$view = str_replace($base_row2, $rows2, $view);
+											$view = str_replace('{damage-options-start}', '', $view);
+											$view = str_replace('{damage-options-end}', '', $view);
+
 											//Creamos el diccionario
 											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 											$dictionary = array(
 														'{value-id-damage-detail}' => $idDamageDetail, 
 														'{value-id-checklist}' => $idChecklist, 
-														'{value-id-vehicle-part}' => $idVehiclePart, 
-														'{value-id-damage}' => $idDamage, 
+														//'{value-id-vehicle-part}' => $idVehiclePart, 
+														//'{value-id-damage}' => $idDamage, 
 														'{active}' => 'disabled', 
 														'{action}' => 'update'
 													);
@@ -320,8 +443,8 @@
 											$dictionary = array(
 														'{value-id-damage-detail}' => $result[0]['idDamageDetail'], 
 														'{value-id-checklist}' => $result[0]['idChecklist'], 
-														'{value-id-vehicle-part}' => $result[0]['idVehiclePart'], 
-														'{value-id-damage}' => $result[0]['idDamage'],  
+														//'{value-id-vehicle-part}' => $result[0]['idVehiclePart'], 
+														//'{value-id-damage}' => $result[0]['idDamage'],  
 														'{active}' => '', 
 														'{action}' => 'update'
 													);
@@ -367,6 +490,48 @@
 														$view = str_replace("{selected-5}", "selected", $view);
 														break;
 											}
+
+											//Poner despues de sustituir los demas datos para no perder la información del select
+											//Para actualizar no se pone condicion, para que esten todas las opciones disponibles
+											$result = $this -> model -> getVehicleParts("0=0");
+											$result2 = $this -> model -> getidDamages("0=0");
+											//Obtengo la posicion donde se van a insertar los option
+											$row_start = strrpos($view,'{vehicle-part-options-start}') + 28;
+											$row_end= strrpos($view,'{vehicle-part-options-end}');
+											$row_start2 = strrpos($view,'{damage-options-start}') + 22;
+											$row_end2= strrpos($view,'{damage-options-end}');
+											//Hacer copia de la fila donde se va a reemplazar el contenido
+											$base_row = substr($view,$row_start,$row_end-$row_start);
+											$base_row2 = substr($view,$row_start2,$row_end2-$row_start2);
+											//Acceder al resultado y crear el diccionario
+											//Revisar que el nombre de los campos coincida con los de la base de datos
+											$rows = '';
+											foreach ($result as $row) {
+												$new_row = $base_row;
+												$dictionary = array(
+													'{id-vehicle-part}' => $row['idVehiclePart'], 
+													'{vehicle-part}' => $row['VehiclePart']
+												);
+												$new_row = strtr($new_row,$dictionary);
+												$rows .= $new_row;
+											}
+											$rows2 = '';
+											foreach ($result2 as $row2) {
+												$new_row2 = $base_row2;
+												$dictionary2 = array(
+													'{id-damage}' => $row2['idDamage'], 
+													'{damage}' => $row2['Damage']
+												);
+												$new_row2 = strtr($new_row2,$dictionary2);
+												$rows2 .= $new_row2;
+											}
+											//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+											$view = str_replace($base_row, $rows, $view);
+											$view = str_replace('{vehicle-part-options-start}', '', $view);
+											$view = str_replace('{vehicle-part-options-end}', '', $view);
+											$view = str_replace($base_row2, $rows2, $view);
+											$view = str_replace('{damage-options-start}', '', $view);
+											$view = str_replace('{damage-options-end}', '', $view);
 
 											//Sustituir el usuario en el header
 											$dictionary = array(
@@ -434,8 +599,8 @@
 									$dictionary = array(
 														'{value-id-damage-detail}' => $result[0]['idDamageDetail'], 
 														'{value-id-checklist}' => $result[0]['idChecklist'], 
-														'{value-id-vehicle-part}' => $result[0]['idVehiclePart'], 
-														'{value-id-damage}' => $result[0]['idDamage'], 
+														//'{value-id-vehicle-part}' => $result[0]['idVehiclePart'], 
+														//'{value-id-damage}' => $result[0]['idDamage'], 
 														'{active}' => 'disabled', 
 														'{action}' => 'select'
 													);
@@ -481,6 +646,48 @@
 												$view = str_replace("{selected-5}", "selected", $view);
 												break;
 									}
+
+									//Poner despues de sustituir los demas datos para no perder la información del select
+									//Traer el idVehicleStatus, ahora si se pone condicion en el comando
+									$result = $this -> model -> getVehicleParts("idVehiclePart=".$result[0]['idVehiclePart']);
+									$result2 = $this -> model -> getidDamages("idDamage=".$result[0]['idDamage']);
+									//Obtengo la posicion donde se van a insertar los option
+									$row_start = strrpos($view,'{vehicle-part-options-start}') + 28;
+									$row_end= strrpos($view,'{vehicle-part-options-end}');
+									$row_start2 = strrpos($view,'{damage-options-start}') + 22;
+									$row_end2= strrpos($view,'{damage-options-end}');
+									//Hacer copia de la fila donde se va a reemplazar el contenido
+									$base_row = substr($view,$row_start,$row_end-$row_start);
+									$base_row2 = substr($view,$row_start2,$row_end2-$row_start2);
+									//Acceder al resultado y crear el diccionario
+									//Revisar que el nombre de los campos coincida con los de la base de datos
+									$rows = '';
+									foreach ($result as $row) {
+										$new_row = $base_row;
+										$dictionary = array(
+											'{id-vehicle-part}' => $row['idVehiclePart'], 
+											'{vehicle-part}' => $row['VehiclePart']
+										);
+										$new_row = strtr($new_row,$dictionary);
+										$rows .= $new_row;
+									}
+									$rows2 = '';
+									foreach ($result2 as $row2) {
+										$new_row2 = $base_row2;
+										$dictionary2 = array(
+											'{id-damage}' => $row2['idDamage'], 
+											'{damage}' => $row2['Damage']
+										);
+										$new_row2 = strtr($new_row2,$dictionary2);
+										$rows2 .= $new_row2;
+									}
+									//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+									$view = str_replace($base_row, $rows, $view);
+									$view = str_replace('{vehicle-part-options-start}', '', $view);
+									$view = str_replace('{vehicle-part-options-end}', '', $view);
+									$view = str_replace($base_row2, $rows2, $view);
+									$view = str_replace('{damage-options-start}', '', $view);
+									$view = str_replace('{damage-options-end}', '', $view);
 
 									//Sustituir el usuario en el header
 									$dictionary = array(
