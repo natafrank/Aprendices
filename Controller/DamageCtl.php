@@ -521,7 +521,7 @@
 							}
 							else
 							{
-								$error = "Error al listar daños.";
+								$error = "No hay registros para mostrar.";
 								$this -> showErrorView($error);
 							}
 						}

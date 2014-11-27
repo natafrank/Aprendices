@@ -719,7 +719,7 @@
 							}
 							else
 							{
-								$error = "Error al listar usuarios.";
+								$error = "No hay registros para mostrar.";
 								$this -> showErrorView($error);
 							}
 						}

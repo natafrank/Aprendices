@@ -528,7 +528,7 @@
 							}
 							else
 							{
-								$error = "Error al listar los estatus.";
+								$error = "No hay registros para mostrar.";
 								$this -> showErrorView($error);
 							}
 						}

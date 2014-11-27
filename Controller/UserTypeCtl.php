@@ -519,7 +519,7 @@
 							}
 							else
 							{
-								$error = "Error al listar los tipos de usuarios.";
+								$error = "No hay registros para mostrar.";
 								$this -> showErrorView($error);
 							}
 						}

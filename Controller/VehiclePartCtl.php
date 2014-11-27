@@ -510,7 +510,7 @@
 							}
 							else
 							{
-								$error = "Error al listar partes de vehículo.";
+								$error = "No hay registros para mostrar.";
 								$this -> showErrorView($error);
 							}
 						}

@@ -504,7 +504,7 @@
 						}
 						else
 						{
-							$error = "Error al listar las marcas de vehículos.";
+							$error = "No hay registros para mostrar.";
 							$this -> showErrorView($error);
 						}
 

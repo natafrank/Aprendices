@@ -70,7 +70,7 @@
 									//'{value-idEvent}' => '',
 									'{value-Reason}' => '',
 									'{active}' => '',
-									'{acti}' => 'insert'
+									'{action}' => 'insert'
 								);
 
 								//Sustituir los valores en la plantilla
@@ -146,7 +146,7 @@
 											//'{value-idEvent}' => $_POST['idEvent'],
 											'{value-Reason}' => $_POST['Reason'],
 											'{active}' => 'disabled',
-											'{active}' => 'insert'
+											'{action}' => 'insert'
 										);
 									
 									//Sustituir los valores en la plantilla
@@ -240,7 +240,7 @@
 										//Se llama a la función de modificación.
 										//Se recoge el resultado y en base a este resultado
 										//se imprime un mensaje.
-										if($this->model->update($idEventRegistry,$idVehicle,$idUser,$idEvent,$Date,$Reason))
+										if($this->model->update($idEventRegistry,$idVehicle,$idUser,$idEvent,$Reason))
 										{
 											//Cargamos el formulario
 											$view = file_get_contents("View/EventRegistryForm.html");
@@ -349,7 +349,7 @@
 												//'{value-idEvent}' => $result[0]['idEvent'],
 												'{value-Reason}' => $result[0]['Reason'],
 												'{active}' => '',
-												'{active}' => 'update'
+												'{action}' => 'update'
 											);
 
 											//Sustituir los valores en la plantilla
@@ -454,7 +454,7 @@
 											//'{value-idEvent}' => $result[0]['idEvent'],
 											'{value-Reason}' => $result[0]['Reason'],
 											'{active}' => 'disabled',
-											'{active}' => 'select'
+											'{action}' => 'select'
 										);
 
 										//Sustituir los valores en la plantilla
@@ -668,7 +668,7 @@
 							}
 							else
 							{
-								$error = "Error al listar registros.";
+								$error = "No hay registros para mostrar.";
 								$this -> showErrorView($error);
 							}
 						}

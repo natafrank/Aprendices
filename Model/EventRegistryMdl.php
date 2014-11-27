@@ -38,9 +38,9 @@
 			$query = "INSERT INTO EventRegistry VALUES(".$this -> idEventRegistry.", "
 												 	.$this -> idVehicle.", "
 												 	.$this -> idUser.", "
-												 	.$this -> idEvent.", "
-												 	.$this -> Date.", "
-													.$this -> Reason.");";
+												 	.$this -> idEvent.", '"
+												 	.$this -> Date."', '"
+													.$this -> Reason."');";
 	
 			//Ejecutamos el query.
 			if($this->db_driver->execute($query))
@@ -83,15 +83,15 @@
 			$this->idVehicle	   = $this->db_driver->escape($idVehicle);
 			$this->idUser 		   = $this->db_driver->escape($idUser);
 			$this->idEvent 		   = $this->db_driver->escape($idEvent);
-			$this->Date 		   = $this->db_driver->escape($Date);
+			//$this->Date 		   = $this->db_driver->escape($Date);
 			$this->Reason 		   = $this->db_driver->escape($Reason);
 			
 			//Query que realizará la modificación.
-			$query = "UPDATE EventRegistry SET idVehicle=".$this -> idVehicle." "
-										."idUser=".$this -> idUser." "
-										."idEvent=".$this -> idEvent." "
-										."Reason=".$this -> Reason.
-					  " WHERE idEventRegistry=".$this -> idEventRegistry.";";
+			$query = "UPDATE EventRegistry SET idVehicle=".$this -> idVehicle.", "
+										."idUser=".$this -> idUser.", "
+										."idEvent=".$this -> idEvent.", "
+										."Reason='".$this -> Reason.
+					  "' WHERE idEventRegistry=".$this -> idEventRegistry.";";
 
 		  	//Ejecutamos el query.
 		  	$result = $this->db_driver->execute($query);

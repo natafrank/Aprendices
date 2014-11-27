@@ -654,7 +654,7 @@
 						}
 						else
 						{
-							$error = "Error al listar los modelos de vehículos.";
+							$error = "No hay registros para mostrar.";
 							$this -> showErrorView($error);
 						}
 

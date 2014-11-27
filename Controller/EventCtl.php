@@ -506,7 +506,7 @@
 							}
 							else
 							{
-								$error = "Error al listar eventos.";
+								$error = "No hay registros para mostrar.";
 								$this -> showErrorView($error);
 							}
 						}

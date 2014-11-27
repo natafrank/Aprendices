@@ -740,7 +740,7 @@
 							}
 							else
 							{
-								$error = "Error al listar checklists.";
+								$error = "No hay registros para mostrar.";
 								$this -> showErrorView($error);
 							}
 						}
