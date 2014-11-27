@@ -99,7 +99,7 @@
 								$idLocation = PKGenerator::getPK('Location','idLocation');
 								$location = $this->cleanText($_POST['location']);
 								$idMasterLocation = $this->cleanInt($_POST['idMasterLocation']);
-						
+								
 								//Recogemos el resultado de la inserción e imprimimos un mensaje
 								//en base a este resultado.
 								if($result = $this->model->insert($idLocation,$location,$idMasterLocation))
@@ -224,7 +224,7 @@
 										//Por ahora se modificarán todos los atributos.
 										$location = $this->cleanText($_POST['location']);
 										$idMasterLocation = $this->cleanInt($_POST['idMasterLocation']);
-
+										
 										//Se llama a la función de modificación.
 										//Se recoge el resultado y en base a este resultado
 										//se imprime un mensaje.
@@ -339,7 +339,7 @@
 
 											//Poner despues de sustituir los demas datos para no perder la información del select
 											//Para actualizar no se pone condicion, para que esten todas las opciones disponibles
-											$result = $this -> model -> getMasterLocations("0=0");
+											$resultado = $this -> model -> getMasterLocations("0=0");
 											//Obtengo la posicion donde se van a insertar los option
 											$row_start = strrpos($view,'{master-location-options-start}') + 31;
 											$row_end= strrpos($view,'{master-location-options-end}');
@@ -348,7 +348,7 @@
 											//Acceder al resultado y crear el diccionario
 											//Revisar que el nombre de los campos coincida con los de la base de datos
 											$rows = '';
-											foreach ($result as $row) {
+											foreach ($resultado as $row) {
 												$new_row = $base_row;
 												$dictionary = array(
 													'{id-master-location}' => $row['idMasterLocation'], 

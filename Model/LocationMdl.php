@@ -29,10 +29,11 @@
 			$this->idMasterLocation = $this->db_driver->escape($idMasterLocation);
 			
 			//Query a ejecutar.
-			$query = "INSERT INTO Location VALUES(".$this -> idLocation.", "
-												 	.$this -> location.", "
-													.$this -> Reason.");";
-	
+			$query = "INSERT INTO Location VALUES(".$this -> idLocation.", '"
+												 	.$this -> location."', "
+													.$this -> idMasterLocation.");";
+			
+
 			//Ejecutamos el query.
 			if($this->db_driver->execute($query))
 			{
@@ -75,10 +76,10 @@
 			$this->idMasterLocation = $this->db_driver->escape($idMasterLocation);
 			
 			//Query que realizará la modificación.
-			$query = "UPDATE Location SET location=".$this -> location." "
+			$query = "UPDATE Location SET location='".$this -> location."', "
 										."idMasterLocation=".$this -> idMasterLocation.
 					  " WHERE idLocation=".$this -> idLocation.";";
-
+			
 		  	//Ejecutamos el query.
 		  	$result = $this->db_driver->execute($query);
 
