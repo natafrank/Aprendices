@@ -460,7 +460,7 @@
 											"\nId   : ". $idChecklist.
 											"\nIdVehicle : ". $idVehicle.
 											"\nidVehicleStatus: ". $idVehicleStatus.
-											"\nFecha : ". $Date.
+											//"\nFecha : ". $Date.
 											"\nInOut : ". $InOut;
 
 											//Manadamos el correo solo a administradores y empleados - 6

@@ -133,7 +133,7 @@
 			//Query que realizará la modificación.
 			$query = "UPDATE CheckList SET idVehicle=".$this -> idVehicle.", "
 									   	 ."idVehicleStatus=".$this -> idVehicleStatus.", "
-									   	 ."InOut=".$this -> InOut.   
+									   	 ."`InOut`=".$this -> InOut.   
 					  " WHERE idCheckList = ".$this -> idChecklist.";";
 
 		  	//Ejecutamos el query y retornamos el resultado.
