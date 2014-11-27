@@ -71,7 +71,7 @@
 			$this->Event   = $this->db_driver->escape($Event);
 
 			//Query que realizará la modificación.
-			$query = "UPDATE Event SET Event='".$Event." 
+			$query = "UPDATE Event SET Event='".$Event."' 
 					  WHERE idEvent=".$idEvent.";";
 
 		  	//Ejecutamos el query

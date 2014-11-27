@@ -244,6 +244,9 @@
 											$header = file_get_contents("View/header.html");
 											$footer = file_get_contents("View/footer.html");
 
+											//Obtenemos el evento.
+											$Event = $result[0]['Event'];
+
 											//Creamos el diccionario
 											//Se muestra la información y los campos van activos
 											$dictionary = array(
