@@ -127,7 +127,7 @@
 			$this -> idChecklist     = $this -> db_driver -> escape($idChecklist);
 			$this -> idVehicle       = $this -> db_driver -> escape($idVehicle);
 			$this -> idVehicleStatus = $this -> db_driver -> escape($idVehicleStatus);
-			$this -> Date            = $this -> db_driver -> escape($Date);
+			//$this -> Date            = $this -> db_driver -> escape($Date);
 			$this -> InOut           = $this -> db_driver -> escape($InOut);
 
 			//Query que realizará la modificación.

@@ -427,7 +427,7 @@
 									//Acceder al resultado y crear el diccionario
 									//Revisar que el nombre de los campos coincida con los de la base de datos
 									$dictionary = array(
-															'{value-id-user}' => $result[0]['idCheckList'], 
+															'{value-id-checklist}' => $result[0]['idCheckList'], 
 															'{value-id-vehicle}' => $result[0]['idVehicle'], 
 															'{value-id-vehicle-status}' => $result[0]['idVehicleStatus'], 
 															'{active}' => 'disabled', 
