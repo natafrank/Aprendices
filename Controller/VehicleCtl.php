@@ -78,7 +78,7 @@
 									$new_row2 = strtr($new_row2,$dictionary2);
 									$rows2 .= $new_row2;
 								}
-								$rows23 = '';
+								$rows3 = '';
 								foreach ($result3 as $row3) {
 									$new_row3 = $base_row3;
 									$dictionary3 = array(
@@ -95,7 +95,7 @@
 								$view = str_replace($base_row2, $rows2, $view);
 								$view = str_replace('{location-options-start}', '', $view);
 								$view = str_replace('{location-options-end}', '', $view);
-								$view = str_replace($base_row23, $rows3, $view);
+								$view = str_replace($base_row3, $rows3, $view);
 								$view = str_replace('{vehicle-model-options-start}', '', $view);
 								$view = str_replace('{vehicle-model-options-end}', '', $view);
 
@@ -199,7 +199,7 @@
 												$new_row2 = strtr($new_row2,$dictionary2);
 												$rows2 .= $new_row2;
 											}
-											$rows23 = '';
+											$rows3 = '';
 											foreach ($result3 as $row3) {
 												$new_row3 = $base_row3;
 												$dictionary3 = array(
@@ -216,7 +216,7 @@
 											$view = str_replace($base_row2, $rows2, $view);
 											$view = str_replace('{location-options-start}', '', $view);
 											$view = str_replace('{location-options-end}', '', $view);
-											$view = str_replace($base_row23, $rows3, $view);
+											$view = str_replace($base_row3, $rows3, $view);
 											$view = str_replace('{vehicle-model-options-start}', '', $view);
 											$view = str_replace('{vehicle-model-options-end}', '', $view);
 
@@ -446,7 +446,7 @@
 												$new_row2 = strtr($new_row2,$dictionary2);
 												$rows2 .= $new_row2;
 											}
-											$rows23 = '';
+											$rows3 = '';
 											foreach ($result3 as $row3) {
 												$new_row3 = $base_row3;
 												$dictionary3 = array(
@@ -463,7 +463,7 @@
 											$view = str_replace($base_row2, $rows2, $view);
 											$view = str_replace('{location-options-start}', '', $view);
 											$view = str_replace('{location-options-end}', '', $view);
-											$view = str_replace($base_row23, $rows3, $view);
+											$view = str_replace($base_row3, $rows3, $view);
 											$view = str_replace('{vehicle-model-options-start}', '', $view);
 											$view = str_replace('{vehicle-model-options-end}', '', $view);
 
@@ -590,7 +590,7 @@
 												$new_row2 = strtr($new_row2,$dictionary2);
 												$rows2 .= $new_row2;
 											}
-											$rows23 = '';
+											$rows3 = '';
 											foreach ($result3 as $row3) {
 												$new_row3 = $base_row3;
 												$dictionary3 = array(
@@ -607,7 +607,7 @@
 											$view = str_replace($base_row2, $rows2, $view);
 											$view = str_replace('{location-options-start}', '', $view);
 											$view = str_replace('{location-options-end}', '', $view);
-											$view = str_replace($base_row23, $rows3, $view);
+											$view = str_replace($base_row3, $rows3, $view);
 											$view = str_replace('{vehicle-model-options-start}', '', $view);
 											$view = str_replace('{vehicle-model-options-end}', '', $view);
 
@@ -736,7 +736,7 @@
 													$new_row2 = strtr($new_row2,$dictionary2);
 													$rows2 .= $new_row2;
 												}
-												$rows23 = '';
+												$rows3 = '';
 												foreach ($result3 as $row3) {
 													$new_row3 = $base_row3;
 													$dictionary3 = array(
@@ -753,7 +753,7 @@
 												$view = str_replace($base_row2, $rows2, $view);
 												$view = str_replace('{location-options-start}', '', $view);
 												$view = str_replace('{location-options-end}', '', $view);
-												$view = str_replace($base_row23, $rows3, $view);
+												$view = str_replace($base_row3, $rows3, $view);
 												$view = str_replace('{vehicle-model-options-start}', '', $view);
 												$view = str_replace('{vehicle-model-options-end}', '', $view);
 
