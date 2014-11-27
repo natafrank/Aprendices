@@ -155,7 +155,7 @@
 		/**
 		 * Funcion para obtener los eventos.
 		 *
-		 * Obtiene todos los registros de la tabla VehicleStatus.
+		 * Obtiene todos los registros de la tabla Event.
 		 *
 		 * @return array - con los registros obtenidos si la consulta fue exitosa
 		 * @return bool - FALSE si hubo un error

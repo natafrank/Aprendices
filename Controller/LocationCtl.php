@@ -38,12 +38,36 @@
 								$header = file_get_contents("View/header.html");
 								$footer = file_get_contents("View/footer.html");
 
+								//Traer el idMasterLocation, la condicion es 0=0 para que los traiga todos
+								$result = $this -> model -> getIdMasterLocations("0=0");
+								//Obtengo la posicion donde se van a insertar los option
+								$row_start = strrpos($view,'{master-location-options-start}') + 31;
+								$row_end= strrpos($view,'{master-location-options-end}');
+								//Hacer copia de la fila donde se va a reemplazar el contenido
+								$base_row = substr($view,$row_start,$row_end-$row_start);
+								//Acceder al resultado y crear el diccionario
+								//Revisar que el nombre de los campos coincida con los de la base de datos
+								$rows = '';
+								foreach ($result as $row) {
+									$new_row = $base_row;
+									$dictionary = array(
+										'{id-master-location}' => $row['idMasterLocation'], 
+										'{master-location}' => $row['Location']
+									);
+									$new_row = strtr($new_row,$dictionary);
+									$rows .= $new_row;
+								}
+								//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+								$view = str_replace($base_row, $rows, $view);
+								$view = str_replace('{master-location-options-start}', '', $view);
+								$view = str_replace('{master-location-options-end}', '', $view);
+
 								//Creamos el diccionario
 								//Para el insert los campos van vacios y los input estan activos
 								$dictionary = array(
 									'{value-idLocation}' => '',
 									'{value-location}' => '',
-									'{value-idMasterlocation}' => '',
+									//'{value-idMasterlocation}' => '',
 									'{active}' => '',
 									'{action}' => 'insert'
 									);
@@ -85,12 +109,36 @@
 									$header = file_get_contents("View/header.html");
 									$footer = file_get_contents("View/footer.html");
 
+									//Traer el idMasterLocation insertado, ahora si se pone condicion en el comando
+									$result = $this -> model -> getIdMasterLocations("idMasterLocation=".$idMasterLocation);
+									//Obtengo la posicion donde se van a insertar los option
+									$row_start = strrpos($view,'{master-location-options-start}') + 31;
+									$row_end= strrpos($view,'{master-location-options-end}');
+									//Hacer copia de la fila donde se va a reemplazar el contenido
+									$base_row = substr($view,$row_start,$row_end-$row_start);
+									//Acceder al resultado y crear el diccionario
+									//Revisar que el nombre de los campos coincida con los de la base de datos
+									$rows = '';
+									foreach ($result as $row) {
+										$new_row = $base_row;
+										$dictionary = array(
+											'{id-master-location}' => $row['idMasterLocation'], 
+											'{master-location}' => $row['Location']
+										);
+										$new_row = strtr($new_row,$dictionary);
+										$rows .= $new_row;
+									}
+									//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+									$view = str_replace($base_row, $rows, $view);
+									$view = str_replace('{master-location-options-start}', '', $view);
+									$view = str_replace('{master-location-options-end}', '', $view);
+
 									//Creamos el diccionario
 									//Despues de insertar los campos van con la info insertada y los input estan inactivos
 									$dictionary = array(
 											'{value-idLocation}' => $idLocation,
 											'{value-location}' => $_POST['location'],
-											'{value-idMasterLocation}' => $_POST['idMasterLocation'],
+											//'{value-idMasterLocation}' => $_POST['idMasterLocation'],
 											'{active}' => 'disabled',
 											'{action}' => 'insert'
 										);
@@ -187,12 +235,36 @@
 											$header = file_get_contents("View/header.html");
 											$footer = file_get_contents("View/footer.html");
 
+											//Traer el idMasterLocation insertado, ahora si se pone condicion en el comando
+											$result = $this -> model -> getIdMasterLocations("idMasterLocation=".$idMasterLocation);
+											//Obtengo la posicion donde se van a insertar los option
+											$row_start = strrpos($view,'{master-location-options-start}') + 31;
+											$row_end= strrpos($view,'{master-location-options-end}');
+											//Hacer copia de la fila donde se va a reemplazar el contenido
+											$base_row = substr($view,$row_start,$row_end-$row_start);
+											//Acceder al resultado y crear el diccionario
+											//Revisar que el nombre de los campos coincida con los de la base de datos
+											$rows = '';
+											foreach ($result as $row) {
+												$new_row = $base_row;
+												$dictionary = array(
+													'{id-master-location}' => $row['idMasterLocation'], 
+													'{master-location}' => $row['Location']
+												);
+												$new_row = strtr($new_row,$dictionary);
+												$rows .= $new_row;
+											}
+											//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+											$view = str_replace($base_row, $rows, $view);
+											$view = str_replace('{master-location-options-start}', '', $view);
+											$view = str_replace('{master-location-options-end}', '', $view);
+
 											//Creamos el diccionario
 											//Despues de insertar los campos van con la info insertada y los input estan inactivos
 											$dictionary = array(
 												'{value-idLocation}' => $idLocation, 
 												'{value-location}' => $location,
-												'{value-idMasterLocation}' => $idMasterLocation,
+												//'{value-idMasterLocation}' => $idMasterLocation,
 												'{active}' => 'disabled',
 												'{action}' => 'update'
 											);
@@ -257,13 +329,38 @@
 											$dictionary = array(
 												'{value-idLocation}' => $result[0]['idLocation'], 
 												'{value-location}' => $result[0]['Location'],
-												'{value-idMasterLocation}' => $result[0]['idMasterLocation'],
+												//'{value-idMasterLocation}' => $result[0]['idMasterLocation'],
 												'{active}' => '',
 												'{action}' => 'update'
 											);
 
 											//Sustituir los valores en la plantilla
 											$view = strtr($view,$dictionary);
+
+											//Poner despues de sustituir los demas datos para no perder la información del select
+											//Para actualizar no se pone condicion, para que esten todas las opciones disponibles
+											$result = $this -> model -> getIdMasterLocations("0=0");
+											//Obtengo la posicion donde se van a insertar los option
+											$row_start = strrpos($view,'{master-location-options-start}') + 31;
+											$row_end= strrpos($view,'{master-location-options-end}');
+											//Hacer copia de la fila donde se va a reemplazar el contenido
+											$base_row = substr($view,$row_start,$row_end-$row_start);
+											//Acceder al resultado y crear el diccionario
+											//Revisar que el nombre de los campos coincida con los de la base de datos
+											$rows = '';
+											foreach ($result as $row) {
+												$new_row = $base_row;
+												$dictionary = array(
+													'{id-master-location}' => $row['idMasterLocation'], 
+													'{master-location}' => $row['Location']
+												);
+												$new_row = strtr($new_row,$dictionary);
+												$rows .= $new_row;
+											}
+											//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+											$view = str_replace($base_row, $rows, $view);
+											$view = str_replace('{master-location-options-start}', '', $view);
+											$view = str_replace('{master-location-options-end}', '', $view);
 
 											//Sustituir el usuario en el header
 											$dictionary = array(
@@ -337,7 +434,7 @@
 											$dictionary = array(
 												'{value-idLocation}' => $result[0]['idLocation'], 
 												'{value-location}' => $result[0]['Location'],
-												'{value-idMasterLocation}' => $result[0]['idMasterLocation'],
+												//'{value-idMasterLocation}' => $result[0]['idMasterLocation'],
 												'{active}' => 'disabled',
 												'{action}' => 'select'
 											);
@@ -345,6 +442,32 @@
 
 										//Sustituir los valores en la plantilla
 										$view = strtr($view,$dictionary);
+
+										//Poner despues de sustituir los demas datos para no perder la información del select
+										//Traer el idMasterLocation, ahora si se pone condicion en el comando
+										$result = $this -> model -> getIdMasterLocations("idMasterLocation=".$result[0]['idMasterLocation']);
+										//Obtengo la posicion donde se van a insertar los option
+										$row_start = strrpos($view,'{master-location-options-start}') + 31;
+										$row_end= strrpos($view,'{master-location-options-end}');
+										//Hacer copia de la fila donde se va a reemplazar el contenido
+										$base_row = substr($view,$row_start,$row_end-$row_start);
+										//Acceder al resultado y crear el diccionario
+										//Revisar que el nombre de los campos coincida con los de la base de datos
+										$rows = '';
+										foreach ($result as $row) {
+											$new_row = $base_row;
+											$dictionary = array(
+												'{id-master-location}' => $row['idMasterLocation'], 
+												'{master-location}' => $row['Location']
+											);
+											$new_row = strtr($new_row,$dictionary);
+											$rows .= $new_row;
+										}
+
+										//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+										$view = str_replace($base_row, $rows, $view);
+										$view = str_replace('{master-location-options-start}', '', $view);
+										$view = str_replace('{master-location-options-end}', '', $view);
 
 										//Sustituir el usuario en el header
 										$dictionary = array(

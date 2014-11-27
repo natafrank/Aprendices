@@ -126,7 +126,7 @@
 		/**
 		 * Funcion para obtener los estatus de vehículo.
 		 *
-		 * Obtiene todos los registros de la tabla VehicleStatus.
+		 * Obtiene todos los registros de la tabla VehicleBrand.
 		 *
 		 * @return array - con los registros obtenidos si la consulta fue exitosa
 		 * @return bool - FALSE si hubo un error

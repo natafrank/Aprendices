@@ -11,7 +11,12 @@
 			  	</div>
 				<div class="form-group">
 				    <label for="idMasterLocation">Id MasterUbicación:</label>
-				    <input type="number" class="form-control" id="idMasterLocation" name="idMasterLocation" value="{value-idMasterLocation}" {active} required>
+				    <select class="form-control" id="idVehicleStatus" name="idVehicleStatus" {active} required>
+					{master-location-options-start}
+					<option value="{id-master-location}">{master-location}</option>
+					{master-location-options-end}
+				    </select>
+				    <!--<input type="number" class="form-control" id="idMasterLocation" name="idMasterLocation" value="{value-idMasterLocation}" {active} required>-->
 			  	</div>
 				<button type="submit" class="btn btn-default" {active}>Guardar</button>
 			</form>
