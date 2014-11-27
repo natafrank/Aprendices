@@ -149,7 +149,7 @@
 		public function getIdMasterLocations($condition)
 		{
 			//Query a ejecutar
-			$query = "SELECT * FROM Location WHERE ".$condition.";";
+			$query = "SELECT * FROM Location WHERE idLocation = (SELECT idMasterLocation FROM Location WHERE ".$condition")";
 
 			//Ejecutamos el query y recogemos el resultado.
 			$result = $this -> db_driver -> execute($query);
