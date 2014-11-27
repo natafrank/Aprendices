@@ -120,7 +120,7 @@
 		 * @return array - Arreglo con los datos actualizados si se actualizaron correctamente.
 		 * @return bool FALSE - Si no se actualizó el registro correctamente en la base de datos.
 		 */
-		public function update($idDamageDetail,$idChecklist,$idVehiclePart,$idDamage)
+		public function update($idDamageDetail,$idChecklist,$idVehiclePart,$idDamage, $DamageSeverity)
 		{
 			//Escapamos las variables.
 			$this -> idDamageDetail = $this -> db_driver -> escape($idDamageDetail);

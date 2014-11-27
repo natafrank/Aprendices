@@ -409,7 +409,7 @@
 										$subject = "Eliminación de Evento";
 										$body = "El Evento con los siguientes datos se ha eliminado:".
 										"\nId   : ". $idEvent.
-										"\nEvent : ". $Event;
+										//"\nEvent : ". $Event;
 
 										//Manadamos el correo solo a administradores y empleados - 6
 										if(Mailer::sendMail($subject, $body, 6))

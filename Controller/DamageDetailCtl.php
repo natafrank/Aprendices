@@ -442,7 +442,7 @@
 											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 											$dictionary = array(
 														'{value-id-damage-detail}' => $result[0]['idDamageDetail'], 
-														'{value-id-checklist}' => $result[0]['idChecklist'], 
+														'{value-id-checklist}' => $result[0]['idCheckList'], 
 														//'{value-id-vehicle-part}' => $result[0]['idVehiclePart'], 
 														//'{value-id-damage}' => $result[0]['idDamage'],  
 														'{active}' => '', 
@@ -598,7 +598,7 @@
 									//Revisar que el nombre de los campos coincida con los de la base de datos
 									$dictionary = array(
 														'{value-id-damage-detail}' => $result[0]['idDamageDetail'], 
-														'{value-id-checklist}' => $result[0]['idChecklist'], 
+														'{value-id-checklist}' => $result[0]['idCheckList'], 
 														//'{value-id-vehicle-part}' => $result[0]['idVehiclePart'], 
 														//'{value-id-damage}' => $result[0]['idDamage'], 
 														'{active}' => 'disabled', 
@@ -649,8 +649,8 @@
 
 									//Poner despues de sustituir los demas datos para no perder la información del select
 									//Traer el idVehicleStatus, ahora si se pone condicion en el comando
-									$result = $this -> model -> getVehicleParts("idVehiclePart=".$result[0]['idVehiclePart']);
-									$result2 = $this -> model -> getDamages("idDamage=".$result[0]['idDamage']);
+									$resultado = $this -> model -> getVehicleParts("idVehiclePart=".$result[0]['idVehiclePart']);
+									$resultado2 = $this -> model -> getDamages("idDamage=".$result[0]['idDamage']);
 									//Obtengo la posicion donde se van a insertar los option
 									$row_start = strrpos($view,'{vehicle-part-options-start}') + 28;
 									$row_end= strrpos($view,'{vehicle-part-options-end}');
@@ -662,7 +662,7 @@
 									//Acceder al resultado y crear el diccionario
 									//Revisar que el nombre de los campos coincida con los de la base de datos
 									$rows = '';
-									foreach ($result as $row) {
+									foreach ($resultado as $row) {
 										$new_row = $base_row;
 										$dictionary = array(
 											'{id-vehicle-part}' => $row['idVehiclePart'], 
@@ -672,7 +672,7 @@
 										$rows .= $new_row;
 									}
 									$rows2 = '';
-									foreach ($result2 as $row2) {
+									foreach ($resultado2 as $row2) {
 										$new_row2 = $base_row2;
 										$dictionary2 = array(
 											'{id-damage}' => $row2['idDamage'], 
