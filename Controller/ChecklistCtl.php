@@ -424,6 +424,18 @@
 											//Sustituir los valores en la plantilla
 											$view = strtr($view,$dictionary);
 
+											//Al mostrar los datos se pone la opcion de acuerdo a lo insertado
+											if($result[0]['InOut'] == 0)
+											{
+												$view = str_replace("{selected-0}", "selected", $view);
+												$view = str_replace("{selected-1}", "", $view);	
+											}
+											else
+											{
+												$view = str_replace("{selected-0}", "", $view);
+												$view = str_replace("{selected-1}", "selected", $view);											
+											}
+
 											//Poner despues de sustituir los demas datos para no perder la información del select
 											//Para actualizar no se pone condicion, para que esten todas las opciones disponibles
 											$result = $this -> model -> getVehiclesStatus("0=0");
@@ -449,18 +461,6 @@
 											$view = str_replace($base_row, $rows, $view);
 											$view = str_replace('{vehicle-status-options-start}', '', $view);
 											$view = str_replace('{vehicle-status-options-end}', '', $view);
-
-											//Al mostrar los datos se pone la opcion de acuerdo a lo insertado
-											if($result[0]['InOut'] == 0)
-											{
-												$view = str_replace("{selected-0}", "selected", $view);
-												$view = str_replace("{selected-1}", "", $view);	
-											}
-											else
-											{
-												$view = str_replace("{selected-0}", "", $view);
-												$view = str_replace("{selected-1}", "selected", $view);											
-											}
 
 											//Sustituir el usuario en el header
 											$dictionary = array(
@@ -535,6 +535,18 @@
 									//Sustituir los valores en la plantilla
 									$view = strtr($view,$dictionary);
 
+									//Al mostrar los datos se pone la opcion de acuerdo a lo insertado
+									if($result[0]['InOut'] == 0)
+									{
+										$view = str_replace("{selected-0}", "selected", $view);
+										$view = str_replace("{selected-1}", "", $view);	
+									}
+									else
+									{
+										$view = str_replace("{selected-0}", "", $view);
+										$view = str_replace("{selected-1}", "selected", $view);											
+									}
+
 									//poner despues de sustituir los demás valores para no perder los datos traidos del select
 									//Traer el idVehicleStatus, ahora si se pone condicion en el comando
 									$result = $this -> model -> getVehiclesStatus("idVehicleStatus=".$result[0]['idVehicleStatus']);
@@ -559,18 +571,6 @@
 									$view = str_replace($base_row, $rows, $view);
 									$view = str_replace('{vehicle-status-options-start}', '', $view);
 									$view = str_replace('{vehicle-status-options-end}', '', $view);
-
-									//Al mostrar los datos se pone la opcion de acuerdo a lo insertado
-									if($result[0]['InOut'] == 0)
-									{
-										$view = str_replace("{selected-0}", "selected", $view);
-										$view = str_replace("{selected-1}", "", $view);	
-									}
-									else
-									{
-										$view = str_replace("{selected-0}", "", $view);
-										$view = str_replace("{selected-1}", "selected", $view);											
-									}
 
 									//Sustituir el usuario en el header
 									$dictionary = array(
