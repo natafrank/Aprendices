@@ -41,13 +41,71 @@
 								$header = file_get_contents("View/header.html");
 								$footer = file_get_contents("View/footer.html");
 
+								//Traer el los User, Location y VehicleModel, la condicion es 0=0 para que los traiga todos
+								$result = $this -> model -> getUsers("0=0");
+								$result2 = $this -> model -> getLocations("0=0");
+								$result3 = $this -> model -> getVehicleModels("0=0");
+								//Obtengo la posicion donde se van a insertar los option
+								$row_start = strrpos($view,'{user-options-start}') + 20;
+								$row_end= strrpos($view,'{user-options-end}');
+								$row_start2 = strrpos($view,'{location-options-start}') + 24;
+								$row_end2= strrpos($view,'{location-options-end}');
+								$row_start3 = strrpos($view,'{vehicle-model-options-start}') + 29;
+								$row_end3= strrpos($view,'{vehicle-model-options-end}');
+								//Hacer copia de la fila donde se va a reemplazar el contenido
+								$base_row = substr($view,$row_start,$row_end-$row_start);
+								$base_row2 = substr($view,$row_start2,$row_end2-$row_start2);
+								$base_row3 = substr($view,$row_start3,$row_end3-$row_start3);
+								//Acceder al resultado y crear el diccionario
+								//Revisar que el nombre de los campos coincida con los de la base de datos
+								$rows = '';
+								foreach ($result as $row) {
+									$new_row = $base_row;
+									$dictionary = array(
+										'{id-user}' => $row['idUser'], 
+										'{user}' => $row['User']
+									);
+									$new_row = strtr($new_row,$dictionary);
+									$rows .= $new_row;
+								}
+								$rows2 = '';
+								foreach ($result2 as $row2) {
+									$new_row2 = $base_row2;
+									$dictionary2 = array(
+										'{id-location}' => $row2['idLocation'], 
+										'{location}' => $row2['Location']
+									);
+									$new_row2 = strtr($new_row2,$dictionary2);
+									$rows2 .= $new_row2;
+								}
+								$rows23 = '';
+								foreach ($result3 as $row3) {
+									$new_row3 = $base_row3;
+									$dictionary3 = array(
+										'{id-vehicle-model}' => $row3['idVehicleModel'], 
+										'{vehicle-model}' => $row3['Model']
+									);
+									$new_row3 = strtr($new_row3,$dictionary3);
+									$rows3 .= $new_row3;
+								}
+								//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+								$view = str_replace($base_row, $rows, $view);
+								$view = str_replace('{user-options-start}', '', $view);
+								$view = str_replace('{user-options-end}', '', $view);
+								$view = str_replace($base_row2, $rows2, $view);
+								$view = str_replace('{location-options-start}', '', $view);
+								$view = str_replace('{location-options-end}', '', $view);
+								$view = str_replace($base_row23, $rows3, $view);
+								$view = str_replace('{vehicle-model-options-start}', '', $view);
+								$view = str_replace('{vehicle-model-options-end}', '', $view);
+
 								//Creamos el diccionario
 								//Para el insert los cmapos van vacios y los input estan activos
 								$dictionary = array(
 													'{value-id-vehicle}' => '',
-													'{value-id-user}' => '',
-													'{value-id-location}' => '',
-													'{value-id-vehicle-model}' => '',
+													//'{value-id-user}' => '',
+													//'{value-id-location}' => '',
+													//'{value-id-vehicle-model}' => '',
 													'{value-vin}' => '',
 													'{value-color}' => '',
 													'{active}' => '',
@@ -104,13 +162,71 @@
 											$header = file_get_contents("View/header.html");
 											$footer = file_get_contents("View/footer.html");
 
+											//Traer el los User, Location y VehicleModel insertados, ahora si se pone condicion en el comando
+											$result = $this -> model -> getUsers("idUser=".$idUser);
+											$result2 = $this -> model -> getLocations("idLocation=".$idLocaiton);
+											$result3 = $this -> model -> getVehicleModels("idVehicleModel=".$idVehicleModel);
+											//Obtengo la posicion donde se van a insertar los option
+											$row_start = strrpos($view,'{user-options-start}') + 20;
+											$row_end= strrpos($view,'{user-options-end}');
+											$row_start2 = strrpos($view,'{location-options-start}') + 24;
+											$row_end2= strrpos($view,'{location-options-end}');
+											$row_start3 = strrpos($view,'{vehicle-model-options-start}') + 29;
+											$row_end3= strrpos($view,'{vehicle-model-options-end}');
+											//Hacer copia de la fila donde se va a reemplazar el contenido
+											$base_row = substr($view,$row_start,$row_end-$row_start);
+											$base_row2 = substr($view,$row_start2,$row_end2-$row_start2);
+											$base_row3 = substr($view,$row_start3,$row_end3-$row_start3);
+											//Acceder al resultado y crear el diccionario
+											//Revisar que el nombre de los campos coincida con los de la base de datos
+											$rows = '';
+											foreach ($result as $row) {
+												$new_row = $base_row;
+												$dictionary = array(
+													'{id-user}' => $row['idUser'], 
+													'{user}' => $row['User']
+												);
+												$new_row = strtr($new_row,$dictionary);
+												$rows .= $new_row;
+											}
+											$rows2 = '';
+											foreach ($result2 as $row2) {
+												$new_row2 = $base_row2;
+												$dictionary2 = array(
+													'{id-location}' => $row2['idLocation'], 
+													'{location}' => $row2['Location']
+												);
+												$new_row2 = strtr($new_row2,$dictionary2);
+												$rows2 .= $new_row2;
+											}
+											$rows23 = '';
+											foreach ($result3 as $row3) {
+												$new_row3 = $base_row3;
+												$dictionary3 = array(
+													'{id-vehicle-model}' => $row3['idVehicleModel'], 
+													'{vehicle-model}' => $row3['Model']
+												);
+												$new_row3 = strtr($new_row3,$dictionary3);
+												$rows3 .= $new_row3;
+											}
+											//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+											$view = str_replace($base_row, $rows, $view);
+											$view = str_replace('{user-options-start}', '', $view);
+											$view = str_replace('{user-options-end}', '', $view);
+											$view = str_replace($base_row2, $rows2, $view);
+											$view = str_replace('{location-options-start}', '', $view);
+											$view = str_replace('{location-options-end}', '', $view);
+											$view = str_replace($base_row23, $rows3, $view);
+											$view = str_replace('{vehicle-model-options-start}', '', $view);
+											$view = str_replace('{vehicle-model-options-end}', '', $view);
+
 											//Creamos el diccionario
 											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 											$dictionary = array(
 													'{value-id-vehicle}' => $id_vehicle,
-													'{value-id-user}' => $_POST['id_user'],
-													'{value-id-location}' => $_POST['id_location'],
-													'{value-id-vehicle-model}' => $_POST['id_vehicle_model'],
+													//'{value-id-user}' => $_POST['id_user'],
+													//'{value-id-location}' => $_POST['id_location'],
+													//'{value-id-vehicle-model}' => $_POST['id_vehicle_model'],
 													'{value-vin}' => $_POST['vin'],
 													'{value-color}' => $_POST['color'],
 													'{active}' => 'disabled',
@@ -284,14 +400,72 @@
 
 											$dictionary = array(
 													'{value-id-vehicle}' => $result[0]['idVehicle'],
-													'{value-id-user}' => $result[0]['idUser'],
-													'{value-id-location}' => $result[0]['idLocation'],
-													'{value-id-vehicle-model}' => $result[0]['idVehicleModel'],
+													//'{value-id-user}' => $result[0]['idUser'],
+													//'{value-id-location}' => $result[0]['idLocation'],
+													//'{value-id-vehicle-model}' => $result[0]['idVehicleModel'],
 													'{value-vin}' => $result[0]['VIN'],
 													'{value-color}' => $result[0]['Color'],
 													'{active}' => 'disabled',
 													'{action}' => 'select'
 												);
+
+											//Traer el los User, Location y VehicleModel insertados, ahora si se pone condicion en el comando
+											$result = $this -> model -> getUsers("idUser=".$result[0]['idUser']);
+											$result2 = $this -> model -> getLocations("idLocation=".$result[0]['idLocation']);
+											$result3 = $this -> model -> getVehicleModels("idVehicleModel=".$result[0]['idVehicleModel']);
+											//Obtengo la posicion donde se van a insertar los option
+											$row_start = strrpos($view,'{user-options-start}') + 20;
+											$row_end= strrpos($view,'{user-options-end}');
+											$row_start2 = strrpos($view,'{location-options-start}') + 24;
+											$row_end2= strrpos($view,'{location-options-end}');
+											$row_start3 = strrpos($view,'{vehicle-model-options-start}') + 29;
+											$row_end3= strrpos($view,'{vehicle-model-options-end}');
+											//Hacer copia de la fila donde se va a reemplazar el contenido
+											$base_row = substr($view,$row_start,$row_end-$row_start);
+											$base_row2 = substr($view,$row_start2,$row_end2-$row_start2);
+											$base_row3 = substr($view,$row_start3,$row_end3-$row_start3);
+											//Acceder al resultado y crear el diccionario
+											//Revisar que el nombre de los campos coincida con los de la base de datos
+											$rows = '';
+											foreach ($result as $row) {
+												$new_row = $base_row;
+												$dictionary = array(
+													'{id-user}' => $row['idUser'], 
+													'{user}' => $row['User']
+												);
+												$new_row = strtr($new_row,$dictionary);
+												$rows .= $new_row;
+											}
+											$rows2 = '';
+											foreach ($result2 as $row2) {
+												$new_row2 = $base_row2;
+												$dictionary2 = array(
+													'{id-location}' => $row2['idLocation'], 
+													'{location}' => $row2['Location']
+												);
+												$new_row2 = strtr($new_row2,$dictionary2);
+												$rows2 .= $new_row2;
+											}
+											$rows23 = '';
+											foreach ($result3 as $row3) {
+												$new_row3 = $base_row3;
+												$dictionary3 = array(
+													'{id-vehicle-model}' => $row3['idVehicleModel'], 
+													'{vehicle-model}' => $row3['Model']
+												);
+												$new_row3 = strtr($new_row3,$dictionary3);
+												$rows3 .= $new_row3;
+											}
+											//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+											$view = str_replace($base_row, $rows, $view);
+											$view = str_replace('{user-options-start}', '', $view);
+											$view = str_replace('{user-options-end}', '', $view);
+											$view = str_replace($base_row2, $rows2, $view);
+											$view = str_replace('{location-options-start}', '', $view);
+											$view = str_replace('{location-options-end}', '', $view);
+											$view = str_replace($base_row23, $rows3, $view);
+											$view = str_replace('{vehicle-model-options-start}', '', $view);
+											$view = str_replace('{vehicle-model-options-end}', '', $view);
 
 											//Sustituir los valores en la plantilla
 											$view = strtr($view,$dictionary);
@@ -379,13 +553,71 @@
 											$header = file_get_contents("View/header.html");
 											$footer = file_get_contents("View/footer.html");
 
+											//Traer el los User, Location y VehicleModel insertados, ahora si se pone condicion en el comando
+											$result = $this -> model -> getUsers("idUser=".$idUser);
+											$result2 = $this -> model -> getLocations("idLocation=".$idLocaiton);
+											$result3 = $this -> model -> getVehicleModels("idVehicleModel=".$idVehicleModel);
+											//Obtengo la posicion donde se van a insertar los option
+											$row_start = strrpos($view,'{user-options-start}') + 20;
+											$row_end= strrpos($view,'{user-options-end}');
+											$row_start2 = strrpos($view,'{location-options-start}') + 24;
+											$row_end2= strrpos($view,'{location-options-end}');
+											$row_start3 = strrpos($view,'{vehicle-model-options-start}') + 29;
+											$row_end3= strrpos($view,'{vehicle-model-options-end}');
+											//Hacer copia de la fila donde se va a reemplazar el contenido
+											$base_row = substr($view,$row_start,$row_end-$row_start);
+											$base_row2 = substr($view,$row_start2,$row_end2-$row_start2);
+											$base_row3 = substr($view,$row_start3,$row_end3-$row_start3);
+											//Acceder al resultado y crear el diccionario
+											//Revisar que el nombre de los campos coincida con los de la base de datos
+											$rows = '';
+											foreach ($result as $row) {
+												$new_row = $base_row;
+												$dictionary = array(
+													'{id-user}' => $row['idUser'], 
+													'{user}' => $row['User']
+												);
+												$new_row = strtr($new_row,$dictionary);
+												$rows .= $new_row;
+											}
+											$rows2 = '';
+											foreach ($result2 as $row2) {
+												$new_row2 = $base_row2;
+												$dictionary2 = array(
+													'{id-location}' => $row2['idLocation'], 
+													'{location}' => $row2['Location']
+												);
+												$new_row2 = strtr($new_row2,$dictionary2);
+												$rows2 .= $new_row2;
+											}
+											$rows23 = '';
+											foreach ($result3 as $row3) {
+												$new_row3 = $base_row3;
+												$dictionary3 = array(
+													'{id-vehicle-model}' => $row3['idVehicleModel'], 
+													'{vehicle-model}' => $row3['Model']
+												);
+												$new_row3 = strtr($new_row3,$dictionary3);
+												$rows3 .= $new_row3;
+											}
+											//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+											$view = str_replace($base_row, $rows, $view);
+											$view = str_replace('{user-options-start}', '', $view);
+											$view = str_replace('{user-options-end}', '', $view);
+											$view = str_replace($base_row2, $rows2, $view);
+											$view = str_replace('{location-options-start}', '', $view);
+											$view = str_replace('{location-options-end}', '', $view);
+											$view = str_replace($base_row23, $rows3, $view);
+											$view = str_replace('{vehicle-model-options-start}', '', $view);
+											$view = str_replace('{vehicle-model-options-end}', '', $view);
+
 											//Creamos el diccionario
 											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos	
 											$dictionary = array(
 												'{value-id-vehicle}' => $id_vehicle,
-												'{value-id-user}' => $id_user,
-												'{value-id-location}' => $id_location,
-												'{value-id-vehicle-model}' => $id_vehicle_model,
+												//'{value-id-user}' => $id_user,
+												//'{value-id-location}' => $id_location,
+												//'{value-id-vehicle-model}' => $id_vehicle_model,
 												'{value-vin}' => $vin,
 												'{value-color}' => $color,
 												'{active}' => 'disabled',
@@ -454,9 +686,9 @@
 												//Despues de insertar los cmapos van con la info insertada y los input estan inactivos	
 												$dictionary = array(
 													'{value-id-vehicle}' => $result[0]['idVehicle'],
-													'{value-id-user}' => $result[0]['idUser'],
-													'{value-id-location}' => $result[0]['idLocation'],
-													'{value-id-vehicle-model}' => $result[0]['idVehicleModel'],
+													//'{value-id-user}' => $result[0]['idUser'],
+													//'{value-id-location}' => $result[0]['idLocation'],
+													//'{value-id-vehicle-model}' => $result[0]['idVehicleModel'],
 													'{value-vin}' => $result[0]['VIN'],
 													'{value-color}' => $result[0]['Color'],
 													'{active}' => '',
@@ -465,6 +697,65 @@
 
 												//Sustituir los valores en la plantilla
 												$view = strtr($view,$dictionary);
+
+												//Poner despues de sustituir los demas datos para no perder la información del select
+												//Para actualizar no se pone condicion, para que esten todas las opciones disponibles
+												$result = $this -> model -> getUsers("0=0");
+												$result2 = $this -> model -> getLocations("0=0");
+												$result3 = $this -> model -> getVehicleModels("0=0");
+												//Obtengo la posicion donde se van a insertar los option
+												$row_start = strrpos($view,'{user-options-start}') + 20;
+												$row_end= strrpos($view,'{user-options-end}');
+												$row_start2 = strrpos($view,'{location-options-start}') + 24;
+												$row_end2= strrpos($view,'{location-options-end}');
+												$row_start3 = strrpos($view,'{vehicle-model-options-start}') + 29;
+												$row_end3= strrpos($view,'{vehicle-model-options-end}');
+												//Hacer copia de la fila donde se va a reemplazar el contenido
+												$base_row = substr($view,$row_start,$row_end-$row_start);
+												$base_row2 = substr($view,$row_start2,$row_end2-$row_start2);
+												$base_row3 = substr($view,$row_start3,$row_end3-$row_start3);
+												//Acceder al resultado y crear el diccionario
+												//Revisar que el nombre de los campos coincida con los de la base de datos
+												$rows = '';
+												foreach ($result as $row) {
+													$new_row = $base_row;
+													$dictionary = array(
+														'{id-user}' => $row['idUser'], 
+														'{user}' => $row['User']
+													);
+													$new_row = strtr($new_row,$dictionary);
+													$rows .= $new_row;
+												}
+												$rows2 = '';
+												foreach ($result2 as $row2) {
+													$new_row2 = $base_row2;
+													$dictionary2 = array(
+														'{id-location}' => $row2['idLocation'], 
+														'{location}' => $row2['Location']
+													);
+													$new_row2 = strtr($new_row2,$dictionary2);
+													$rows2 .= $new_row2;
+												}
+												$rows23 = '';
+												foreach ($result3 as $row3) {
+													$new_row3 = $base_row3;
+													$dictionary3 = array(
+														'{id-vehicle-model}' => $row3['idVehicleModel'], 
+														'{vehicle-model}' => $row3['Model']
+													);
+													$new_row3 = strtr($new_row3,$dictionary3);
+													$rows3 .= $new_row3;
+												}
+												//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+												$view = str_replace($base_row, $rows, $view);
+												$view = str_replace('{user-options-start}', '', $view);
+												$view = str_replace('{user-options-end}', '', $view);
+												$view = str_replace($base_row2, $rows2, $view);
+												$view = str_replace('{location-options-start}', '', $view);
+												$view = str_replace('{location-options-end}', '', $view);
+												$view = str_replace($base_row23, $rows3, $view);
+												$view = str_replace('{vehicle-model-options-start}', '', $view);
+												$view = str_replace('{vehicle-model-options-end}', '', $view);
 
 												//Sustituir el usuario en el header
 												$dictionary = array(

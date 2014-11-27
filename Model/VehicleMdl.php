@@ -137,7 +137,94 @@
 				//Si el resultado es null, retornamos FALSE.
 				return FALSE;
 			}	
-		}  
+		}
+
+		/**
+		 * Funcion para obtener las usuarios.
+		 *
+		 * Obtiene todos los registros de la tabla User.
+		 *
+		 * @return array - con los registros obtenidos si la consulta fue exitosa
+		 * @return bool - FALSE si hubo un error
+		 */
+		public function getUsers($condition)
+		{
+			//Query a ejecutar
+			$query = "SELECT * FROM User WHERE ".$condition.";";
+
+			//Ejecutamos el query y recogemos el resultado.
+			$result = $this -> db_driver -> execute($query);
+
+			//Si el resultado no es null, procesamos la información.
+			if($result != null)
+			{
+				//Si el resultado contiene información retornamos el resultado.
+				return $result;
+			}
+			else
+			{
+				//Si el resultado es null, retornamos FALSE.
+				return FALSE;
+			}	
+		}
+
+		/**
+		 * Funcion para obtener las ubicaciones de vehiculos.
+		 *
+		 * Obtiene todos los registros de la tabla Location.
+		 *
+		 * @return array - con los registros obtenidos si la consulta fue exitosa
+		 * @return bool - FALSE si hubo un error
+		 */
+		public function getLocations($condition)
+		{
+			//Query a ejecutar
+			$query = "SELECT * FROM Location WHERE ".$condition.";";
+
+			//Ejecutamos el query y recogemos el resultado.
+			$result = $this -> db_driver -> execute($query);
+
+			//Si el resultado no es null, procesamos la información.
+			if($result != null)
+			{
+				//Si el resultado contiene información retornamos el resultado.
+				return $result;
+			}
+			else
+			{
+				//Si el resultado es null, retornamos FALSE.
+				return FALSE;
+			}	
+		}
+
+		/**
+		 * Funcion para obtener los modelos de vehiculos.
+		 *
+		 * Obtiene todos los registros de la tabla VehicleModel.
+		 *
+		 * @return array - con los registros obtenidos si la consulta fue exitosa
+		 * @return bool - FALSE si hubo un error
+		 */
+		public function getVehicleModels($condition)
+		{
+			//Query a ejecutar
+			$query = "SELECT * FROM VehicleModel WHERE ".$condition.";";
+
+			//Ejecutamos el query y recogemos el resultado.
+			$result = $this -> db_driver -> execute($query);
+
+			//Si el resultado no es null, procesamos la información.
+			if($result != null)
+			{
+				//Si el resultado contiene información retornamos el resultado.
+				return $result;
+			}
+			else
+			{
+				//Si el resultado es null, retornamos FALSE.
+				return FALSE;
+			}	
+		}
 
 		/******** GETTERS PARA ACCEDER A LA INFORMACIÓN PRIVADA DE LA CLASE **********/
 		public function getIdVehicle()

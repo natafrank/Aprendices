@@ -7,15 +7,30 @@
 			  	</div>
 			  	<div class="form-group">
 				    <label for="id_user">Id Usuario:</label>
-				    <input type="number" class="form-control" id="id_user" name="id_user" min="1" value="{value-id-user}" {active} required>
+				    <select class="form-control" id="id_user" name="id_user" {active} required>
+					{user-options-start}
+					<option value="{id-user}">{user}</option>
+					{user-options-end}
+				    </select>
+				    <!--<input type="number" class="form-control" id="id_user" name="id_user" min="1" value="{value-id-user}" {active} required>-->
 			  	</div>
 			  	<div class="form-group">
 				    <label for="id_location">Id Locacion:</label>
-				    <input type="number" class="form-control" id="id_location" name="id_location" min="1" value="{value-id-location}" {active} required>
+				    <select class="form-control" id="id_location" name="id_location" {active} required>
+					{location-options-start}
+					<option value="{id-location}">{location}</option>
+					{location-options-end}
+				    </select>
+				    <!--<input type="number" class="form-control" id="id_location" name="id_location" min="1" value="{value-id-location}" {active} required>-->
 			  	</div>
 			  	<div class="form-group">
 				    <label for="id_vehicle_model">Id Modelo Vehiculo:</label>
-				    <input type="number" class="form-control" id="id_vehicle_model" name="id_vehicle_model" min="1" value="{value-id-vehicle-model}" {active} required>
+				    <select class="form-control" id="id_vehicle_model" name="id_vehicle_model" {active} required>
+					{vehicle-model-options-start}
+					<option value="{id-vehicle-model}">{vehicle-model}</option>
+					{vehicle-model-options-end}
+				    </select>
+				    <!--<input type="number" class="form-control" id="id_vehicle_model" name="id_vehicle_model" min="1" value="{value-id-vehicle-model}" {active} required>-->
 			  	</div>
 			  	<div class="form-group">
 				    <label for="vin">Vin:</label>

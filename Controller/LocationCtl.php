@@ -39,7 +39,7 @@
 								$footer = file_get_contents("View/footer.html");
 
 								//Traer el idMasterLocation, la condicion es 0=0 para que los traiga todos
-								$result = $this -> model -> getIdMasterLocations("0=0");
+								$result = $this -> model -> getMasterLocations("0=0");
 								//Obtengo la posicion donde se van a insertar los option
 								$row_start = strrpos($view,'{master-location-options-start}') + 31;
 								$row_end= strrpos($view,'{master-location-options-end}');
@@ -110,7 +110,7 @@
 									$footer = file_get_contents("View/footer.html");
 
 									//Traer el idMasterLocation insertado, ahora si se pone condicion en el comando
-									$result = $this -> model -> getIdMasterLocations("idMasterLocation=".$idMasterLocation);
+									$result = $this -> model -> getMasterLocations("idMasterLocation=".$idMasterLocation);
 									//Obtengo la posicion donde se van a insertar los option
 									$row_start = strrpos($view,'{master-location-options-start}') + 31;
 									$row_end= strrpos($view,'{master-location-options-end}');
@@ -236,7 +236,7 @@
 											$footer = file_get_contents("View/footer.html");
 
 											//Traer el idMasterLocation insertado, ahora si se pone condicion en el comando
-											$result = $this -> model -> getIdMasterLocations("idMasterLocation=".$idMasterLocation);
+											$result = $this -> model -> getMasterLocations("idMasterLocation=".$idMasterLocation);
 											//Obtengo la posicion donde se van a insertar los option
 											$row_start = strrpos($view,'{master-location-options-start}') + 31;
 											$row_end= strrpos($view,'{master-location-options-end}');
@@ -339,7 +339,7 @@
 
 											//Poner despues de sustituir los demas datos para no perder la información del select
 											//Para actualizar no se pone condicion, para que esten todas las opciones disponibles
-											$result = $this -> model -> getIdMasterLocations("0=0");
+											$result = $this -> model -> getMasterLocations("0=0");
 											//Obtengo la posicion donde se van a insertar los option
 											$row_start = strrpos($view,'{master-location-options-start}') + 31;
 											$row_end= strrpos($view,'{master-location-options-end}');
@@ -445,7 +445,7 @@
 
 										//Poner despues de sustituir los demas datos para no perder la información del select
 										//Traer el idMasterLocation, ahora si se pone condicion en el comando
-										$result = $this -> model -> getIdMasterLocations("idMasterLocation=".$result[0]['idMasterLocation']);
+										$result = $this -> model -> getMasterLocations("idMasterLocation=".$result[0]['idMasterLocation']);
 										//Obtengo la posicion donde se van a insertar los option
 										$row_start = strrpos($view,'{master-location-options-start}') + 31;
 										$row_end= strrpos($view,'{master-location-options-end}');

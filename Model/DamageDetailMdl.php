@@ -242,7 +242,7 @@
 		 * @return array - con los registros obtenidos si la consulta fue exitosa
 		 * @return bool - FALSE si hubo un error
 		 */
-		public function getidDamages($condition)
+		public function getDamages($condition)
 		{
 			//Query a ejecutar
 			$query = "SELECT * FROM Damage WHERE ".$condition.";";

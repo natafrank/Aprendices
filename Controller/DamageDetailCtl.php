@@ -56,7 +56,7 @@
 
 								//Traer el los VehiclePart y Damage, la condicion es 0=0 para que los traiga todos
 								$result = $this -> model -> getVehicleParts("0=0");
-								$result2 = $this -> model -> getidDamages("0=0");
+								$result2 = $this -> model -> getDamages("0=0");
 								//Obtengo la posicion donde se van a insertar los option
 								$row_start = strrpos($view,'{vehicle-part-options-start}') + 28;
 								$row_end= strrpos($view,'{vehicle-part-options-end}');
@@ -153,7 +153,7 @@
 
 									//Traer los VehiclePart y Damage insertados, ahora si se pone condicion en el comando
 									$result = $this -> model -> getVehicleParts("idVehiclePart=".$idVehiclePart);
-									$result2 = $this -> model -> getidDamages("idDamage=".$idDamage);
+									$result2 = $this -> model -> getDamages("idDamage=".$idDamage);
 									//Obtengo la posicion donde se van a insertar los option
 									$row_start = strrpos($view,'{vehicle-part-options-start}') + 28;
 									$row_end= strrpos($view,'{vehicle-part-options-end}');
@@ -317,7 +317,7 @@
 
 											//Traer los VehiclePart y Damage insertados, ahora si se pone condicion en el comando
 											$result = $this -> model -> getVehicleParts("idVehiclePart=".$idVehiclePart);
-											$result2 = $this -> model -> getidDamages("idDamage=".$idDamage);
+											$result2 = $this -> model -> getDamages("idDamage=".$idDamage);
 											//Obtengo la posicion donde se van a insertar los option
 											$row_start = strrpos($view,'{vehicle-part-options-start}') + 28;
 											$row_end= strrpos($view,'{vehicle-part-options-end}');
@@ -494,7 +494,7 @@
 											//Poner despues de sustituir los demas datos para no perder la información del select
 											//Para actualizar no se pone condicion, para que esten todas las opciones disponibles
 											$result = $this -> model -> getVehicleParts("0=0");
-											$result2 = $this -> model -> getidDamages("0=0");
+											$result2 = $this -> model -> getDamages("0=0");
 											//Obtengo la posicion donde se van a insertar los option
 											$row_start = strrpos($view,'{vehicle-part-options-start}') + 28;
 											$row_end= strrpos($view,'{vehicle-part-options-end}');
@@ -650,7 +650,7 @@
 									//Poner despues de sustituir los demas datos para no perder la información del select
 									//Traer el idVehicleStatus, ahora si se pone condicion en el comando
 									$result = $this -> model -> getVehicleParts("idVehiclePart=".$result[0]['idVehiclePart']);
-									$result2 = $this -> model -> getidDamages("idDamage=".$result[0]['idDamage']);
+									$result2 = $this -> model -> getDamages("idDamage=".$result[0]['idDamage']);
 									//Obtengo la posicion donde se van a insertar los option
 									$row_start = strrpos($view,'{vehicle-part-options-start}') + 28;
 									$row_end= strrpos($view,'{vehicle-part-options-end}');
