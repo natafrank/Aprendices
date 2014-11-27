@@ -322,6 +322,35 @@
 				return FALSE;
 			}	
 		}
+		
+		/**
+		 * Funcion para obtener los estatus de vehículo.
+		 *
+		 * Obtiene todos los registros de la tabla VehicleStatus.
+		 *
+		 * @return array - con los registros obtenidos si la consulta fue exitosa
+		 * @return bool - FALSE si hubo un error
+		 */
+		public function getVehiclesStatus($condition)
+		{
+			//Query a ejecutar
+			$query = "SELECT * FROM VehicleStatus WHERE ".$condition.";";
+
+			//Ejecutamos el query y recogemos el resultado.
+			$result = $this -> db_driver -> execute($query);
+
+			//Si el resultado no es null, procesamos la información.
+			if($result != null)
+			{
+				//Si el resultado contiene información retornamos el resultado.
+				return $result;
+			}
+			else
+			{
+				//Si el resultado es null, retornamos FALSE.
+				return FALSE;
+			}	
+		}
 
 	}
 ?>

@@ -51,12 +51,36 @@
 								$header = file_get_contents("View/header.html");
 								$footer = file_get_contents("View/footer.html");
 
+								//Traer el idVehicleStatus, la condicion es 0=0 para que los traiga todos (crear funcion en modelo)
+								$result = $this -> model -> getVehiclesStatus("0=0");
+								//Obtengo la posicion donde se van a insertar los option
+								$row_start = strrpos($view,'{vehicle-status-options-start}') + 30;
+								$row_end= strrpos($view,'{vehicle-status-options-end}');
+								//Hacer copia de la fila donde se va a reemplazar el contenido
+								$base_row = substr($view,$row_start,$row_end-$row_start);
+								//Acceder al resultado y crear el diccionario
+								//Revisar que el nombre de los campos coincida con los de la base de datos
+								$rows = '';
+								foreach ($result as $row) {
+									$new_row = $base_row;
+									$dictionary = array(
+										'{id-vehicle-status}' => $row['idVehicleStatus'], 
+										'{vehicle-status}' => $row['VehicleStatus']
+									);
+									$new_row = strtr($new_row,$dictionary);
+									$rows .= $new_row;
+								}
+								//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+								$view = str_replace($base_row, $rows, $view);
+								$view = str_replace('{vehicle-status-options-start}', '', $view);
+								$view = str_replace('{vehicle-status-options-end}', '', $view);
+
 								//Creamos el diccionario
 								//Para el insert los cmapos van vacios y los input estan activos
 								$dictionary = array(
 													'{value-id-checklist}' => '', 
 													'{value-id-vehicle}' => '', 
-													'{value-id-vehicle-status}' => '', 
+													//'{value-id-vehicle-status}' => '', 
 													'{active}' => '', 
 													'{action}' => 'insert'
 												);
@@ -107,12 +131,36 @@
 										$header = file_get_contents("View/header.html");
 										$footer = file_get_contents("View/footer.html");
 
+										//Traer el VehicleStatus insertado, ahora si se pone condicion en el comando
+										$result = $this -> model -> getVehiclesStatus("idVehicleStatus=".$idVehicleStatus);
+										//Obtengo la posicion donde se van a insertar los option
+										$row_start = strrpos($view,'{vehicle-status-options-start}') + 30;
+										$row_end= strrpos($view,'{vehicle-status-options-end}');
+										//Hacer copia de la fila donde se va a reemplazar el contenido
+										$base_row = substr($view,$row_start,$row_end-$row_start);
+										//Acceder al resultado y crear el diccionario
+										//Revisar que el nombre de los campos coincida con los de la base de datos
+										$rows = '';
+										foreach ($result as $row) {
+											$new_row = $base_row;
+											$dictionary = array(
+												'{id-vehicle-status}' => $row['idVehicleStatus'], 
+												'{vehicle-status}' => $row['VehicleStatus']
+											);
+											$new_row = strtr($new_row,$dictionary);
+											$rows .= $new_row;
+										}
+										//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+										$view = str_replace($base_row, $rows, $view);
+										$view = str_replace('{vehicle-status-options-start}', '', $view);
+										$view = str_replace('{vehicle-status-options-end}', '', $view);
+
 										//Creamos el diccionario
 										//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 										$dictionary = array(
 															'{value-id-checklist}' => $idChecklist, 
 															'{value-id-vehicle}' => $_POST['idVehicle'], 
-															'{value-id-vehicle-status}' => $_POST['idVehicleStatus'], 
+															//'{value-id-vehicle-status}' => $_POST['idVehicleStatus'], 
 															'{active}' => 'disabled', 
 															'{action}' => 'insert'
 														);
@@ -258,12 +306,36 @@
 											$header = file_get_contents("View/header.html");
 											$footer = file_get_contents("View/footer.html");
 
+											//Traer el idVehicleStatus, ahora si se pone condicion en el comando
+											$result = $this -> model -> getVehiclesStatus("idVehicleStatus=".$idVehicleStatus);
+											//Obtengo la posicion donde se van a insertar los option
+											$row_start = strrpos($view,'{vehicle-status-options-start}') + 30;
+											$row_end= strrpos($view,'{vehicle-status-options-end}');
+											//Hacer copia de la fila donde se va a reemplazar el contenido
+											$base_row = substr($view,$row_start,$row_end-$row_start);
+											//Acceder al resultado y crear el diccionario
+											//Revisar que el nombre de los campos coincida con los de la base de datos
+											$rows = '';
+											foreach ($result as $row) {
+												$new_row = $base_row;
+												$dictionary = array(
+													'{id-vehicle-status}' => $row['idVehicleStatus'], 
+													'{vehicle-status}' => $row['VehicleStatus']
+												);
+												$new_row = strtr($new_row,$dictionary);
+												$rows .= $new_row;
+											}
+											//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+											$view = str_replace($base_row, $rows, $view);
+											$view = str_replace('{vehicle-status-options-start}', '', $view);
+											$view = str_replace('{vehicle-status-options-end}', '', $view);
+
 											//Creamos el diccionario
 											//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 											$dictionary = array(
 																'{value-id-checklist}' => $idChecklist, 
 																'{value-id-vehicle}' => $idVehicle, 
-																'{value-id-vehicle-status}' => $idVehicleStatus,
+																//'{value-id-vehicle-status}' => $idVehicleStatus,
 																'{active}' => 'disabled', 
 																'{action}' => 'update'
 															);
@@ -344,13 +416,38 @@
 											$dictionary = array(
 																'{value-id-checklist}' => $result[0]['idCheckList'], 
 																'{value-id-vehicle}' => $result[0]['idVehicle'], 
-																'{value-id-vehicle-status}' => $result[0]['idVehicleStatus'], 
+																//'{value-id-vehicle-status}' => $result[0]['idVehicleStatus'], 
 																'{active}' => '', 
 																'{action}' => 'update'
 															);
 
 											//Sustituir los valores en la plantilla
 											$view = strtr($view,$dictionary);
+
+											//Poner despues de sustituir los demas datos para no perder la información del select
+											//Para actualizar no se pone condicion, para que esten todas las opciones disponibles
+											$result = $this -> model -> getVehiclesStatus("0=0");
+											//Obtengo la posicion donde se van a insertar los option
+											$row_start = strrpos($view,'{vehicle-status-options-start}') + 30;
+											$row_end= strrpos($view,'{vehicle-status-options-end}');
+											//Hacer copia de la fila donde se va a reemplazar el contenido
+											$base_row = substr($view,$row_start,$row_end-$row_start);
+											//Acceder al resultado y crear el diccionario
+											//Revisar que el nombre de los campos coincida con los de la base de datos
+											$rows = '';
+											foreach ($result as $row) {
+												$new_row = $base_row;
+												$dictionary = array(
+													'{id-vehicle-status}' => $row['idVehicleStatus'], 
+													'{vehicle-status}' => $row['VehicleStatus']
+												);
+												$new_row = strtr($new_row,$dictionary);
+												$rows .= $new_row;
+											}
+											//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+											$view = str_replace($base_row, $rows, $view);
+											$view = str_replace('{vehicle-status-options-start}', '', $view);
+											$view = str_replace('{vehicle-status-options-end}', '', $view);
 
 											//Al mostrar los datos se pone la opcion de acuerdo a lo insertado
 											if($result[0]['InOut'] == 0)
@@ -429,13 +526,38 @@
 									$dictionary = array(
 															'{value-id-checklist}' => $result[0]['idCheckList'], 
 															'{value-id-vehicle}' => $result[0]['idVehicle'], 
-															'{value-id-vehicle-status}' => $result[0]['idVehicleStatus'], 
+															//'{value-id-vehicle-status}' => $result[0]['idVehicleStatus'], 
 															'{active}' => 'disabled', 
 															'{action}' => 'select'
 													);
 
 									//Sustituir los valores en la plantilla
 									$view = strtr($view,$dictionary);
+
+									//poner despues de sustituir los demás valores para no perder los datos traidos del select
+									//Traer el idVehicleStatus, ahora si se pone condicion en el comando
+									$result = $this -> model -> getVehiclesStatus("idVehicleStatus=".$result[0]['idVehicleStatus']);
+									//Obtengo la posicion donde se van a insertar los option
+									$row_start = strrpos($view,'{vehicle-status-options-start}') + 30;
+									$row_end= strrpos($view,'{vehicle-status-options-end}');
+									//Hacer copia de la fila donde se va a reemplazar el contenido
+									$base_row = substr($view,$row_start,$row_end-$row_start);
+									//Acceder al resultado y crear el diccionario
+									//Revisar que el nombre de los campos coincida con los de la base de datos
+									$rows = '';
+									foreach ($result as $row) {
+										$new_row = $base_row;
+										$dictionary = array(
+											'{id-vehicle-status}' => $row['idVehicleStatus'], 
+											'{vehicle-status}' => $row['VehicleStatus']
+										);
+										$new_row = strtr($new_row,$dictionary);
+										$rows .= $new_row;
+									}
+									//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+									$view = str_replace($base_row, $rows, $view);
+									$view = str_replace('{vehicle-status-options-start}', '', $view);
+									$view = str_replace('{vehicle-status-options-end}', '', $view);
 
 									//Al mostrar los datos se pone la opcion de acuerdo a lo insertado
 									if($result[0]['InOut'] == 0)

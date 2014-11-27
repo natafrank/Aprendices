@@ -11,7 +11,12 @@
 			  	</div>
 			  	<div class="form-group">
 				    <label for="idVehicleStatus">Id Estatus del Vehiculo:</label>
-				    <input type="number" class="form-control" id="idVehicleStatus" name="idVehicleStatus" value="{value-id-vehicle-status}" min="1" {active} required>
+				    <select class="form-control" id="idVehicleStatus" name="idVehicleStatus" {active} required>
+					{vehicle-status-options-start}
+					<option value="{id-vehicle-status}">{vehicle-status}</option>
+					{vehicle-status-options-end}
+				    </select>
+				    <!--<input type="number" class="form-control" id="idVehicleStatus" name="idVehicleStatus" value="{value-id-vehicle-status}" min="1" {active} required>-->
 			  	</div>
 			  	<div class="form-group">
 				    <label for="InOut">Entrada o Salida:</label>
