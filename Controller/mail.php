@@ -21,28 +21,28 @@
 			$getAdmins    = "SELECT * FROM User WHERE idUserType=1;";
 			$getEmployees = "SELECT * FROM User WHERE idUserType=2;";
 			//Para los clientes se utiliza el filtro por id para enviar correos a clientes en especifico
-			$getClients   = "SELECT * FROM User WHERE idUserType=3 AND idUser=".$id_client.";";
+			$getClients   = "SELECT * FROM User WHERE idUser=".$id_client.";";
 
 			//Comprobamos que los parámetros estén seteados
 			if(isset($mail_subject) && isset($mail_body) && isset($mail_type_user))
 			{
 				//PHPMailer
-				require_once("PHPMailer/PHPMailerAutoload.php");
+				require_once("Controller/PHPMailer/PHPMailerAutoload.php");
 
 				//Creamos el objeto para enviar el correo
 				$mail = new PHPMailer();
 				$mail -> IsSMTP(); //
 				$mail -> SMTPDebug = 0;
 				$mail -> SMTPAuth = true;
-				$mail -> SMTPSecure = 'ssl';
-				$mail -> Host = 'smtp.gmail.com';
-				$mail -> Port = 465; 
+				$mail -> SMTPSecure = 'tls';
+				$mail -> Host = 'mx1.hostinger.mx';
+				$mail -> Port = 2525; 
 
 				//Datos del correo
 				require_once("mailData.inc");
 				$mail -> Username = $username;
 				$mail -> Password = $password;           
-				$mail -> SetFrom("aprendices.cucei@gmail.com", "Aprendices");
+				$mail -> SetFrom("admin@aprendices.url.ph", "Administrador Aprendices");
 
 				//Agregamos los datos que vienen por parámetros
 				$mail -> Subject = $mail_subject;
