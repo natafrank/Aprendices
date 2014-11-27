@@ -126,6 +126,87 @@
 								{
 									if($result = $this -> model -> createEvent($_SESSION['id_user'],$idVehicle,$InOut))
 									{
+										//Cargamos el formulario de DamageDetail poniendo como default el id del CHecklist recien insertado
+										$view = file_get_contents("View/DamageDetailForm.html");
+										$header = file_get_contents("View/header.html");
+										$footer = file_get_contents("View/footer.html");
+
+										//Traer el los VehiclePart y Damage, la condicion es 0=0 para que los traiga todos
+										$result = $this -> model -> getVehicleParts("0=0");
+										$result2 = $this -> model -> getDamages("0=0");
+										//Obtengo la posicion donde se van a insertar los option
+										$row_start = strrpos($view,'{vehicle-part-options-start}') + 28;
+										$row_end= strrpos($view,'{vehicle-part-options-end}');
+										$row_start2 = strrpos($view,'{damage-options-start}') + 22;
+										$row_end2= strrpos($view,'{damage-options-end}');
+										//Hacer copia de la fila donde se va a reemplazar el contenido
+										$base_row = substr($view,$row_start,$row_end-$row_start);
+										$base_row2 = substr($view,$row_start2,$row_end2-$row_start2);
+										//Acceder al resultado y crear el diccionario
+										//Revisar que el nombre de los campos coincida con los de la base de datos
+										$rows = '';
+										foreach ($result as $row) {
+											$new_row = $base_row;
+											$dictionary = array(
+												'{id-vehicle-part}' => $row['idVehiclePart'], 
+												'{vehicle-part}' => $row['VehiclePart']
+											);
+											$new_row = strtr($new_row,$dictionary);
+											$rows .= $new_row;
+										}
+										$rows2 = '';
+										foreach ($result2 as $row2) {
+											$new_row2 = $base_row2;
+											$dictionary2 = array(
+												'{id-damage}' => $row2['idDamage'], 
+												'{damage}' => $row2['Damage']
+											);
+											$new_row2 = strtr($new_row2,$dictionary2);
+											$rows2 .= $new_row2;
+										}
+										//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+										$view = str_replace($base_row, $rows, $view);
+										$view = str_replace('{vehicle-part-options-start}', '', $view);
+										$view = str_replace('{vehicle-part-options-end}', '', $view);
+										$view = str_replace($base_row2, $rows2, $view);
+										$view = str_replace('{damage-options-start}', '', $view);
+										$view = str_replace('{damage-options-end}', '', $view);
+
+										//Creamos el diccionario
+										//Para el insert los cmapos van vacios y los input estan activos
+										$dictionary = array(
+															'{value-id-damage-detail}' => '', 
+															'{value-id-checklist}' => $idChecklist, 
+															//'{value-id-vehicle-part}' => '', 
+															//'{value-id-damage}' => '', 
+															'{active}' => '', 
+															'{action}' => 'insert'
+														);
+										
+										//Sustituir los valores en la plantilla
+										$view = strtr($view,$dictionary);
+
+										//Para obtener los datos de inserción se muetran todas las opciones de severidad
+										$view = str_replace("{selected-1}", "", $view);
+										$view = str_replace("{selected-2}", "", $view);
+										$view = str_replace("{selected-3}", "", $view);
+										$view = str_replace("{selected-4}", "", $view);
+										$view = str_replace("{selected-5}", "", $view);
+
+										//Sustituir el usuario en el header
+										$dictionary = array(
+															'{user-name}' => $_SESSION['user'],
+															'{log-link}' => 'index.php?ctl=logout',
+															'{log-type}' => 'Logout'
+														);
+										$header = strtr($header,$dictionary);
+
+										//Agregamos el header y el footer a la vista
+										$view = $header.$view.$footer;
+
+										//Mostramos la vista
+										echo $view;
+										/*
 										//Cargamos el formulario
 										$view = file_get_contents("View/ChecklistForm.html");
 										$header = file_get_contents("View/header.html");
@@ -193,6 +274,7 @@
 
 										echo $view;
 										//require_once("View/ShowInsertChecklist.php");
+										*/
 
 										//Enviamos el correo de que se ha añadido un checklist.
 										require_once("Controller/mail.php");

@@ -157,6 +157,67 @@
 
 										if($result)
 										{
+											//Cargamos el formulario de Checklist poniendo como default el id del vehículo recien insertado
+											$view = file_get_contents("View/ChecklistForm.html");
+											$header = file_get_contents("View/header.html");
+											$footer = file_get_contents("View/footer.html");
+
+											//Traer el idVehicleStatus, la condicion es 0=0 para que los traiga todos
+											$result = $this -> model -> getVehiclesStatus("0=0");
+											//Obtengo la posicion donde se van a insertar los option
+											$row_start = strrpos($view,'{vehicle-status-options-start}') + 30;
+											$row_end= strrpos($view,'{vehicle-status-options-end}');
+											//Hacer copia de la fila donde se va a reemplazar el contenido
+											$base_row = substr($view,$row_start,$row_end-$row_start);
+											//Acceder al resultado y crear el diccionario
+											//Revisar que el nombre de los campos coincida con los de la base de datos
+											$rows = '';
+											foreach ($result as $row) {
+												$new_row = $base_row;
+												$dictionary = array(
+													'{id-vehicle-status}' => $row['idVehicleStatus'], 
+													'{vehicle-status}' => $row['VehicleStatus']
+												);
+												$new_row = strtr($new_row,$dictionary);
+												$rows .= $new_row;
+											}
+											//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+											$view = str_replace($base_row, $rows, $view);
+											$view = str_replace('{vehicle-status-options-start}', '', $view);
+											$view = str_replace('{vehicle-status-options-end}', '', $view);
+
+											//Creamos el diccionario
+											//Para el insert los cmapos van vacios y los input estan activos
+											$dictionary = array(
+																'{value-id-checklist}' => '', 
+																'{value-id-vehicle}' => $id_vehicle, //Como default se pone el id del vehiculo recien insertado
+																//'{value-id-vehicle-status}' => '', 
+																'{active}' => '', 
+																'{action}' => 'insert'
+															);
+											
+											//Sustituir los valores en la plantilla
+											$view = strtr($view,$dictionary);
+
+											//Para obtener los datos de inserción se muetran las 2 opciones de entrada y salida
+											$view = str_replace("{selected-0}", "", $view);
+											$view = str_replace("{selected-1}", "", $view);
+
+											//Sustituir el usuario en el header
+											$dictionary = array(
+																'{user-name}' => $_SESSION['user'],
+																'{log-link}' => 'index.php?ctl=logout',
+																'{log-type}' => 'Logout'
+															);
+											$header = strtr($header,$dictionary);
+
+											//Agregamos el header y el footer a la vista
+											$view = $header.$view.$footer;
+
+											//Mostramos la vista
+											echo $view;
+											//require_once("View/InsertChecklist.php");
+											/*
 											//Cargamos el formulario
 											$view = file_get_contents("View/VehicleForm.html");
 											$header = file_get_contents("View/header.html");
@@ -248,6 +309,7 @@
 											$view = $header.$view.$footer;
 
 											echo $view;
+											*/
 
 											//Enviamos el correo de que se ha añadido un usuario.
 											require_once("Controller/mail.php");

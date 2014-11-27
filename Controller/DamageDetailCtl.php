@@ -146,14 +146,14 @@
 								//en base a este resultado.
 								if($result = $this -> model -> insert($idDamageDetail,$idChecklist,$idVehiclePart,$idDamage,$DamageSeverity))
 								{
-									//Cargamos el formulario
+									//Cargamos el formulario de Checklist poniendo el vehiculo recien insertadoo como default
 									$view = file_get_contents("View/DamageDetailForm.html");
 									$header = file_get_contents("View/header.html");
 									$footer = file_get_contents("View/footer.html");
 
-									//Traer los VehiclePart y Damage insertados, ahora si se pone condicion en el comando
-									$result = $this -> model -> getVehicleParts("idVehiclePart=".$idVehiclePart);
-									$result2 = $this -> model -> getDamages("idDamage=".$idDamage);
+									//Traer los VehiclePart y Damage
+									$result = $this -> model -> getVehicleParts("0=0");
+									$result2 = $this -> model -> getDamages("0=0");
 									//Obtengo la posicion donde se van a insertar los option
 									$row_start = strrpos($view,'{vehicle-part-options-start}') + 28;
 									$row_end= strrpos($view,'{vehicle-part-options-end}');
@@ -195,11 +195,11 @@
 									//Creamos el diccionario
 									//Despues de insertar los cmapos van con la info insertada y los input estan inactivos
 									$dictionary = array(
-														'{value-id-damage-detail}' => $idDamageDetail, 
-														'{value-id-checklist}' => $_POST['idChecklist'], 
+														'{value-id-damage-detail}' => '', 
+														'{value-id-checklist}' => $idChecklist, 
 														//'{value-id-vehicle-part}' => $_POST['idVehiclePart'], 
 														//'{value-id-damage}' => $_POST['idDamage'], 
-														'{active}' => 'disabled', 
+														'{active}' => '', 
 														'{action}' => 'insert'
 													);
 
