@@ -444,6 +444,7 @@
 												$new_row = strtr($new_row,$dictionary);
 												$rows .= $new_row;
 											}
+
 											//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
 											$view = str_replace($base_row, $rows, $view);
 											$view = str_replace('{vehicle-status-options-start}', '', $view);

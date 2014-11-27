@@ -11,7 +11,12 @@
 			  	</div>
 			  	<div class="form-group">
 				    <label for="idEvent">Id Evento:</label>
-				    <input type="number" class="form-control" id="idEvent" name="idEvent" value="{value-idEvent}" {active} required>
+				    <select class="form-control" id="idEvent" name="idEvent" {active} required>
+					{event-options-start}
+					<option value="{id-event}">{event}</option>
+					{event-options-end}
+				    </select>
+				    <!--<input type="number" class="form-control" id="idEvent" name="idEvent" value="{value-idEvent}" {active} required>-->
 			  	</div>
 			  	<div class="form-group">
 				    <label for="Reason">Motivo:</label>

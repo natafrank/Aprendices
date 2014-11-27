@@ -38,12 +38,36 @@
 								$header = file_get_contents("View/header.html");
 								$footer = file_get_contents("View/footer.html");
 
+								//Traer el idEvent, la condicion es 0=0 para que los traiga todos (crear funcion en modelo)
+								$result = $this -> model -> getEvents("0=0");
+								//Obtengo la posicion donde se van a insertar los option
+								$row_start = strrpos($view,'{event-options-start}') + 21;
+								$row_end= strrpos($view,'{event-options-end}');
+								//Hacer copia de la fila donde se va a reemplazar el contenido
+								$base_row = substr($view,$row_start,$row_end-$row_start);
+								//Acceder al resultado y crear el diccionario
+								//Revisar que el nombre de los campos coincida con los de la base de datos
+								$rows = '';
+								foreach ($result as $row) {
+									$new_row = $base_row;
+									$dictionary = array(
+										'{id-event}' => $row['idEvent'], 
+										'{event}' => $row['Event']
+									);
+									$new_row = strtr($new_row,$dictionary);
+									$rows .= $new_row;
+								}
+								//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+								$view = str_replace($base_row, $rows, $view);
+								$view = str_replace('{event-options-start}', '', $view);
+								$view = str_replace('{event-options-end}', '', $view);
+
 								//Creamos el diccionario
 								//Para el insert los campos van vacios y los input estan activos
 								$dictionary = array(
 									'{value-idEventRegistry}' => '',
 									'{value-idVehicle}' => '',
-									'{value-idEvent}' => '',
+									//'{value-idEvent}' => '',
 									'{value-Reason}' => '',
 									'{active}' => '',
 									'{acti}' => 'insert'
@@ -90,12 +114,36 @@
 									$header = file_get_contents("View/header.html");
 									$footer = file_get_contents("View/footer.html");
 
+									//Traer el idEvent insertado, ahora si se pone condicion en el comando
+									$result = $this -> model -> getEvents("idEvent=".$idEvent);
+									//Obtengo la posicion donde se van a insertar los option
+									$row_start = strrpos($view,'{event-options-start}') + 21;
+									$row_end= strrpos($view,'{event-options-end}');
+									//Hacer copia de la fila donde se va a reemplazar el contenido
+									$base_row = substr($view,$row_start,$row_end-$row_start);
+									//Acceder al resultado y crear el diccionario
+									//Revisar que el nombre de los campos coincida con los de la base de datos
+									$rows = '';
+									foreach ($result as $row) {
+										$new_row = $base_row;
+										$dictionary = array(
+											'{id-event}' => $row['idEvent'], 
+											'{event}' => $row['Event']
+										);
+										$new_row = strtr($new_row,$dictionary);
+										$rows .= $new_row;
+									}
+									//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+									$view = str_replace($base_row, $rows, $view);
+									$view = str_replace('{event-options-start}', '', $view);
+									$view = str_replace('{event-options-end}', '', $view);
+
 									//Creamos el diccionario
 									//Despues de insertar los campos van con la info insertada y los input estan inactivos
 									$dictionary = array(
 											'{value-idEventRegistry}' => $idEventRegistry,
 											'{value-idVehicle}' => $_POST['idVehicle'],
-											'{value-idEvent}' => $_POST['idEvent'],
+											//'{value-idEvent}' => $_POST['idEvent'],
 											'{value-Reason}' => $_POST['Reason'],
 											'{active}' => 'disabled',
 											'{active}' => 'insert'
@@ -199,12 +247,36 @@
 											$header = file_get_contents("View/header.html");
 											$footer = file_get_contents("View/footer.html");
 
+											//Traer el idEvent insertado, ahora si se pone condicion en el comando
+											$result = $this -> model -> getEvents("idEvent=".$idEvent);
+											//Obtengo la posicion donde se van a insertar los option
+											$row_start = strrpos($view,'{event-options-start}') + 21;
+											$row_end= strrpos($view,'{event-options-end}');
+											//Hacer copia de la fila donde se va a reemplazar el contenido
+											$base_row = substr($view,$row_start,$row_end-$row_start);
+											//Acceder al resultado y crear el diccionario
+											//Revisar que el nombre de los campos coincida con los de la base de datos
+											$rows = '';
+											foreach ($result as $row) {
+												$new_row = $base_row;
+												$dictionary = array(
+													'{id-event}' => $row['idEvent'], 
+													'{event}' => $row['Event']
+												);
+												$new_row = strtr($new_row,$dictionary);
+												$rows .= $new_row;
+											}
+											//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+											$view = str_replace($base_row, $rows, $view);
+											$view = str_replace('{event-options-start}', '', $view);
+											$view = str_replace('{event-options-end}', '', $view);
+
 											//Creamos el diccionario
 											//Despues de insertar los campos van con la info insertada y los input estan inactivos
 											$dictionary = array(
 												'{value-idEventRegistry}' => $idEventRegistry, 
 												'{value-idVehicle}' => $idVehicle,
-												'{value-idEvent}' => $idEvent,
+												//'{value-idEvent}' => $idEvent,
 												'{value-Reason}' => $Reason,
 												'{active}' => 'disabled',
 												'{action}' => 'update'
@@ -258,6 +330,7 @@
 										}
 
 									}
+									//Si no estan seteadas mostramos la info para actualizar
 									else
 									{
 										if(($result = $this->model->select($idEventRegistry)) != null)
@@ -273,7 +346,7 @@
 											$dictionary = array(
 												'{value-idEventRegistry}' => $result[0]['idEventRegistry'], 
 												'{value-idVehicle}' => $result[0]['idVehicle'],
-												'{value-idEvent}' => $result[0]['idEvent'],
+												//'{value-idEvent}' => $result[0]['idEvent'],
 												'{value-Reason}' => $result[0]['Reason'],
 												'{active}' => '',
 												'{active}' => 'update'
@@ -281,6 +354,32 @@
 
 											//Sustituir los valores en la plantilla
 											$view = strtr($view,$dictionary);
+
+											//Poner despues de sustituir los demas datos para no perder la información del select
+											//Para actualizar no se pone condicion, para que esten todas las opciones disponibles
+											$result = $this -> model -> getEvents("0=0");
+											//Obtengo la posicion donde se van a insertar los option
+											$row_start = strrpos($view,'{event-options-start}') + 21;
+											$row_end= strrpos($view,'{event-options-end}');
+											//Hacer copia de la fila donde se va a reemplazar el contenido
+											$base_row = substr($view,$row_start,$row_end-$row_start);
+											//Acceder al resultado y crear el diccionario
+											//Revisar que el nombre de los campos coincida con los de la base de datos
+											$rows = '';
+											foreach ($result as $row) {
+												$new_row = $base_row;
+												$dictionary = array(
+													'{id-event}' => $row['idEvent'], 
+													'{event}' => $row['Event']
+												);
+												$new_row = strtr($new_row,$dictionary);
+												$rows .= $new_row;
+											}
+
+											//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+											$view = str_replace($base_row, $rows, $view);
+											$view = str_replace('{event-options-start}', '', $view);
+											$view = str_replace('{event-options-end}', '', $view);
 
 											//Sustituir el usuario en el header
 											$dictionary = array(
@@ -352,7 +451,7 @@
 										$dictionary = array(
 											'{value-idEventRegistry}' => $result[0]['idEventRegistry'], 
 											'{value-idVehicle}' => $result[0]['idVehicle'],
-											'{value-idEvent}' => $result[0]['idEvent'],
+											//'{value-idEvent}' => $result[0]['idEvent'],
 											'{value-Reason}' => $result[0]['Reason'],
 											'{active}' => 'disabled',
 											'{active}' => 'select'
@@ -360,6 +459,34 @@
 
 										//Sustituir los valores en la plantilla
 										$view = strtr($view,$dictionary);
+
+//Poner despues de sustituir los demas datos para no perder la información del select
+										//Para actualizar no se pone condicion, para que esten todas las opciones disponibles
+										//Traer el idEvent, ahora si se pone condicion en el comando
+										$result = $this -> model -> getEvents("idEvent=".$result[0]['idEvent']);
+										//Obtengo la posicion donde se van a insertar los option
+										$row_start = strrpos($view,'{event-options-start}') + 21;
+										$row_end= strrpos($view,'{event-options-end}');
+										//Hacer copia de la fila donde se va a reemplazar el contenido
+										$base_row = substr($view,$row_start,$row_end-$row_start);
+										//Acceder al resultado y crear el diccionario
+										//Revisar que el nombre de los campos coincida con los de la base de datos
+										$rows = '';
+										foreach ($result as $row) {
+											$new_row = $base_row;
+											$dictionary = array(
+												'{id-event}' => $row['idEvent'], 
+												'{event}' => $row['Event']
+											);
+											$new_row = strtr($new_row,$dictionary);
+											$rows .= $new_row;
+										}
+
+										//Reemplazar en la vista la fila base por los option creados y eliminar inicio y fin del option
+										$view = str_replace($base_row, $rows, $view);
+										$view = str_replace('{event-options-start}', '', $view);
+										$view = str_replace('{event-options-end}', '', $view);										
+
 
 										//Sustituir el usuario en el header
 										$dictionary = array(
