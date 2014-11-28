@@ -961,6 +961,7 @@
 								//Comprobamos que el id esté seteado.
 								if(isset($_POST['file_text']))
 								{
+									echo $_POST['file_text'];
 									//Separamos el archivo en filas
 									$array = explode("\n",$_POST['file_text']);
 
