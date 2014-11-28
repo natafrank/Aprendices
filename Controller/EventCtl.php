@@ -408,7 +408,7 @@
 										//Mandamos como parámetro el asunto, cuerpo y tipo de destinatario*.
 										$subject = "Eliminación de Evento";
 										$body = "El Evento con los siguientes datos se ha eliminado:".
-										"\nId   : ". $idEvent.
+										"\nId   : ". $idEvent;
 										//"\nEvent : ". $Event;
 
 										//Manadamos el correo solo a administradores y empleados - 6
